@@ -582,6 +582,19 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
 }
 .set-row .btn { padding: 12px 18px; border-radius: 14px; }
 .set-desc { font-size: 0.75rem; color: var(--text-2); font-weight: 500; margin: 8px 2px 0; line-height: 1.5; }
+.subject-settings-list { display: flex; flex-direction: column; gap: 8px; }
+.subject-settings-row { display: flex; align-items: center; gap: 8px; background: var(--fill-2); border-radius: 14px; padding: 8px 8px 8px 14px; }
+.subject-settings-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 0.9rem; font-weight: 700; }
+.subject-order-btn, .subject-remove-btn {
+  width: 34px; height: 34px; border-radius: 10px; background: var(--card); color: var(--text-2);
+  display: flex; align-items: center; justify-content: center; font-size: 1rem; font-weight: 800;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+.subject-order-btn:disabled { opacity: 0.35; }
+.subject-remove-btn { color: var(--red); }
+.subject-add-row { display: flex; gap: 10px; margin-top: 12px; }
+.subject-add-row input { flex: 1; background: var(--fill-2); border-radius: 14px; padding: 12px 16px; font-size: 0.9rem; color: var(--text); }
+.subject-add-row .btn { padding: 12px 18px; border-radius: 14px; }
 .goal-input-row { display: flex; align-items: center; gap: 8px; margin: 10px 0 14px; }
 .goal-input-row input {
   width: 90px; background: var(--fill-2); border-radius: 12px;
@@ -881,6 +894,15 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
       <div class="set-desc">设置后首页显示「距考试还有 X 天」。</div>
     </div>
     <div class="card">
+      <div class="section-title" style="margin:0 0 12px">📚 科目</div>
+      <div class="subject-settings-list" id="subjectSettingsList"></div>
+      <div class="subject-add-row">
+        <input type="text" id="subjectSettingsInput" placeholder="添加科目" maxlength="20">
+        <button class="btn blue" id="subjectAddBtn" aria-label="添加科目">＋</button>
+      </div>
+      <div class="set-desc">用上下箭头调整快捷选项顺序；删除不会影响已有专注记录。</div>
+    </div>
+    <div class="card">
       <div class="section-title" style="margin:0 0 12px">📥 导入数据（从另一设备同步）</div>
       <button class="btn blue" id="importBtn" style="width:100%"><span class="label">选择导出的 JSON 文件</span></button>
       <input type="file" id="importFile" accept=".json,application/json" style="display:none">
@@ -1048,7 +1070,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     { key: 'slack',  label: '摸鱼', value: 0.25, emoji: '🐟', desc: '没学进去 ×0.25', color: '#8E8E93' }
   ];
   var DURATIONS = [15, 25, 45, 60, 90];
-  var SUBJECTS = ['数学', '英语', '编程', '阅读', '其他'];
+  var DEFAULT_SUBJECTS = ['石化', '英语', '专业课', '阅读'];
   var RING_C = 2 * Math.PI * 64; // 402.1
 
   // ---------- 工具 ----------
@@ -1116,6 +1138,17 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     var d = loadData();
     d.settings = Object.assign({}, d.settings || {}, patch, { updated_at: new Date().toISOString() });
     saveData(d);
+  }
+  function getSubjects() {
+    var subjects = getSettings().subjects;
+    if (!Array.isArray(subjects) || !subjects.length) return DEFAULT_SUBJECTS.slice();
+    var validSubjects = subjects.filter(function (subject) {
+      return typeof subject === 'string' && subject.trim();
+    });
+    return validSubjects.length ? validSubjects : DEFAULT_SUBJECTS.slice();
+  }
+  function saveSubjects(subjects) {
+    saveSettings({ subjects: subjects });
   }
   function getGoalHours(type) {
     var d = loadData();
@@ -1522,7 +1555,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     $('durationChips').innerHTML = DURATIONS.map(function (d) {
       return '<button class="chip' + (d === selDuration ? ' selected' : '') + '" data-v="' + d + '">' + d + ' 分钟</button>';
     }).join('');
-    $('subjectChips').innerHTML = SUBJECTS.map(function (s) {
+    $('subjectChips').innerHTML = getSubjects().map(function (s) {
       return '<button class="chip' + (s === selSubject ? ' selected' : '') + '" data-v="' + esc(s) + '">' + esc(s) + '</button>';
     }).join('');
     $('effGrid').innerHTML = EFFICIENCY_OPTIONS.map(function (o) {
@@ -2246,7 +2279,63 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     var s = getSettings();
     $('nickInput').value = s.nickname || '';
     $('examDateInput').value = s.exam_date || '';
+    renderSubjectSettings();
   }
+  function renderSubjectSettings() {
+    var subjects = getSubjects();
+    $('subjectSettingsList').innerHTML = subjects.map(function (subject, index) {
+      return '<div class="subject-settings-row">'
+        + '<span class="subject-settings-name">' + esc(subject) + '</span>'
+        + '<button class="subject-order-btn" data-action="up" data-index="' + index + '" aria-label="上移"' + (index === 0 ? ' disabled' : '') + '>↑</button>'
+        + '<button class="subject-order-btn" data-action="down" data-index="' + index + '" aria-label="下移"' + (index === subjects.length - 1 ? ' disabled' : '') + '>↓</button>'
+        + '<button class="subject-remove-btn" data-action="remove" data-index="' + index + '" aria-label="删除">×</button>'
+        + '</div>';
+    }).join('');
+  }
+  function updateSubjects(subjects) {
+    saveSubjects(subjects);
+    renderSubjectSettings();
+    buildSheetOptions();
+  }
+  $('subjectAddBtn').addEventListener('click', function () {
+    var input = $('subjectSettingsInput');
+    var subject = input.value.trim();
+    if (!subject) return;
+    var subjects = getSubjects();
+    if (subjects.some(function (item) { return item === subject; })) {
+      toast('该科目已存在', 'info');
+      return;
+    }
+    subjects.push(subject);
+    input.value = '';
+    updateSubjects(subjects);
+    toast('已添加科目');
+  });
+  $('subjectSettingsInput').addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      $('subjectAddBtn').click();
+    }
+  });
+  $('subjectSettingsList').addEventListener('click', function (e) {
+    var button = e.target.closest('button[data-action]');
+    if (!button || button.disabled) return;
+    var index = parseInt(button.dataset.index, 10);
+    var subjects = getSubjects();
+    if (button.dataset.action === 'remove') {
+      if (subjects.length === 1) {
+        toast('至少保留一个科目', 'info');
+        return;
+      }
+      subjects.splice(index, 1);
+    } else {
+      var target = button.dataset.action === 'up' ? index - 1 : index + 1;
+      var current = subjects[index];
+      subjects[index] = subjects[target];
+      subjects[target] = current;
+    }
+    updateSubjects(subjects);
+  });
   $('nickSave').addEventListener('click', function () {
     saveSettings({ nickname: $('nickInput').value.trim() });
     renderGreeting();
