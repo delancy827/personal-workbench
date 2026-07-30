@@ -595,6 +595,11 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
 .subject-add-row { display: flex; gap: 10px; margin-top: 12px; }
 .subject-add-row input { flex: 1; background: var(--fill-2); border-radius: 14px; padding: 12px 16px; font-size: 0.9rem; color: var(--text); }
 .subject-add-row .btn { padding: 12px 18px; border-radius: 14px; }
+.date-chip { min-width: 96px; display: flex; flex-direction: column; gap: 2px; line-height: 1.15; }
+.date-chip .date-sub { color: var(--text-2); font-size: 0.68rem; font-weight: 600; }
+.date-chip.selected .date-sub { color: var(--blue); }
+.session-date-more { margin-bottom: 14px; }
+.session-date-more input { margin-bottom: 0; }
 .goal-input-row { display: flex; align-items: center; gap: 8px; margin: 10px 0 14px; }
 .goal-input-row input {
   width: 90px; background: var(--fill-2); border-radius: 12px;
@@ -973,6 +978,12 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
   <div class="sheet-label">时长</div>
   <div class="chip-row" id="durationChips"></div>
   <input class="text-input" id="customDuration" type="number" min="1" max="600" placeholder="自定义时长（分钟，填了以它为准）">
+
+  <div class="sheet-label">日期</div>
+  <div class="chip-row" id="dateChips"></div>
+  <div class="session-date-more" id="sessionDateMore" style="display:none">
+    <input class="text-input" id="sessionDateInput" type="date" aria-label="选择专注日期">
+  </div>
 
   <div class="sheet-label">科目</div>
   <div class="chip-row" id="subjectChips"></div>
@@ -1550,11 +1561,36 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
 
   // ---------- 记一笔专注 ----------
   var selDuration = 25, selSubject = '', selEff = 0.75;
+  var selDate = localDateStr(), sessionDateMore = false;
+
+  function dateLabel(dateStr) {
+    var d = new Date(dateStr + 'T00:00:00');
+    return (d.getMonth() + 1) + '月' + d.getDate() + '日';
+  }
+  function yesterdayStr() {
+    var d = new Date();
+    d.setDate(d.getDate() - 1);
+    return localDateStr(d);
+  }
 
   function buildSheetOptions() {
     $('durationChips').innerHTML = DURATIONS.map(function (d) {
       return '<button class="chip' + (d === selDuration ? ' selected' : '') + '" data-v="' + d + '">' + d + ' 分钟</button>';
     }).join('');
+    var today = localDateStr();
+    var yesterday = yesterdayStr();
+    $('dateChips').innerHTML = [
+      { key: today, name: '今天', date: dateLabel(today) },
+      { key: yesterday, name: '昨天', date: dateLabel(yesterday) },
+      { key: 'more', name: '更多', date: '选择日期' }
+    ].map(function (item) {
+      var selected = item.key === 'more' ? sessionDateMore : (!sessionDateMore && item.key === selDate);
+      return '<button class="chip date-chip' + (selected ? ' selected' : '') + '" data-date="' + item.key + '">'
+        + '<span>' + item.name + '</span><span class="date-sub">' + item.date + '</span></button>';
+    }).join('');
+    $('sessionDateMore').style.display = sessionDateMore ? '' : 'none';
+    $('sessionDateInput').value = selDate;
+    $('sessionDateInput').max = today;
     $('subjectChips').innerHTML = getSubjects().map(function (s) {
       return '<button class="chip' + (s === selSubject ? ' selected' : '') + '" data-v="' + esc(s) + '">' + esc(s) + '</button>';
     }).join('');
@@ -1569,6 +1605,26 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     var v = e.target.dataset && e.target.dataset.v;
     if (v) { selDuration = parseInt(v, 10); buildSheetOptions(); }
   });
+  $('dateChips').addEventListener('click', function (e) {
+    var btn = e.target.closest('.date-chip');
+    if (!btn) return;
+    var value = btn.dataset.date;
+    if (value === 'more') {
+      sessionDateMore = true;
+      $('sessionDateInput').value = selDate;
+      buildSheetOptions();
+      setTimeout(function () { $('sessionDateInput').focus(); }, 0);
+      return;
+    }
+    sessionDateMore = false;
+    selDate = value;
+    buildSheetOptions();
+  });
+  $('sessionDateInput').addEventListener('change', function () {
+    if (this.value) selDate = this.value;
+    sessionDateMore = true;
+    buildSheetOptions();
+  });
   $('subjectChips').addEventListener('click', function (e) {
     var v = e.target.dataset && e.target.dataset.v;
     if (v != null) { selSubject = (selSubject === v) ? '' : v; $('subjectInput').value = ''; buildSheetOptions(); }
@@ -1578,6 +1634,8 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     if (btn) { selEff = parseFloat(btn.dataset.v); buildSheetOptions(); }
   });
   function openSessionSheet() {
+    selDate = localDateStr();
+    sessionDateMore = false;
     buildSheetOptions();
     openSheet('sessionSheet');
   }
@@ -1588,12 +1646,13 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     var subject = customSub || selSubject || null;
     var customDur = parseInt($('customDuration').value, 10);
     var dur = (customDur > 0) ? Math.min(customDur, 600) : selDuration;
+    var sessionDate = sessionDateMore ? ($('sessionDateInput').value || selDate) : selDate;
     var now = new Date();
     var start = new Date(now.getTime() - dur * 60000);
     var data = loadData();
     data.focus_sessions.push({
       client_id: uuid(),
-      date: localDateStr(now),
+      date: sessionDate,
       start_time: timeStr(start),
       end_time: timeStr(now),
       duration_minutes: dur,
