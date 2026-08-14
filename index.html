@@ -136,6 +136,13 @@ input { font-family: inherit; border: none; outline: none; }
 }
 .goal-row .k { font-weight: 700; font-size: 0.95rem; }
 .goal-row .v { font-size: 0.78rem; color: var(--text-2); font-weight: 500; }
+.goal-segment-section { display: none; }
+.goal-segment-list { display: flex; flex-direction: column; }
+.goal-segment-item { display: flex; align-items: center; gap: 12px; padding: 10px 2px; }
+.goal-segment-item + .goal-segment-item { border-top: 0.5px solid var(--fill); }
+.goal-segment-item.done .goal-segment-title { color: var(--text-3); text-decoration: line-through; }
+.goal-segment-title { flex: 1; font-size: 0.9rem; font-weight: 700; }
+.goal-segment-meta { color: var(--text-2); font-size: 0.72rem; font-weight: 600; }
 .stepper { display: flex; align-items: center; gap: 4px; background: var(--fill-2); border-radius: 999px; padding: 4px; }
 .stepper button {
   width: 34px; height: 34px; border-radius: 50%;
@@ -712,6 +719,13 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
         <div class="val"><span id="goalValue">120</span><small> 分钟</small></div>
         <button id="goalPlus" aria-label="增加">＋</button>
       </div>
+    </div>
+  </div>
+
+  <div class="goal-segment-section" id="goalSegmentSection">
+    <div class="section-title" style="--i:2">⏱️ 今日分段 <span class="hint" id="goalSegmentHint"></span></div>
+    <div class="card" style="--i:2">
+      <div class="goal-segment-list" id="goalSegmentList"></div>
     </div>
   </div>
 
@@ -1393,7 +1407,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     // 统计
     var sessions = data.focus_sessions.filter(function (s) { return !s.is_deleted && s.date === today; });
     $('statSessions').textContent = sessions.length;
-    var todayTasks = data.tasks.filter(function (t) { return !t.is_deleted && t.date === today; });
+    var todayTasks = data.tasks.filter(function (t) { return !t.is_deleted && !t.goal_split_key && t.date === today; });
     var doneTasks = todayTasks.filter(function (t) { return t.is_completed; });
     $('statTasks').textContent = doneTasks.length + '/' + todayTasks.length;
 
@@ -1446,7 +1460,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
   function renderTasks() {
     var data = loadData();
     var today = localDateStr();
-    var all = data.tasks.filter(function (t) { return !t.is_deleted; });
+    var all = data.tasks.filter(function (t) { return !t.is_deleted && !t.goal_split_key; });
     var list = all.filter(function (t) {
       if (taskFilter === 'today') return t.date === today;
       if (taskFilter === 'todo') return !t.is_completed;
@@ -1472,6 +1486,43 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
         + '</div>';
     }).join('');
   }
+  function renderGoalSegments() {
+    var data = loadData();
+    var today = localDateStr();
+    var segments = data.tasks.filter(function (t) {
+      return !t.is_deleted && t.goal_split_key && t.date === today;
+    }).sort(function (a, b) {
+      return (a.goal_split_index || 0) - (b.goal_split_index || 0);
+    });
+    if (!segments.length) {
+      $('goalSegmentSection').style.display = 'none';
+      return;
+    }
+    var done = segments.filter(function (t) { return t.is_completed; }).length;
+    $('goalSegmentSection').style.display = '';
+    $('goalSegmentHint').textContent = done + '/' + segments.length + ' 已完成';
+    $('goalSegmentList').innerHTML = segments.map(function (task) {
+      var minutes = task.goal_split_minutes || 45;
+      return '<div class="goal-segment-item' + (task.is_completed ? ' done' : '') + '" data-id="' + esc(task.client_id) + '">'
+        + '<button class="task-check" data-id="' + esc(task.client_id) + '" aria-label="完成分段">' + (task.is_completed ? '✓' : '') + '</button>'
+        + '<span class="goal-segment-title">' + esc(task.title) + '</span>'
+        + '<span class="goal-segment-meta">' + minutes + ' 分钟</span>'
+        + '</div>';
+    }).join('');
+  }
+  $('goalSegmentList').addEventListener('click', function (e) {
+    var id = e.target.dataset && e.target.dataset.id;
+    if (!id) return;
+    var data = loadData();
+    var task = (data.tasks || []).find(function (item) { return item.client_id === id && !item.is_deleted; });
+    if (!task) return;
+    task.is_completed = !task.is_completed;
+    task.completed_at = task.is_completed ? new Date().toISOString() : null;
+    task.updated_at = new Date().toISOString();
+    saveData(data);
+    renderGoalSegments();
+    renderHero();
+  });
   $('taskTabs').addEventListener('click', function (e) {
     var btn = e.target.closest('.tab');
     if (!btn) return;
@@ -1517,6 +1568,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     renderGoal();
     renderChart();
     renderTasks();
+    renderGoalSegments();
     renderSessions();
     updateSyncBadge();
     renderGreeting();
@@ -2435,6 +2487,9 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
         priority: 1,
         subject: null,
         goal_split_key: key,
+        goal_split_index: index + 1,
+        goal_split_total: chunks.length,
+        goal_split_minutes: minutes,
         updated_at: now,
         is_deleted: false
       });
