@@ -589,6 +589,11 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
   flex: 1; background: var(--fill-2); border-radius: 14px;
   padding: 12px 16px; font-size: 0.9rem; color: var(--text);
 }
+.auto-upload-row { justify-content: space-between; cursor: pointer; background: var(--fill-2); border-radius: 14px; padding: 12px 14px; }
+.auto-upload-row input { appearance: none; width: 46px; height: 28px; flex: 0 0 auto; border-radius: 999px; background: #d1d1d6; position: relative; transition: background .2s ease; }
+.auto-upload-row input::after { content: ''; position: absolute; width: 24px; height: 24px; top: 2px; left: 2px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,.2); transition: transform .2s ease; }
+.auto-upload-row input:checked { background: var(--green); }
+.auto-upload-row input:checked::after { transform: translateX(18px); }
 .set-row .btn { padding: 12px 18px; border-radius: 14px; }
 .set-desc { font-size: 0.75rem; color: var(--text-2); font-weight: 500; margin: 8px 2px 0; line-height: 1.5; }
 .subject-settings-list { display: flex; flex-direction: column; gap: 8px; }
@@ -773,7 +778,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
   </div>
 
   <!-- 云同步 -->
-  <div class="section-title" style="--i:6">云同步 <span class="hint">GitHub Gist · 手动触发</span></div>
+  <div class="section-title" style="--i:6">云同步 <span class="hint">GitHub Gist · 上传可按设置自动执行</span></div>
   <div class="card" style="--i:6">
     <div class="sync-badge" style="margin-bottom:14px">
       <span class="sync-dot" id="syncDot"></span>
@@ -926,6 +931,14 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
       <div class="set-desc">例如设置 6 小时，会生成 8 个 45 分钟待办任务；每完成一段就勾选一次。</div>
     </div>
     <div class="card">
+      <div class="section-title" style="margin:0 0 12px">☁️ 每日自动上传</div>
+      <label class="set-row auto-upload-row" for="autoUploadToggle">
+        <span style="font-size:.9rem;font-weight:700">每天首次打开 App 时上传一次</span>
+        <input type="checkbox" id="autoUploadToggle">
+      </label>
+      <div class="set-desc">只上传本地数据，不会自动下载或覆盖本地数据。</div>
+    </div>
+    <div class="card">
       <div class="section-title" style="margin:0 0 12px">📚 科目</div>
       <div class="subject-settings-list" id="subjectSettingsList"></div>
       <div class="subject-add-row">
@@ -946,14 +959,14 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
         个人工作台 v2.1 · Gist 无服务器同步方案<br>
         · 本地数据存于浏览器 localStorage<br>
         · 手机端仅保留近 14 天专注/任务，电脑端全量<br>
-        · 同步完全手动：立即上传 / 立即下载（在工作台页）<br>
+        · 云端下载完全手动；上传可在设置中开启每日自动上传<br>
         · 冲突按 updated_at 最新优先合并<br>
         · Token 生成：github.com/settings/tokens（只需 gist 权限）
       </div>
     </div>
   </div>
 
-  <div class="footer-note">个人工作台 · Gist 同步版 v2.1 · 所有同步均为手动触发</div>
+  <div class="footer-note">个人工作台 · Gist 同步版 v2.1 · 云端下载手动，上传可按设置自动执行</div>
 </div>
 
 <!-- 抽屉导航 -->
@@ -1090,7 +1103,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
 <script>
 /* ============================================================
    个人工作台 前端 App（Kimi K3）
-   规则：禁止自动同步 / 后台同步 / 轮询，一切同步由按钮触发
+   规则：禁止自动下载 / 后台同步 / 轮询；每日自动上传仅在设置开启且启动时执行一次
    ============================================================ */
 (function () {
   'use strict';
@@ -1100,6 +1113,8 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
   var LS_TOKEN = 'gist_token';
   var LS_GIST = 'gist_id';
   var LS_GOAL = 'daily_goal_minutes';
+  var LS_AUTO_UPLOAD = 'auto_upload_enabled';
+  var LS_AUTO_UPLOAD_LAST = 'auto_upload_last_success_date';
 
   var EFFICIENCY_OPTIONS = [
     { key: 'flow',   label: '心流', value: 1.00, emoji: '🔥', desc: '巅峰状态 ×1.00', color: '#FF9500' },
@@ -1170,6 +1185,13 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
   function setGoal(v) {
     localStorage.setItem(LS_GOAL, String(v));
     saveSettings({ daily_goal_minutes: v });
+  }
+  function isAutoUploadEnabled() {
+    var value = localStorage.getItem(LS_AUTO_UPLOAD);
+    return value === null ? true : value === 'true';
+  }
+  function setAutoUploadEnabled(enabled) {
+    localStorage.setItem(LS_AUTO_UPLOAD, String(!!enabled));
   }
 
   // ---------- v2.1 扩展数据：settings / goals / courses / notes / checkins / reviews ----------
@@ -1891,6 +1913,19 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     }
   }
 
+  async function runDailyAutoUpload() {
+    if (!isAutoUploadEnabled() || !isConfigured() || !syncEngine) return;
+    var today = localDateStr();
+    if (localStorage.getItem(LS_AUTO_UPLOAD_LAST) === today) return;
+    var result = await syncEngine.pushToCloud();
+    if (result.success) {
+      localStorage.setItem(LS_AUTO_UPLOAD_LAST, today);
+      toast('已自动上传本地学习数据', 'info');
+    } else {
+      console.warn('Daily auto upload failed:', result.message);
+    }
+  }
+
   async function handleDownload(btn) {
     if (!ensureConfigured()) return;
     setBtnLoading(btn, true, '拉取中…');
@@ -2457,6 +2492,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     $('examDateInput').value = s.exam_date || '';
     var goalHours = getGoal() / 60;
     $('dailyGoalHoursInput').value = Number.isInteger(goalHours) ? String(goalHours) : goalHours.toFixed(2).replace(/0+$/, '').replace(/\.$/, '');
+    $('autoUploadToggle').checked = isAutoUploadEnabled();
     renderSubjectSettings();
   }
   function splitDailyGoalIntoTasks() {
@@ -2510,6 +2546,10 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     toast('每日目标已保存 🎯');
   });
   $('splitGoalBtn').addEventListener('click', splitDailyGoalIntoTasks);
+  $('autoUploadToggle').addEventListener('change', function () {
+    setAutoUploadEnabled(this.checked);
+    toast(this.checked ? '已开启每日自动上传' : '已关闭每日自动上传', 'info');
+  });
   function renderSubjectSettings() {
     var subjects = getSubjects();
     $('subjectSettingsList').innerHTML = subjects.map(function (subject, index) {
@@ -2631,6 +2671,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
   }
 
   renderAll();
+  setTimeout(runDailyAutoUpload, 1200);
 })();
 </script>
 <script>
