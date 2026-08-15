@@ -903,6 +903,8 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
       </div>
       <div class="set-desc">纯文字自动使用 GLM-4.7-Flash；图片或视频会自动切换到 GLM-4.6V-Flash。音频和其他文件暂不直接发送。</div>
       <div class="auto-summary ai-review-result" id="aiReviewResult" style="display:none"></div>
+      <div class="set-desc" id="aiReviewSaveHint" style="display:none">这份 AI 分析目前只临时显示，未保存到云端。想保留时，再点击下面的保存按钮。</div>
+      <button class="btn green" id="aiReviewSaveBtn" style="width:100%;display:none"><span class="label">保存这份 AI 复盘</span></button>
       <div class="sheet-label">手动复盘记录（随云同步）</div>
       <textarea class="review-area" id="reviewText" placeholder="本周学得怎么样？有什么要改进的？"></textarea>
       <button class="btn grad" id="reviewSaveBtn" style="width:100%"><span class="label">保存复盘</span></button>
@@ -2473,6 +2475,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     saveData(data);
   }
   var autoAiReviewTimer = null;
+  var transientAiReviews = {};
   function aiAutoRunCount() {
     var today = localDateStr();
     if (localStorage.getItem(LS_AI_RUN_DATE) !== today) {
@@ -2538,9 +2541,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
         { role: 'user', content: userContent }
       ]);
       if (!answer) throw new Error('模型没有返回内容');
-      $('aiReviewResult').textContent = answer;
-      $('aiReviewResult').style.display = '';
-      saveAiReview(pr, answer, model);
+      transientAiReviews[pr.key] = { content: answer, model: model, generated_at: new Date().toISOString(), automatic: silent };
       localStorage.setItem(LS_AI_LAST_HASH, options.autoHash || learningDataSignature(loadData()));
       if (silent) {
         localStorage.setItem(LS_AI_RUN_COUNT, String(aiAutoRunCount() + 1));
@@ -2615,8 +2616,12 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     // 手动复盘
     var rv = (data.reviews || []).find(function (r) { return r.client_id === pr.key && !r.is_deleted; });
     $('reviewText').value = rv ? (rv.content || '') : '';
-    $('aiReviewResult').textContent = rv && rv.ai_content ? rv.ai_content : '';
-    $('aiReviewResult').style.display = rv && rv.ai_content ? '' : 'none';
+    var transientAi = transientAiReviews[pr.key];
+    var aiContent = transientAi ? transientAi.content : (rv && rv.ai_content ? rv.ai_content : '');
+    $('aiReviewResult').textContent = aiContent;
+    $('aiReviewResult').style.display = aiContent ? '' : 'none';
+    $('aiReviewSaveBtn').style.display = transientAi ? '' : 'none';
+    $('aiReviewSaveHint').style.display = transientAi ? '' : 'none';
     updateAiAutoReviewStatus();
   }
   $('reviewTabs').addEventListener('click', function (e) {
@@ -2629,6 +2634,15 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
   });
   $('periodPrev').addEventListener('click', function () { reviewOffset--; renderReview(); });
   $('periodNext').addEventListener('click', function () { if (reviewOffset < 0) { reviewOffset++; renderReview(); } });
+  $('aiReviewSaveBtn').addEventListener('click', function () {
+    var pr = periodRange();
+    var transientAi = transientAiReviews[pr.key];
+    if (!transientAi) { toast('当前没有可保存的 AI 复盘', 'info'); return; }
+    saveAiReview(pr, transientAi.content, transientAi.model);
+    delete transientAiReviews[pr.key];
+    renderReview();
+    toast('AI 复盘已保存 📌');
+  });
   $('reviewSaveBtn').addEventListener('click', function () {
     var pr = periodRange();
     var content = $('reviewText').value.trim();
