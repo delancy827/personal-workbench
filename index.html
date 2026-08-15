@@ -136,13 +136,6 @@ input { font-family: inherit; border: none; outline: none; }
 }
 .goal-row .k { font-weight: 700; font-size: 0.95rem; }
 .goal-row .v { font-size: 0.78rem; color: var(--text-2); font-weight: 500; }
-.goal-segment-section { display: none; }
-.goal-segment-list { display: flex; flex-direction: column; }
-.goal-segment-item { display: flex; align-items: center; gap: 12px; padding: 10px 2px; }
-.goal-segment-item + .goal-segment-item { border-top: 0.5px solid var(--fill); }
-.goal-segment-item.done .goal-segment-title { color: var(--text-3); text-decoration: line-through; }
-.goal-segment-title { flex: 1; font-size: 0.9rem; font-weight: 700; }
-.goal-segment-meta { color: var(--text-2); font-size: 0.72rem; font-weight: 600; }
 .stepper { display: flex; align-items: center; gap: 4px; background: var(--fill-2); border-radius: 999px; padding: 4px; }
 .stepper button {
   width: 34px; height: 34px; border-radius: 50%;
@@ -205,6 +198,10 @@ input { font-family: inherit; border: none; outline: none; }
   animation: rowIn 0.4s var(--ease-spring) both;
 }
 .task-item + .task-item { border-top: 0.5px solid var(--fill); }
+.task-item.segment { background: rgba(52,120,246,0.04); border-radius: 12px; padding-left: 8px; padding-right: 8px; }
+.task-item.segment + .task-item.segment { border-top: 0.5px solid rgba(52,120,246,0.12); }
+.task-item.segment .task-title { font-weight: 700; }
+.task-segment-meta { color: var(--blue); font-size: 0.72rem; font-weight: 700; white-space: nowrap; }
 @keyframes rowIn { from { opacity: 0; transform: translateX(-8px); } to { opacity: 1; transform: none; } }
 .task-check {
   width: 26px; height: 26px; border-radius: 50%; flex-shrink: 0;
@@ -499,6 +496,9 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
 }
 .tabs .tab.active { background: var(--card); color: var(--text); box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
 .tabs .tab.active.grad { background: linear-gradient(90deg, #A55BFF, #5E5CE6); color: #fff; }
+#taskTabs { overflow-x: auto; scrollbar-width: none; }
+#taskTabs::-webkit-scrollbar { display: none; }
+#taskTabs .tab { min-width: 64px; }
 
 /* ---------- 周期导航 ---------- */
 .period-nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
@@ -727,13 +727,6 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     </div>
   </div>
 
-  <div class="goal-segment-section" id="goalSegmentSection">
-    <div class="section-title" style="--i:2">⏱️ 今日分段 <span class="hint" id="goalSegmentHint"></span></div>
-    <div class="card" style="--i:2">
-      <div class="goal-segment-list" id="goalSegmentList"></div>
-    </div>
-  </div>
-
   <div class="grid-2">
     <!-- 趋势图 -->
     <div>
@@ -753,9 +746,11 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
       <div class="section-title" style="--i:4">待办任务 <span class="hint" id="taskHint"></span></div>
       <div class="card" style="--i:4">
         <div class="tabs" id="taskTabs">
-          <button class="tab active" data-f="all">全部</button>
-          <button class="tab" data-f="today">今日</button>
-          <button class="tab" data-f="todo">未完成</button>
+          <button class="tab" data-f="segments">45分钟</button>
+          <button class="tab" data-f="all">全部</button>
+          <button class="tab active" data-f="today">今天</button>
+          <button class="tab" data-f="tomorrow">明天</button>
+          <button class="tab" data-f="yesterdayTodo">昨天未完成</button>
           <button class="tab" data-f="done">已完成</button>
         </div>
         <div class="task-add">
@@ -927,8 +922,8 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
         <span class="unit">小时</span>
         <button class="btn blue" id="dailyGoalSave"><span class="label">保存</span></button>
       </div>
-      <button class="btn grad" id="splitGoalBtn" style="width:100%;margin-top:12px"><span class="label">按 45 分钟拆分今日任务</span></button>
-      <div class="set-desc">例如设置 6 小时，会生成 8 个 45 分钟待办任务；每完成一段就勾选一次。</div>
+      <button class="btn grad" id="splitGoalBtn" style="width:100%;margin-top:12px"><span class="label">手动检查并生成今日分段</span></button>
+      <div class="set-desc">每天首次打开 App 会自动生成目标分段，无需手动点击；例如设置 6 小时，会生成 8 个 45 分钟待办任务，可在待办任务的“45分钟”栏查看。</div>
     </div>
     <div class="card">
       <div class="section-title" style="margin:0 0 12px">☁️ 每日自动上传</div>
@@ -1478,73 +1473,63 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     $('chartHint').textContent = '柱顶 = 小时 · 绿=达标';
   }
 
-  var taskFilter = 'all';
+  var taskFilter = 'today';
   function renderTasks() {
     var data = loadData();
     var today = localDateStr();
+    var yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    var tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    var yesterdayDate = localDateStr(yesterday);
+    var tomorrowDate = localDateStr(tomorrow);
     var all = data.tasks.filter(function (t) { return !t.is_deleted && !t.goal_split_key; });
-    var list = all.filter(function (t) {
+    var goalKey = today + '-' + getGoal();
+    var segments = data.tasks.filter(function (t) {
+      return !t.is_deleted && t.goal_split_key === goalKey && t.date === today;
+    });
+    var list = (taskFilter === 'segments' ? segments : all).filter(function (t) {
       if (taskFilter === 'today') return t.date === today;
-      if (taskFilter === 'todo') return !t.is_completed;
+      if (taskFilter === 'tomorrow') return t.date === tomorrowDate;
+      if (taskFilter === 'yesterdayTodo') return t.date === yesterdayDate && !t.is_completed;
       if (taskFilter === 'done') return t.is_completed;
       return true;
     }).sort(function (a, b) {
+      if (taskFilter === 'segments') {
+        return (b.date || '').localeCompare(a.date || '') || (a.goal_split_index || 0) - (b.goal_split_index || 0);
+      }
       return (a.is_completed ? 1 : 0) - (b.is_completed ? 1 : 0) || (a.priority || 1) - (b.priority || 1) || (b.date || '').localeCompare(a.date || '');
     });
     var todayAll = all.filter(function (t) { return t.date === today; });
     var done = todayAll.filter(function (t) { return t.is_completed; }).length;
-    $('taskHint').textContent = todayAll.length ? ('今日 ' + done + '/' + todayAll.length) : '';
+    var segmentDone = segments.filter(function (t) { return t.date === today && t.is_completed; }).length;
+    var todaySegments = segments.filter(function (t) { return t.date === today; }).length;
+    $('taskHint').textContent = taskFilter === 'segments'
+      ? (todaySegments ? ('今日 ' + segmentDone + '/' + todaySegments) : '')
+      : (todayAll.length ? ('今日 ' + done + '/' + todayAll.length) : '');
     if (!list.length) {
-      var emptyText = { all: '还没有任务，加一个吧', today: '今天还没有任务，加一个吧', todo: '没有未完成的任务 🎉', done: '还没有已完成的任务' };
+      var emptyText = {
+        segments: '还没有45分钟分段，请先在设置里拆分今日目标',
+        all: '还没有任务，加一个吧',
+        today: '今天还没有任务，加一个吧',
+        tomorrow: '明天还没有任务',
+        yesterdayTodo: '昨天没有未完成的任务 🎉',
+        done: '还没有已完成的任务'
+      };
       $('taskList').innerHTML = '<div class="empty"><span class="emoji">📝</span>' + emptyText[taskFilter] + '</div>';
       return;
     }
     $('taskList').innerHTML = list.map(function (t, i) {
-      var dateTag = (taskFilter === 'all' && t.date !== today) ? '<span style="font-size:0.68rem;color:var(--text-3);font-weight:600;margin-right:4px">' + esc(t.date || '') + '</span>' : '';
-      return '<div class="task-item' + (t.is_completed ? ' done' : '') + '" style="animation-delay:' + (i * 40) + 'ms">'
+      var dateTag = ((taskFilter === 'segments' || taskFilter === 'all') && t.date !== today) ? '<span style="font-size:0.68rem;color:var(--text-3);font-weight:600;margin-right:4px">' + esc(t.date || '') + '</span>' : '';
+      var segmentMeta = t.goal_split_key ? '<span class="task-segment-meta">' + (t.goal_split_minutes || 45) + ' 分钟</span>' : '';
+      var delButton = t.goal_split_key ? '' : '<button class="task-del" data-id="' + t.client_id + '" aria-label="删除">✕</button>';
+      return '<div class="task-item' + (t.goal_split_key ? ' segment' : '') + (t.is_completed ? ' done' : '') + '" style="animation-delay:' + (i * 40) + 'ms">'
         + '<button class="task-check" data-id="' + t.client_id + '" aria-label="完成">' + (t.is_completed ? '✓' : '') + '</button>'
         + '<span class="task-title">' + dateTag + esc(t.title) + '</span>'
-        + '<button class="task-del" data-id="' + t.client_id + '" aria-label="删除">✕</button>'
+        + segmentMeta + delButton
         + '</div>';
     }).join('');
   }
-  function renderGoalSegments() {
-    var data = loadData();
-    var today = localDateStr();
-    var segments = data.tasks.filter(function (t) {
-      return !t.is_deleted && t.goal_split_key && t.date === today;
-    }).sort(function (a, b) {
-      return (a.goal_split_index || 0) - (b.goal_split_index || 0);
-    });
-    if (!segments.length) {
-      $('goalSegmentSection').style.display = 'none';
-      return;
-    }
-    var done = segments.filter(function (t) { return t.is_completed; }).length;
-    $('goalSegmentSection').style.display = '';
-    $('goalSegmentHint').textContent = done + '/' + segments.length + ' 已完成';
-    $('goalSegmentList').innerHTML = segments.map(function (task) {
-      var minutes = task.goal_split_minutes || 45;
-      return '<div class="goal-segment-item' + (task.is_completed ? ' done' : '') + '" data-id="' + esc(task.client_id) + '">'
-        + '<button class="task-check" data-id="' + esc(task.client_id) + '" aria-label="完成分段">' + (task.is_completed ? '✓' : '') + '</button>'
-        + '<span class="goal-segment-title">' + esc(task.title) + '</span>'
-        + '<span class="goal-segment-meta">' + minutes + ' 分钟</span>'
-        + '</div>';
-    }).join('');
-  }
-  $('goalSegmentList').addEventListener('click', function (e) {
-    var id = e.target.dataset && e.target.dataset.id;
-    if (!id) return;
-    var data = loadData();
-    var task = (data.tasks || []).find(function (item) { return item.client_id === id && !item.is_deleted; });
-    if (!task) return;
-    task.is_completed = !task.is_completed;
-    task.completed_at = task.is_completed ? new Date().toISOString() : null;
-    task.updated_at = new Date().toISOString();
-    saveData(data);
-    renderGoalSegments();
-    renderHero();
-  });
   $('taskTabs').addEventListener('click', function (e) {
     var btn = e.target.closest('.tab');
     if (!btn) return;
@@ -1590,7 +1575,6 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     renderGoal();
     renderChart();
     renderTasks();
-    renderGoalSegments();
     renderSessions();
     updateSyncBadge();
     renderGreeting();
@@ -2495,7 +2479,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     $('autoUploadToggle').checked = isAutoUploadEnabled();
     renderSubjectSettings();
   }
-  function splitDailyGoalIntoTasks() {
+  function splitDailyGoalIntoTasks(silent) {
     var target = getGoal();
     var today = localDateStr();
     var key = today + '-' + target;
@@ -2504,8 +2488,8 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
       return !task.is_deleted && task.date === today && task.goal_split_key === key;
     });
     if (existing) {
-      toast('今天已经生成过这组任务', 'info');
-      return;
+      if (!silent) toast('今天已经生成过这组任务', 'info');
+      return false;
     }
     var chunks = [];
     var full = Math.floor(target / 45);
@@ -2531,8 +2515,11 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
       });
     });
     saveData(data);
-    renderAll();
-    toast('已拆分为 ' + chunks.length + ' 个待办任务');
+    if (!silent) {
+      renderAll();
+      toast('已拆分为 ' + chunks.length + ' 个待办任务');
+    }
+    return true;
   }
   $('dailyGoalSave').addEventListener('click', function () {
     var hours = parseFloat($('dailyGoalHoursInput').value);
@@ -2541,11 +2528,12 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
       return;
     }
     setGoal(Math.round(hours * 60));
+    splitDailyGoalIntoTasks(true);
     renderAll();
     renderSettingsView();
     toast('每日目标已保存 🎯');
   });
-  $('splitGoalBtn').addEventListener('click', splitDailyGoalIntoTasks);
+  $('splitGoalBtn').addEventListener('click', function () { splitDailyGoalIntoTasks(false); });
   $('autoUploadToggle').addEventListener('change', function () {
     setAutoUploadEnabled(this.checked);
     toast(this.checked ? '已开启每日自动上传' : '已关闭每日自动上传', 'info');
@@ -2670,6 +2658,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     } catch (e) { /* 清理失败不影响使用 */ }
   }
 
+  splitDailyGoalIntoTasks(true);
   renderAll();
   setTimeout(runDailyAutoUpload, 1200);
 })();
