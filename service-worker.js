@@ -1,4 +1,4 @@
-const CACHE_NAME = 'personal-workbench-v2';
+const CACHE_NAME = 'personal-workbench-v3';
 const APP_SHELL = [
   './',
   './index.html',
@@ -6,6 +6,7 @@ const APP_SHELL = [
   './gist-api.js',
   './data-filter.js',
   './sync-engine.js',
+  './glm-client.js',
   './icons/icon-180.png',
   './icons/icon-180.svg',
   './icons/icon-512.svg'

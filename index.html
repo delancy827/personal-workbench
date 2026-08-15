@@ -297,6 +297,15 @@ input { font-family: inherit; border: none; outline: none; }
   font-variant-numeric: tabular-nums;
 }
 .field input:focus { box-shadow: 0 0 0 2px rgba(52,120,246,0.35); }
+.field select, .ai-config-area {
+  width: 100%; background: var(--fill-2); border-radius: 14px;
+  padding: 13px 16px; font-size: 0.9rem; color: var(--text); border: none; outline: none;
+}
+.field select:focus, .ai-config-area:focus { box-shadow: 0 0 0 2px rgba(52,120,246,0.35); }
+.ai-config-area { min-height: 86px; resize: vertical; line-height: 1.5; font-family: inherit; }
+.ai-review-result { margin-top: 12px; white-space: pre-line; }
+.ai-review-actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.ai-attachment-name { flex: 1; min-width: 120px; color: var(--text-2); font-size: 0.78rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .eye-btn {
   position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
   background: none; color: var(--text-2); font-size: 0.95rem; padding: 8px;
@@ -885,6 +894,15 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
       <div id="reviewTableWrap"></div>
       <div id="reviewDistWrap"></div>
       <div class="auto-summary" id="reviewSummary"></div>
+      <div class="section-title" style="margin:16px 0 10px">🤖 AI 复盘 <span class="hint" id="aiAutoReviewStatus"></span></div>
+      <div class="ai-review-actions">
+        <button class="btn blue" id="reviewAttachmentBtn"><span class="label">选择附件（可选）</span></button>
+        <input type="file" id="reviewAttachmentInput" accept="image/*,video/*,audio/*,.pdf,.txt" style="display:none">
+        <span class="ai-attachment-name" id="reviewAttachmentName">未选择附件</span>
+        <button class="btn blue" id="aiReviewBtn"><span class="label">生成 AI 复盘</span></button>
+      </div>
+      <div class="set-desc">纯文字自动使用 GLM-4.7-Flash；图片或视频会自动切换到 GLM-4.6V-Flash。音频和其他文件暂不直接发送。</div>
+      <div class="auto-summary ai-review-result" id="aiReviewResult" style="display:none"></div>
       <div class="sheet-label">手动复盘记录（随云同步）</div>
       <textarea class="review-area" id="reviewText" placeholder="本周学得怎么样？有什么要改进的？"></textarea>
       <button class="btn grad" id="reviewSaveBtn" style="width:100%"><span class="label">保存复盘</span></button>
@@ -932,6 +950,48 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
         <input type="checkbox" id="autoUploadToggle">
       </label>
       <div class="set-desc">只上传本地数据，不会自动下载或覆盖本地数据。</div>
+    </div>
+    <div class="card">
+      <div class="section-title" style="margin:0 0 12px">🤖 AI 复盘（GLM）</div>
+      <div class="field">
+        <label>智谱 API Key（仅保存在本设备）</label>
+        <div class="input-wrap">
+          <input id="glmApiKeyInput" type="password" placeholder="输入 API Key" autocomplete="off">
+          <button class="eye-btn" id="glmApiEye" aria-label="显示">👁</button>
+        </div>
+      </div>
+      <div class="field">
+        <label>连接测试模型（仅允许两个免费型号）</label>
+        <select id="glmModelInput">
+          <option value="glm-4.7-flash">GLM-4.7-Flash（文字复盘）</option>
+          <option value="glm-4.6v-flash">GLM-4.6V-Flash（图片/视频）</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>管理提示词 / 人物设定</label>
+        <textarea class="ai-config-area" id="glmSystemPromptInput" placeholder="例如：你是一名严格但温和的学习教练……"></textarea>
+      </div>
+      <div class="field">
+        <label>学习方法论</label>
+        <textarea class="ai-config-area" id="glmLearningMethodInput" placeholder="把你的学习方法、检查标准、复习原则写在这里……"></textarea>
+      </div>
+      <div class="field">
+        <label>考试内容背景</label>
+        <textarea class="ai-config-area" id="glmExamContextInput" placeholder="告诉 AI 你正在准备什么考试、有哪些板块……"></textarea>
+      </div>
+      <div class="field">
+        <label>我的薄弱点 / 督促偏好</label>
+        <textarea class="ai-config-area" id="glmWeaknessesInput" placeholder="例如：资料分析速度慢；发现薄弱板块时请直接提醒我，并给出下一步练习建议……"></textarea>
+      </div>
+      <div class="set-row">
+        <button class="btn blue" id="glmSaveBtn"><span class="label">保存 AI 配置</span></button>
+        <button class="btn green" id="glmTestBtn"><span class="label">测试连接</span></button>
+      </div>
+      <label class="set-row auto-upload-row" for="aiAutoReviewToggle" style="margin-top:12px">
+        <span style="font-size:.9rem;font-weight:700">数据变化后自动 AI 复盘</span>
+        <input type="checkbox" id="aiAutoReviewToggle">
+      </label>
+      <div class="set-desc">学习记录变化后会延迟几秒自动分析，每天最多 3 次；你也可以随时手动生成。人物设定、学习方法、考试背景和薄弱点会随 Gist 保存，换设备后可继续使用；只有 API Key 只保存在本设备。<br><a class="link" href="https://docs.bigmodel.cn/cn/api/introduction" target="_blank" rel="noopener">查看智谱 API 文档 ›</a></div>
     </div>
     <div class="card">
       <div class="section-title" style="margin:0 0 12px">📚 科目</div>
@@ -1095,10 +1155,11 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
 <script src="gist-api.js"></script>
 <script src="data-filter.js"></script>
 <script src="sync-engine.js"></script>
+<script src="glm-client.js"></script>
 <script>
 /* ============================================================
    个人工作台 前端 App（Kimi K3）
-   规则：禁止自动下载 / 后台同步 / 轮询；每日自动上传仅在设置开启且启动时执行一次
+   规则：禁止自动下载 / 轮询；AI 复盘只在数据变化后按频控触发
    ============================================================ */
 (function () {
   'use strict';
@@ -1110,6 +1171,28 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
   var LS_GOAL = 'daily_goal_minutes';
   var LS_AUTO_UPLOAD = 'auto_upload_enabled';
   var LS_AUTO_UPLOAD_LAST = 'auto_upload_last_success_date';
+  var LS_GLM_API_KEY = 'glm_api_key';
+  var LS_GLM_MODEL = 'glm_model';
+  var LS_GLM_SYSTEM_PROMPT = 'glm_system_prompt';
+  var LS_GLM_LEARNING_METHOD = 'glm_learning_method';
+  var LS_GLM_EXAM_CONTEXT = 'glm_exam_context';
+  var LS_GLM_WEAKNESSES = 'glm_weaknesses';
+  var LS_AI_AUTO_ENABLED = 'ai_auto_review_enabled';
+  var LS_AI_DATA_HASH = 'ai_auto_review_data_hash';
+  var LS_AI_LAST_HASH = 'ai_auto_review_last_hash';
+  var LS_AI_RUN_DATE = 'ai_auto_review_run_date';
+  var LS_AI_RUN_COUNT = 'ai_auto_review_run_count';
+  var LS_AI_LAST_RUN_AT = 'ai_auto_review_last_run_at';
+  var AI_AUTO_REVIEW_MAX_PER_DAY = 3;
+  var AI_AUTO_REVIEW_MIN_INTERVAL = 20 * 60 * 1000;
+  var AI_AUTO_REVIEW_DELAY = 8000;
+  var GLM_TEXT_MODEL = 'glm-4.7-flash';
+  var GLM_VISION_MODEL = 'glm-4.6v-flash';
+  var DEFAULT_GLM_EXAM_CONTEXT = '目前我还没有把学习内容细分，学习记录统一称为“学习”。我正在准备一场考试，包含两个板块：\n1. 思想素质：价值观、责任感、意志品质、时事政治、中国石化企业知识、其他学科知识。\n2. 思维能力：言语理解与表达、数量关系、判断推理、资料分析、常识判断以及其他学科知识。后期会逐步细分为言语理解与表达、判断推理、数量关系、资料分析、常识判断。';
+
+  function normalizeGlmModel(model) {
+    return model === GLM_VISION_MODEL ? GLM_VISION_MODEL : GLM_TEXT_MODEL;
+  }
 
   var EFFICIENCY_OPTIONS = [
     { key: 'flow',   label: '心流', value: 1.00, emoji: '🔥', desc: '巅峰状态 ×1.00', color: '#FF9500' },
@@ -1170,7 +1253,33 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
       return { focus_sessions: [], tasks: [], meta: {} };
     }
   }
-  function saveData(d) { localStorage.setItem(LS_DATA, JSON.stringify(d)); }
+  function learningDataSignature(d) {
+    function part(list) {
+      list = Array.isArray(list) ? list : [];
+      var latest = '';
+      var completed = 0;
+      list.forEach(function (item) {
+        if (item.is_completed) completed++;
+        if ((item.updated_at || '') > latest) latest = item.updated_at || '';
+      });
+      return list.length + '|' + completed + '|' + latest;
+    }
+    return part(d.focus_sessions) + '::' + part(d.tasks);
+  }
+  function isAiAutoReviewEnabled() {
+    var value = localStorage.getItem(LS_AI_AUTO_ENABLED);
+    return value === null ? true : value === 'true';
+  }
+  function setAiAutoReviewEnabled(enabled) {
+    localStorage.setItem(LS_AI_AUTO_ENABLED, String(!!enabled));
+  }
+  function saveData(d) {
+    var previousHash = localStorage.getItem(LS_AI_DATA_HASH);
+    localStorage.setItem(LS_DATA, JSON.stringify(d));
+    var nextHash = learningDataSignature(d);
+    localStorage.setItem(LS_AI_DATA_HASH, nextHash);
+    if (previousHash !== null && previousHash !== nextHash) scheduleAutoAiReview();
+  }
   function getGoal() {
     var configured = parseInt(getSettings().daily_goal_minutes, 10);
     if (!isNaN(configured) && configured > 0) return configured;
@@ -1187,6 +1296,30 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
   }
   function setAutoUploadEnabled(enabled) {
     localStorage.setItem(LS_AUTO_UPLOAD, String(!!enabled));
+  }
+  function getGlmConfig() {
+    var settings = getSettings();
+    var model = localStorage.getItem(LS_GLM_MODEL) || GLM_TEXT_MODEL;
+    if (settings.glm_model) model = settings.glm_model;
+    model = normalizeGlmModel(model);
+    return {
+      apiKey: localStorage.getItem(LS_GLM_API_KEY) || '',
+      model: model,
+      systemPrompt: settings.glm_system_prompt || localStorage.getItem(LS_GLM_SYSTEM_PROMPT) || '',
+      learningMethod: settings.glm_learning_method || localStorage.getItem(LS_GLM_LEARNING_METHOD) || '',
+      examContext: settings.glm_exam_context || localStorage.getItem(LS_GLM_EXAM_CONTEXT) || DEFAULT_GLM_EXAM_CONTEXT,
+      weaknesses: settings.glm_weaknesses || localStorage.getItem(LS_GLM_WEAKNESSES) || ''
+    };
+  }
+  function saveGlmConfig(config) {
+    localStorage.setItem(LS_GLM_API_KEY, (config.apiKey || '').trim());
+    saveSettings({
+      glm_model: normalizeGlmModel(config.model),
+      glm_system_prompt: (config.systemPrompt || '').trim(),
+      glm_learning_method: (config.learningMethod || '').trim(),
+      glm_exam_context: (config.examContext || '').trim(),
+      glm_weaknesses: (config.weaknesses || '').trim()
+    });
   }
 
   // ---------- v2.1 扩展数据：settings / goals / courses / notes / checkins / reviews ----------
@@ -1891,7 +2024,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
       var result = await syncEngine.pushToCloud();
       toast(result.message, result.success ? 'success' : 'error');
       flashBtn(btn, result.success ? 'success' : 'error');
-      if (result.success) { renderAll(); }
+      if (result.success) { renderAll(); scheduleAutoAiReview(); }
     } finally {
       setBtnLoading(btn, false);
     }
@@ -1919,7 +2052,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
       var result = await syncEngine.pullFromCloud({ trimTo14Days: isMobile() });
       toast(result.message, result.success ? 'success' : 'error');
       flashBtn(btn, result.success ? 'success' : 'error');
-      if (result.success) { renderAll(); }
+      if (result.success) { renderAll(); scheduleAutoAiReview(); }
     } finally {
       setBtnLoading(btn, false);
     }
@@ -2250,6 +2383,179 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     var l2 = new Date(hy, hh * 6 + 6, 0);
     return { start: f2, end: l2, startStr: localDateStr(f2), endStr: localDateStr(l2), label: hy + '年' + (hh === 0 ? '上半年' : '下半年'), key: 'half-' + hy + '-H' + (hh + 1), name: '半年' };
   }
+  function buildGlmSystemPrompt(config) {
+    var parts = [];
+    if (config.systemPrompt) parts.push('【人物设定与管理提示词】\n' + config.systemPrompt);
+    if (config.learningMethod) parts.push('【学习方法论】\n' + config.learningMethod);
+    if (config.examContext) parts.push('【考试内容背景】\n' + config.examContext);
+    if (config.weaknesses) parts.push('【我的薄弱点与督促偏好】\n' + config.weaknesses);
+    parts.push('【复盘要求】\n你是我的学习复盘教练。请只依据我提供的记录、近期复盘轨迹和图片内容进行判断，不要编造事实。明确指出方法论是否被执行、哪些证据支持你的判断、学习是否有效、最重要的一个改进动作，以及下一周期的可执行计划。弱点不是永久标签：如果最新记录或用户自述显示某板块正在进步，就降低它的优先级，停止机械重复追问，转向巩固或寻找新的问题；只有当前证据支持时才追问薄弱点，并在结尾提出一个具体、简短的督促问题。输出使用清晰的小标题和简洁条目。');
+    return parts.join('\n\n');
+  }
+  function recentReviewHistory(data) {
+    return (data.reviews || [])
+      .filter(function (r) { return !r.is_deleted && (r.content || r.ai_content); })
+      .sort(function (a, b) { return (b.updated_at || '').localeCompare(a.updated_at || ''); })
+      .slice(0, 6)
+      .map(function (r) {
+        return {
+          updated_at: r.updated_at || '',
+          manual: String(r.content || '').slice(0, 800),
+          ai: String(r.ai_content || '').slice(0, 1200)
+        };
+      });
+  }
+  function buildGlmReviewPrompt(pr, data) {
+    var sessions = data.focus_sessions.filter(function (s) { return !s.is_deleted && s.date >= pr.startStr && s.date <= pr.endStr; });
+    var tasks = data.tasks.filter(function (t) { return !t.is_deleted && t.date >= pr.startStr && t.date <= pr.endStr; });
+    var savedReview = (data.reviews || []).find(function (r) { return r.client_id === pr.key && !r.is_deleted; });
+    var currentReview = $('reviewText') ? $('reviewText').value.trim() : '';
+    var payload = {
+      period: { name: pr.name, start: pr.startStr, end: pr.endStr },
+      daily_goal_minutes: getGoal(),
+      current_subjects: getSubjects(),
+      focus_sessions: sessions.map(function (s) {
+        return { date: s.date, minutes: parseFloat(s.duration_minutes) || 0, subject: s.subject || '未分类', efficiency: parseFloat(s.efficiency) || 0.5 };
+      }),
+      tasks: tasks.map(function (t) {
+        return { date: t.date, title: t.title, completed: !!t.is_completed, is_goal_segment: !!t.goal_split_key };
+      }),
+      manual_reflection: currentReview || (savedReview && savedReview.content) || '',
+      recent_coaching_history: recentReviewHistory(data)
+    };
+    return '请复盘以下学习数据。先给出结论，再给出证据、方法论执行情况、问题和下一周期计划。\n\n' + JSON.stringify(payload, null, 2);
+  }
+  function readFileAsDataUrl(file) {
+    return new Promise(function (resolve, reject) {
+      var reader = new FileReader();
+      reader.onload = function () { resolve(reader.result); };
+      reader.onerror = function () { reject(new Error('附件读取失败')); };
+      reader.readAsDataURL(file);
+    });
+  }
+  function readFileAsText(file) {
+    return new Promise(function (resolve, reject) {
+      var reader = new FileReader();
+      reader.onload = function () { resolve(String(reader.result || '')); };
+      reader.onerror = function () { reject(new Error('文字附件读取失败')); };
+      reader.readAsText(file);
+    });
+  }
+  function modelForReviewAttachment(attachment) {
+    return attachment && (attachment.kind === 'image' || attachment.kind === 'video')
+      ? GLM_VISION_MODEL
+      : GLM_TEXT_MODEL;
+  }
+  async function readReviewAttachment(file) {
+    if (!file) return null;
+    if (file.size > 12 * 1024 * 1024) throw new Error('附件请控制在 12MB 以内');
+    if (file.type.indexOf('image/') === 0) return { kind: 'image', dataUrl: await readFileAsDataUrl(file), name: file.name };
+    if (file.type.indexOf('video/') === 0) return { kind: 'video', dataUrl: await readFileAsDataUrl(file), name: file.name };
+    if (file.type.indexOf('audio/') === 0) return { kind: 'audio', name: file.name };
+    if (file.type === 'text/plain' || /\.txt$/i.test(file.name)) {
+      return { kind: 'text', text: await readFileAsText(file), name: file.name };
+    }
+    return { kind: 'file', name: file.name };
+  }
+  function saveAiReview(pr, content, model) {
+    var data = loadData();
+    data.reviews = data.reviews || [];
+    var rv = data.reviews.find(function (r) { return r.client_id === pr.key && !r.is_deleted; });
+    var now = new Date().toISOString();
+    if (!rv) {
+      rv = { client_id: pr.key, content: '', updated_at: now, is_deleted: false };
+      data.reviews.push(rv);
+    }
+    rv.ai_content = content;
+    rv.ai_model = model;
+    rv.ai_updated_at = now;
+    rv.updated_at = now;
+    saveData(data);
+  }
+  var autoAiReviewTimer = null;
+  function aiAutoRunCount() {
+    var today = localDateStr();
+    if (localStorage.getItem(LS_AI_RUN_DATE) !== today) {
+      localStorage.setItem(LS_AI_RUN_DATE, today);
+      localStorage.setItem(LS_AI_RUN_COUNT, '0');
+    }
+    return parseInt(localStorage.getItem(LS_AI_RUN_COUNT) || '0', 10) || 0;
+  }
+  function updateAiAutoReviewStatus() {
+    var el = $('aiAutoReviewStatus');
+    if (!el) return;
+    if (!isAiAutoReviewEnabled()) { el.textContent = '自动分析已关闭'; return; }
+    el.textContent = '今日自动 ' + aiAutoRunCount() + '/' + AI_AUTO_REVIEW_MAX_PER_DAY;
+  }
+  function canRunAutoAiReview(hash) {
+    if (!isAiAutoReviewEnabled() || !getGlmConfig().apiKey) return false;
+    var data = loadData();
+    if (!(data.focus_sessions.length || data.tasks.length)) return false;
+    if (localStorage.getItem(LS_AI_LAST_HASH) === hash) return false;
+    if (aiAutoRunCount() >= AI_AUTO_REVIEW_MAX_PER_DAY) return false;
+    var lastAt = parseInt(localStorage.getItem(LS_AI_LAST_RUN_AT) || '0', 10) || 0;
+    return !lastAt || Date.now() - lastAt >= AI_AUTO_REVIEW_MIN_INTERVAL;
+  }
+  function scheduleAutoAiReview() {
+    if (autoAiReviewTimer) clearTimeout(autoAiReviewTimer);
+    autoAiReviewTimer = setTimeout(function () {
+      autoAiReviewTimer = null;
+      var hash = learningDataSignature(loadData());
+      if (!canRunAutoAiReview(hash)) return;
+      generateAiReview({ silent: true, autoHash: hash });
+    }, AI_AUTO_REVIEW_DELAY);
+  }
+  async function generateAiReview(options) {
+    options = options || {};
+    var silent = !!options.silent;
+    var btn = $('aiReviewBtn');
+    var config = getGlmConfig();
+    if (!config.apiKey) {
+      if (!silent) toast('请先在设置里填写智谱 API Key', 'error');
+      return;
+    }
+    if (!silent) setBtnLoading(btn, true, '分析中…');
+    try {
+      var pr = periodRange();
+      var data = loadData();
+      var attachment = silent ? null : await readReviewAttachment($('reviewAttachmentInput').files[0]);
+      var model = modelForReviewAttachment(attachment);
+      var prompt = buildGlmReviewPrompt(pr, data);
+      var userContent = prompt;
+      if (attachment && attachment.kind === 'text') userContent += '\n\n【附件文字：' + attachment.name + '】\n' + attachment.text;
+      if (attachment && (attachment.kind === 'image' || attachment.kind === 'video')) {
+        userContent = [
+          { type: 'text', text: prompt + '\n\n请同时分析附件中的视觉信息，并区分“图片/视频中看到的事实”和“基于学习记录的推断”。' },
+          attachment.kind === 'image'
+            ? { type: 'image_url', image_url: { url: attachment.dataUrl } }
+            : { type: 'video_url', video_url: { url: attachment.dataUrl } }
+        ];
+      }
+      if (attachment && attachment.kind === 'audio') throw new Error('当前 GLM-4.6V-Flash 接口不直接接收音频，请先转成文字再复盘');
+      if (attachment && attachment.kind === 'file') throw new Error('当前版本先支持图片、视频和 TXT；PDF 等文件请先复制文字或截图');
+      var answer = await new GlmClient(config.apiKey, model).chat([
+        { role: 'system', content: buildGlmSystemPrompt(config) },
+        { role: 'user', content: userContent }
+      ]);
+      if (!answer) throw new Error('模型没有返回内容');
+      $('aiReviewResult').textContent = answer;
+      $('aiReviewResult').style.display = '';
+      saveAiReview(pr, answer, model);
+      localStorage.setItem(LS_AI_LAST_HASH, options.autoHash || learningDataSignature(loadData()));
+      if (silent) {
+        localStorage.setItem(LS_AI_RUN_COUNT, String(aiAutoRunCount() + 1));
+        localStorage.setItem(LS_AI_LAST_RUN_AT, String(Date.now()));
+      }
+      updateAiAutoReviewStatus();
+      if (typeof currentView !== 'undefined' && currentView === 'review') renderReview();
+      if (!silent) toast('AI 复盘已生成 · ' + model, 'success');
+    } catch (err) {
+      if (silent) console.warn('Automatic AI review failed:', err.message);
+      else toast('AI 复盘失败：' + err.message, 'error');
+    } finally {
+      if (!silent) setBtnLoading(btn, false);
+    }
+  }
   function renderReview() {
     var data = loadData();
     var pr = periodRange();
@@ -2309,6 +2615,9 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     // 手动复盘
     var rv = (data.reviews || []).find(function (r) { return r.client_id === pr.key && !r.is_deleted; });
     $('reviewText').value = rv ? (rv.content || '') : '';
+    $('aiReviewResult').textContent = rv && rv.ai_content ? rv.ai_content : '';
+    $('aiReviewResult').style.display = rv && rv.ai_content ? '' : 'none';
+    updateAiAutoReviewStatus();
   }
   $('reviewTabs').addEventListener('click', function (e) {
     var btn = e.target.closest('.tab');
@@ -2329,6 +2638,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     if (rv) { rv.content = content; rv.updated_at = now; }
     else { data.reviews.push({ client_id: pr.key, content: content, updated_at: now, is_deleted: false }); }
     saveData(data);
+    scheduleAutoAiReview();
     toast('复盘已保存 📈');
   });
 
@@ -2472,11 +2782,19 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
   // ==================== v2.1 设置 / 导入 ====================
   function renderSettingsView() {
     var s = getSettings();
+    var glm = getGlmConfig();
     $('nickInput').value = s.nickname || '';
     $('examDateInput').value = s.exam_date || '';
     var goalHours = getGoal() / 60;
     $('dailyGoalHoursInput').value = Number.isInteger(goalHours) ? String(goalHours) : goalHours.toFixed(2).replace(/0+$/, '').replace(/\.$/, '');
     $('autoUploadToggle').checked = isAutoUploadEnabled();
+    $('glmApiKeyInput').value = glm.apiKey;
+    $('glmModelInput').value = glm.model;
+    $('glmSystemPromptInput').value = glm.systemPrompt;
+    $('glmLearningMethodInput').value = glm.learningMethod;
+    $('glmExamContextInput').value = glm.examContext;
+    $('glmWeaknessesInput').value = glm.weaknesses;
+    $('aiAutoReviewToggle').checked = isAiAutoReviewEnabled();
     renderSubjectSettings();
   }
   function splitDailyGoalIntoTasks(silent) {
@@ -2521,6 +2839,33 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     }
     return true;
   }
+  function readGlmForm() {
+    return {
+      apiKey: $('glmApiKeyInput').value,
+      model: $('glmModelInput').value,
+      systemPrompt: $('glmSystemPromptInput').value,
+      learningMethod: $('glmLearningMethodInput').value,
+      examContext: $('glmExamContextInput').value,
+      weaknesses: $('glmWeaknessesInput').value
+    };
+  }
+  async function testGlmConnection() {
+    var btn = $('glmTestBtn');
+    var config = readGlmForm();
+    saveGlmConfig(config);
+    if (!config.apiKey.trim()) { toast('请先填写智谱 API Key', 'error'); return; }
+    setBtnLoading(btn, true, '测试中…');
+    try {
+      var answer = await new GlmClient(config.apiKey, normalizeGlmModel(config.model)).test();
+      toast('GLM 连接成功：' + answer, 'success');
+      flashBtn(btn, 'success');
+    } catch (err) {
+      toast('GLM 连接失败：' + err.message, 'error');
+      flashBtn(btn, 'error');
+    } finally {
+      setBtnLoading(btn, false);
+    }
+  }
   $('dailyGoalSave').addEventListener('click', function () {
     var hours = parseFloat($('dailyGoalHoursInput').value);
     if (!(hours >= 0.25 && hours <= 12)) {
@@ -2538,6 +2883,28 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     setAutoUploadEnabled(this.checked);
     toast(this.checked ? '已开启每日自动上传' : '已关闭每日自动上传', 'info');
   });
+  $('glmApiEye').addEventListener('click', function () {
+    var input = $('glmApiKeyInput');
+    input.type = input.type === 'password' ? 'text' : 'password';
+  });
+  $('glmSaveBtn').addEventListener('click', function () {
+    saveGlmConfig(readGlmForm());
+    scheduleAutoAiReview();
+    toast('AI 配置已保存 🤖', 'success');
+  });
+  $('glmTestBtn').addEventListener('click', testGlmConnection);
+  $('aiAutoReviewToggle').addEventListener('change', function () {
+    setAiAutoReviewEnabled(this.checked);
+    updateAiAutoReviewStatus();
+    if (this.checked) scheduleAutoAiReview();
+    toast(this.checked ? '已开启自动 AI 复盘' : '已关闭自动 AI 复盘', 'info');
+  });
+  $('reviewAttachmentBtn').addEventListener('click', function () { $('reviewAttachmentInput').click(); });
+  $('reviewAttachmentInput').addEventListener('change', function () {
+    var file = this.files && this.files[0];
+    $('reviewAttachmentName').textContent = file ? file.name : '未选择附件';
+  });
+  $('aiReviewBtn').addEventListener('click', generateAiReview);
   function renderSubjectSettings() {
     var subjects = getSubjects();
     $('subjectSettingsList').innerHTML = subjects.map(function (subject, index) {
@@ -2660,6 +3027,8 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
 
   splitDailyGoalIntoTasks(true);
   renderAll();
+  updateAiAutoReviewStatus();
+  scheduleAutoAiReview();
   setTimeout(runDailyAutoUpload, 1200);
 })();
 </script>
