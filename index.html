@@ -10,6 +10,7 @@
 <meta name="apple-mobile-web-app-title" content="个人工作台">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" sizes="180x180" href="icons/icon-180.png">
+<link rel="icon" href="icons/icon-180.png">
 <title>个人工作台</title>
 <style>
 /* ============================================================
@@ -619,6 +620,40 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
 .subject-add-row { display: flex; gap: 10px; margin-top: 12px; }
 .subject-add-row input { flex: 1; background: var(--fill-2); border-radius: 14px; padding: 12px 16px; font-size: 0.9rem; color: var(--text); }
 .subject-add-row .btn { padding: 12px 18px; border-radius: 14px; }
+.workspace-bar { display:flex; align-items:center; gap:10px; padding:0 6px 12px; }
+.workspace-bar .workspace-mark { width:32px; height:32px; border-radius:10px; background:rgba(52,120,246,.12); color:var(--blue); display:flex; align-items:center; justify-content:center; font-size:1rem; flex:0 0 auto; }
+.workspace-bar .workspace-main { flex:1; min-width:0; }
+.workspace-bar .workspace-label { font-size:.68rem; color:var(--text-2); font-weight:700; }
+.workspace-picker { position:relative; }
+.workspace-trigger { width:100%; display:flex; align-items:center; justify-content:space-between; gap:8px; background:transparent; color:var(--text); padding:2px 0; font-size:.9rem; font-weight:800; text-align:left; }
+.workspace-trigger:active { opacity:.65; }
+.workspace-trigger-name { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.workspace-chevron { color:var(--text-2); font-size:.95rem; transition:transform .2s var(--ease-spring); }
+.workspace-picker.open .workspace-chevron { transform:rotate(180deg); }
+.workspace-menu { position:absolute; left:-2px; right:-2px; top:calc(100% + 8px); z-index:70; padding:6px; background:var(--card); border-radius:18px; box-shadow:0 14px 34px rgba(28,28,30,.16), 0 2px 8px rgba(28,28,30,.08); opacity:0; pointer-events:none; transform:translateY(-6px) scale(.98); transform-origin:top center; transition:opacity .2s ease, transform .2s var(--ease-spring); }
+.workspace-picker.open .workspace-menu { opacity:1; pointer-events:auto; transform:translateY(0) scale(1); }
+.workspace-option { width:100%; display:flex; align-items:center; gap:10px; padding:10px 11px; border-radius:13px; background:transparent; color:var(--text); text-align:left; }
+.workspace-option:hover, .workspace-option.selected { background:var(--fill-2); }
+.workspace-option.selected { color:var(--blue); }
+.workspace-option .option-icon { width:25px; height:25px; border-radius:8px; background:var(--fill); display:flex; align-items:center; justify-content:center; color:var(--text-2); font-size:.75rem; flex:0 0 auto; }
+.workspace-option.selected .option-icon { background:rgba(52,120,246,.12); color:var(--blue); }
+.workspace-option .option-copy { min-width:0; flex:1; }
+.workspace-option .option-name { display:block; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:.83rem; font-weight:800; }
+.workspace-option .option-meta { display:block; margin-top:2px; color:var(--text-2); font-size:.66rem; font-weight:600; }
+.workspace-option .option-check { color:var(--blue); font-size:.85rem; font-weight:900; }
+.workspace-bar .workspace-actions { display:flex; gap:6px; }
+.workspace-bar .workspace-actions button { width:34px; height:34px; border-radius:10px; background:var(--card); color:var(--text-2); box-shadow:var(--shadow); font-size:1rem; }
+.workspace-bar .workspace-actions button:disabled { opacity:.35; cursor:not-allowed; }
+.knowledge-toolbar { display:flex; gap:8px; margin-bottom:12px; }
+.knowledge-toolbar input { flex:1; min-width:0; background:var(--fill-2); border-radius:14px; padding:12px 14px; color:var(--text); font-size:.9rem; }
+.knowledge-filter { width:118px; background:var(--fill-2); border-radius:14px; padding:0 10px; color:var(--text); font-size:.82rem; }
+.knowledge-item { background:var(--fill-2); border-radius:16px; padding:14px; margin-bottom:10px; }
+.knowledge-item .top { display:flex; align-items:flex-start; gap:8px; justify-content:space-between; }
+.knowledge-item .title { font-size:.92rem; font-weight:800; line-height:1.35; }
+.knowledge-item .meta { color:var(--text-2); font-size:.7rem; font-weight:700; white-space:nowrap; }
+.knowledge-item .content { margin-top:8px; font-size:.82rem; line-height:1.55; color:var(--text-2); white-space:pre-line; }
+.knowledge-item .tags { margin-top:8px; color:var(--blue); font-size:.7rem; font-weight:700; }
+.workspace-state-note { font-size:.76rem; color:var(--text-2); line-height:1.5; margin-top:8px; }
 .date-chip { min-width: 96px; display: flex; flex-direction: column; gap: 2px; line-height: 1.15; }
 .date-chip .date-sub { color: var(--text-2); font-size: 0.68rem; font-weight: 600; }
 .date-chip.selected .date-sub { color: var(--blue); }
@@ -653,6 +688,25 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
       <div class="top-title" id="topTitle" style="display:none">工作台</div>
     </div>
     <button class="checkin-btn" id="checkinBtn">打卡</button>
+  </div>
+
+  <div class="workspace-bar" id="workspaceBar">
+    <div class="workspace-mark">⌂</div>
+    <div class="workspace-main">
+      <div class="workspace-label">当前工作空间</div>
+      <div class="workspace-picker" id="workspacePicker">
+        <button class="workspace-trigger" id="workspaceTrigger" aria-label="选择工作空间" aria-haspopup="listbox" aria-expanded="false">
+          <span class="workspace-trigger-name" id="workspaceTriggerName">个人工作台</span>
+          <span class="workspace-chevron">⌄</span>
+        </button>
+        <div class="workspace-menu" id="workspaceMenu" role="listbox"></div>
+      </div>
+    </div>
+    <div class="workspace-actions">
+      <button id="workspaceKnowledgeBtn" aria-label="打开知识库" title="打开知识库">▤</button>
+      <button id="workspaceNewBtn" aria-label="新建工作空间" title="新建工作空间">＋</button>
+      <button id="workspaceArchiveBtn" aria-label="归档当前工作空间" title="归档当前工作空间">□</button>
+    </div>
   </div>
 
   <!-- 主视图：工作台 -->
@@ -917,6 +971,37 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     <div class="card"><div id="noteList"></div></div>
   </div>
 
+  <!-- 视图：项目知识库 -->
+  <div class="view" id="view-knowledge">
+    <div class="card">
+      <div class="section-title" style="margin:0 0 8px">项目知识库 <span class="hint" id="knowledgeCount"></span></div>
+      <div class="workspace-state-note" id="workspaceDescription"></div>
+      <div class="knowledge-toolbar" style="margin-top:12px">
+        <input id="knowledgeSearchInput" type="search" placeholder="搜索知识点、来源或标签…" maxlength="80">
+        <select class="knowledge-filter" id="knowledgeTruthFilter" aria-label="筛选知识来源">
+          <option value="">全部来源</option>
+          <option value="OFFICIAL_FACT">官方事实</option>
+          <option value="HISTORICAL_FACT">历史数据</option>
+          <option value="RESEARCH_SUMMARY">研究整理</option>
+          <option value="CONFLICTED_FACT">存在冲突</option>
+          <option value="SYSTEM_RULE">系统规则</option>
+        </select>
+      </div>
+      <div id="knowledgeList"></div>
+    </div>
+    <div class="card">
+      <div class="section-title" style="margin:0 0 8px">这段时间学了什么？</div>
+      <div class="set-desc" style="margin:0 0 10px">这条内容会保存到当前工作空间，作为学习记录和项目 AI 上下文的一部分。</div>
+      <textarea class="review-area" id="learningLogInput" placeholder="例如：今天完成了数量关系的工程问题，错了2题，原因是单位换算…" style="min-height:120px"></textarea>
+      <button class="btn grad" id="learningLogSaveBtn" style="width:100%;margin-top:10px"><span class="label">保存学习内容</span></button>
+    </div>
+    <div class="card">
+      <div class="section-title" style="margin:0 0 8px">空间状态</div>
+      <div class="workspace-state-note" id="workspaceStatusText"></div>
+      <button class="btn blue" id="workspaceRestoreBtn" style="width:100%;display:none;margin-top:12px"><span class="label">恢复这个工作空间</span></button>
+    </div>
+  </div>
+
   <!-- 视图：设置 -->
   <div class="view" id="view-settings">
     <div class="card">
@@ -1015,7 +1100,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
       <div class="set-desc" style="margin-top:0">
         个人工作台 v2.1 · Gist 无服务器同步方案<br>
         · 本地数据存于浏览器 localStorage<br>
-        · 手机端仅保留近 14 天专注/任务，电脑端全量<br>
+        · 手机端与电脑端都保留完整历史记录<br>
         · 云端下载完全手动；上传可在设置中开启每日自动上传<br>
         · 冲突按 updated_at 最新优先合并<br>
         · Token 生成：github.com/settings/tokens（只需 gist 权限）
@@ -1040,6 +1125,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
   <button class="drawer-item" data-view="goals"><span class="d-icon">🎯</span>目标管理</button>
   <button class="drawer-item" data-view="review"><span class="d-icon">📈</span>总结复盘</button>
   <button class="drawer-item" data-view="notes"><span class="d-icon">📝</span>学习笔记</button>
+  <button class="drawer-item" data-view="knowledge"><span class="d-icon">▤</span>项目知识库</button>
   <button class="drawer-item" data-view="settings"><span class="d-icon">⚙️</span>设置</button>
 </div>
 
@@ -1085,6 +1171,9 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
   <div class="sheet-label">科目</div>
   <div class="chip-row" id="subjectChips"></div>
   <input class="text-input" id="subjectInput" type="text" placeholder="自定义科目（可留空）" maxlength="20">
+
+  <div class="sheet-label">这次学了什么？</div>
+  <textarea class="review-area" id="sessionContentInput" placeholder="可记录知识点、题量、错题原因或下一步…" style="min-height:92px"></textarea>
 
   <div class="sheet-label">这次状态怎么样？</div>
   <div class="eff-grid" id="effGrid"></div>
@@ -1158,6 +1247,9 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
 <script src="data-filter.js"></script>
 <script src="sync-engine.js"></script>
 <script src="glm-client.js"></script>
+<script src="sinopec-knowledge.js"></script>
+<script src="knowledge-base.js"></script>
+<script src="workspace-store.js"></script>
 <script>
 /* ============================================================
    个人工作台 前端 App（Kimi K3）
@@ -1243,6 +1335,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
 
   // ---------- 数据层 ----------
   function loadData() {
+    if (window.WorkbenchStore) return WorkbenchStore.loadScoped();
     try {
       var raw = localStorage.getItem(LS_DATA);
       if (!raw) return { focus_sessions: [], tasks: [], meta: {} };
@@ -1251,9 +1344,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
       d.tasks = d.tasks || [];
       d.meta = d.meta || {};
       return d;
-    } catch (e) {
-      return { focus_sessions: [], tasks: [], meta: {} };
-    }
+    } catch (e) { return { focus_sessions: [], tasks: [], meta: {} }; }
   }
   function learningDataSignature(d) {
     function part(list) {
@@ -1266,7 +1357,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
       });
       return list.length + '|' + completed + '|' + latest;
     }
-    return part(d.focus_sessions) + '::' + part(d.tasks);
+    return (d.active_workspace_id || 'personal') + '::' + part(d.focus_sessions) + '::' + part(d.tasks) + '::' + part(d.notes);
   }
   function isAiAutoReviewEnabled() {
     var value = localStorage.getItem(LS_AI_AUTO_ENABLED);
@@ -1277,7 +1368,8 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
   }
   function saveData(d) {
     var previousHash = localStorage.getItem(LS_AI_DATA_HASH);
-    localStorage.setItem(LS_DATA, JSON.stringify(d));
+    if (window.WorkbenchStore) WorkbenchStore.saveScoped(d);
+    else localStorage.setItem(LS_DATA, JSON.stringify(d));
     var nextHash = learningDataSignature(d);
     localStorage.setItem(LS_AI_DATA_HASH, nextHash);
     if (previousHash !== null && previousHash !== nextHash) scheduleAutoAiReview();
@@ -1445,6 +1537,135 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     var data = loadData();
     $('lastSyncAt').textContent = fmtTime(data.meta && data.meta.last_sync_at);
   }
+
+  // ---------- 工作空间 / 项目知识库 ----------
+  var knowledgeSearchTerm = '';
+  function activeWorkspace() {
+    return window.WorkbenchStore ? WorkbenchStore.getActiveWorkspace() : { client_id: 'personal', name: '个人工作台', status: 'active', description: '' };
+  }
+  function workspaceTruthLabel(value) {
+    return {
+      OFFICIAL_FACT: '官方事实', HISTORICAL_FACT: '历史数据', RESEARCH_SUMMARY: '研究整理',
+      CONFLICTED_FACT: '存在冲突', SYSTEM_RULE: '系统规则', PERSONAL_NOTE: '个人记录'
+    }[value] || value || '未分类';
+  }
+  function renderWorkspaceBar() {
+    if (!window.WorkbenchStore) return;
+    var full = WorkbenchStore.loadFull();
+    var current = activeWorkspace();
+    $('workspaceTriggerName').textContent = current.name;
+    $('workspaceMenu').innerHTML = full.workspaces.map(function (workspace) {
+      var archived = workspace.status === 'archived';
+      var selected = workspace.client_id === current.client_id;
+      return '<button class="workspace-option' + (selected ? ' selected' : '') + '" type="button" role="option" aria-selected="' + selected + '" data-workspace-id="' + esc(workspace.client_id) + '">'
+        + '<span class="option-icon">' + (workspace.type === 'personal' ? '⌂' : '◆') + '</span>'
+        + '<span class="option-copy"><span class="option-name">' + esc(workspace.name) + '</span><span class="option-meta">' + (archived ? '已归档 · 历史保留' : (workspace.description || '独立项目空间')) + '</span></span>'
+        + (selected ? '<span class="option-check">✓</span>' : '')
+        + '</button>';
+    }).join('');
+    $('workspaceArchiveBtn').disabled = current.client_id === 'personal' || current.status === 'archived';
+    $('workspaceArchiveBtn').textContent = current.status === 'archived' ? '↗' : '□';
+    $('workspaceArchiveBtn').title = current.status === 'archived' ? '恢复当前工作空间' : '归档当前工作空间';
+    $('workspaceDescription').textContent = current.description || '这个工作空间拥有独立的学习记录、知识库、目标和 AI 上下文。';
+    $('workspaceStatusText').textContent = current.status === 'archived'
+      ? '当前空间已归档。历史数据仍然保留，默认不会进入日常 AI 上下文。'
+      : '当前空间处于使用中。切换空间后，任务、课程、复盘和知识库会随之切换。';
+    $('workspaceRestoreBtn').style.display = current.status === 'archived' ? '' : 'none';
+  }
+  function renderKnowledgeView() {
+    var data = loadData();
+    var workspace = activeWorkspace();
+    var list = KnowledgeBase.query(data.knowledge_items || [], {
+      query: knowledgeSearchTerm,
+      truthClass: $('knowledgeTruthFilter').value,
+      limit: 50
+    });
+    $('knowledgeCount').textContent = list.length + ' 条';
+    $('workspaceDescription').textContent = workspace.description || '这个工作空间拥有独立的学习记录、知识库、目标和 AI 上下文。';
+    $('workspaceStatusText').textContent = workspace.status === 'archived'
+      ? '当前空间已归档。历史数据仍然保留，默认不会进入日常 AI 上下文。'
+      : '当前空间处于使用中。切换空间后，任务、课程、复盘和知识库会随之切换。';
+    $('workspaceRestoreBtn').style.display = workspace.status === 'archived' ? '' : 'none';
+    $('knowledgeList').innerHTML = list.length ? list.map(function (item) {
+      return '<div class="knowledge-item">'
+        + '<div class="top"><div class="title">' + esc(item.title) + '</div><div class="meta">' + esc(workspaceTruthLabel(item.truth_class)) + '</div></div>'
+        + '<div class="content">' + esc(item.content) + '</div>'
+        + '<div class="tags">' + esc((item.tags || []).join(' · ')) + ' · 来源：' + esc(item.source || '未注明') + '</div>'
+        + '</div>';
+    }).join('') : '<div class="empty"><span class="emoji">▤</span>当前空间还没有匹配的知识条目</div>';
+  }
+  function refreshWorkspaceView() {
+    renderWorkspaceBar();
+    if (currentView === 'knowledge') renderKnowledgeView();
+  }
+  function closeWorkspaceMenu() {
+    $('workspacePicker').classList.remove('open');
+    $('workspaceTrigger').setAttribute('aria-expanded', 'false');
+  }
+  $('workspaceTrigger').addEventListener('click', function (event) {
+    event.stopPropagation();
+    var picker = $('workspacePicker');
+    var open = picker.classList.toggle('open');
+    this.setAttribute('aria-expanded', String(open));
+  });
+  $('workspaceMenu').addEventListener('click', function (event) {
+    var option = event.target.closest('[data-workspace-id]');
+    if (!option) return;
+    if (!WorkbenchStore.setActiveWorkspace(option.dataset.workspaceId)) return;
+    closeWorkspaceMenu();
+    renderWorkspaceBar();
+    renderAll();
+    if (currentView === 'knowledge') renderKnowledgeView();
+    toast('已切换到「' + activeWorkspace().name + '」', 'info');
+  });
+  document.addEventListener('click', function (event) {
+    if (!event.target.closest('#workspacePicker')) closeWorkspaceMenu();
+  });
+  $('workspaceKnowledgeBtn').addEventListener('click', function () { switchView('knowledge'); });
+  $('workspaceNewBtn').addEventListener('click', function () {
+    var name = window.prompt('新工作空间名称');
+    if (!name || !name.trim()) return;
+    var workspace = WorkbenchStore.createWorkspace(name.trim(), 'project');
+    if (workspace) {
+      renderWorkspaceBar(); renderAll(); switchView('knowledge');
+      toast('已创建「' + workspace.name + '」');
+    }
+  });
+  function toggleWorkspaceArchive() {
+    var workspace = activeWorkspace();
+    if (workspace.client_id === 'personal') return;
+    var archived = workspace.status === 'archived';
+    confirmModal(archived ? '恢复工作空间？' : '归档工作空间？', workspace.name,
+      archived ? '恢复后，它会重新出现在日常工作流中。' : '数据不会删除；归档后默认不再进入日常 AI 上下文。',
+      archived ? '恢复' : '归档', false, function () {
+        WorkbenchStore.setWorkspaceStatus(workspace.client_id, archived ? 'active' : 'archived');
+        if (!archived) WorkbenchStore.setActiveWorkspace('personal');
+        renderWorkspaceBar(); renderAll();
+        if (currentView === 'knowledge') renderKnowledgeView();
+        toast(archived ? '工作空间已恢复' : '工作空间已归档', 'info');
+      });
+  }
+  $('workspaceArchiveBtn').addEventListener('click', toggleWorkspaceArchive);
+  $('workspaceRestoreBtn').addEventListener('click', function () {
+    var workspace = activeWorkspace();
+    if (workspace.status !== 'archived') return;
+    WorkbenchStore.setWorkspaceStatus(workspace.client_id, 'active');
+    renderWorkspaceBar(); renderKnowledgeView();
+    toast('工作空间已恢复');
+  });
+  $('knowledgeSearchInput').addEventListener('input', function () { knowledgeSearchTerm = this.value; renderKnowledgeView(); });
+  $('knowledgeTruthFilter').addEventListener('change', renderKnowledgeView);
+  $('learningLogSaveBtn').addEventListener('click', function () {
+    var content = $('learningLogInput').value.trim();
+    if (!content) { toast('先写下这段时间学了什么', 'error'); return; }
+    var data = loadData();
+    data.notes = data.notes || [];
+    var now = new Date().toISOString();
+    data.notes.push({ client_id: uuid(), kind: 'learning_log', title: '学习记录 · ' + localDateStr(), content: content, visibility: 'private', updated_at: now, is_deleted: false });
+    saveData(data);
+    $('learningLogInput').value = '';
+    toast('学习内容已保存');
+  });
 
   // ---------- Toast ----------
   var toastTimer = null;
@@ -1706,6 +1927,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
   });
 
   function renderAll() {
+    renderWorkspaceBar();
     renderHero();
     renderGoal();
     renderChart();
@@ -1863,6 +2085,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
       sessionDateMore = selDate !== localDateStr() && selDate !== yesterdayStr();
       $('customDuration').value = DURATIONS.indexOf(existingDuration) >= 0 ? '' : existingDuration;
       $('subjectInput').value = getSubjects().indexOf(selSubject) >= 0 ? '' : selSubject;
+      $('sessionContentInput').value = existing.content || existing.note || '';
       $('sessionSheetTitle').textContent = '编辑专注记录';
       $('sessionSaveLabel').textContent = '保存修改';
     } else {
@@ -1873,6 +2096,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
       sessionDateMore = false;
       $('customDuration').value = '';
       $('subjectInput').value = '';
+      $('sessionContentInput').value = '';
       $('sessionSheetTitle').textContent = '记一笔专注';
       $('sessionSaveLabel').textContent = '保存记录';
     }
@@ -1884,6 +2108,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
   $('sessionSaveBtn').addEventListener('click', function () {
     var customSub = $('subjectInput').value.trim();
     var subject = customSub || selSubject || null;
+    var content = $('sessionContentInput').value.trim();
     var customDur = parseInt($('customDuration').value, 10);
     var dur = (customDur > 0) ? Math.min(customDur, 600) : selDuration;
     var sessionDate = sessionDateMore ? ($('sessionDateInput').value || selDate) : selDate;
@@ -1902,6 +2127,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
       existing.efficiency = selEff;
       existing.effective_power = Math.round(dur * selEff * 100) / 100;
       existing.subject = subject;
+      existing.content = content;
       existing.updated_at = now.toISOString();
     } else {
       var start = new Date(now.getTime() - dur * 60000);
@@ -1916,6 +2142,9 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
         source: 'manual',
         subject: subject,
         note: null,
+        content: content,
+        analysis_status: content ? 'pending' : 'not_started',
+        visibility: 'private',
         updated_at: now.toISOString(),
         is_deleted: false
       });
@@ -1923,7 +2152,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     saveData(data);
     var wasEditing = !!editingSessionId;
     editingSessionId = null;
-    $('subjectInput').value = ''; selSubject = ''; $('customDuration').value = '';
+    $('subjectInput').value = ''; selSubject = ''; $('customDuration').value = ''; $('sessionContentInput').value = '';
     closeSheet();
     renderAll();
     toast((wasEditing ? '记录已更新 ' : '已记录 ') + '+' + fmtPower(dur * selEff) + ' 战力 ⚡');
@@ -2051,7 +2280,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     try {
       var go = await checkConflictBefore('下载');
       if (!go) return;
-      var result = await syncEngine.pullFromCloud({ trimTo14Days: isMobile() });
+      var result = await syncEngine.pullFromCloud({ trimTo14Days: false });
       toast(result.message, result.success ? 'success' : 'error');
       flashBtn(btn, result.success ? 'success' : 'error');
       if (result.success) { renderAll(); scheduleAutoAiReview(); }
@@ -2067,18 +2296,13 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
 
   // ---------- 数据管理 ----------
   $('exportBtn').addEventListener('click', function () {
-    var data = loadData();
-    var payload = {
-      version: 1,
-      exported_at: new Date().toISOString(),
-      daily_goal_minutes: getGoal(),
-      focus_sessions: data.focus_sessions,
-      tasks: data.tasks
-    };
+    var payload = window.WorkbenchStore ? WorkbenchStore.loadFull() : loadData();
+    payload.exported_at = new Date().toISOString();
+    payload.export_scope = 'full_workbench';
     var blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
     var a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
-    a.download = 'workbench-data-' + localDateStr() + '.json';
+    a.download = 'workbench-full-data-' + localDateStr() + '.json';
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -2095,9 +2319,13 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
       '将删除本地 ' + data.focus_sessions.length + ' 条专注记录和 ' + data.tasks.length + ' 条任务。\n云端 Gist 数据不受影响，Token 配置保留。',
       '全部删除', true,
       function () {
-        localStorage.removeItem(LS_DATA);
+        var current = loadData();
+        ['focus_sessions', 'tasks', 'courses', 'notes', 'checkins', 'reviews', 'goals', 'workspace_states', 'knowledge_items'].forEach(function (key) {
+          current[key] = [];
+        });
+        saveData(current);
         renderAll();
-        toast('本地数据已清空', 'info');
+        toast('当前工作空间的数据已清空', 'info');
       }
     );
   });
@@ -2105,7 +2333,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
   // ---------- 关于（已移至「设置」视图） ----------
 
   // ==================== v2.1 导航与视图切换 ====================
-  var VIEW_NAMES = { home: '工作台', courses: '课程进度', goals: '目标管理', review: '总结复盘', notes: '学习笔记', settings: '设置' };
+  var VIEW_NAMES = { home: '工作台', courses: '课程进度', goals: '目标管理', review: '总结复盘', notes: '学习笔记', knowledge: '项目知识库', settings: '设置' };
   var currentView = 'home';
   function switchView(name) {
     if (!VIEW_NAMES[name]) name = 'home';
@@ -2125,6 +2353,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     else if (name === 'goals') renderGoalsView();
     else if (name === 'review') renderReview();
     else if (name === 'notes') renderNotes();
+    else if (name === 'knowledge') renderKnowledgeView();
     else if (name === 'settings') renderSettingsView();
     else renderAll();
   }
@@ -2387,6 +2616,8 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
   }
   function buildGlmSystemPrompt(config) {
     var parts = [];
+    var workspace = activeWorkspace();
+    parts.push('【当前工作空间】\n' + workspace.name + '。只使用当前工作空间的项目知识、学习记录和复盘；不要把其他工作空间或已归档空间的内容带入本次分析。');
     if (config.systemPrompt) parts.push('【人物设定与管理提示词】\n' + config.systemPrompt);
     if (config.learningMethod) parts.push('【学习方法论】\n' + config.learningMethod);
     if (config.examContext) parts.push('【考试内容背景】\n' + config.examContext);
@@ -2412,7 +2643,9 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     var tasks = data.tasks.filter(function (t) { return !t.is_deleted && t.date >= pr.startStr && t.date <= pr.endStr; });
     var savedReview = (data.reviews || []).find(function (r) { return r.client_id === pr.key && !r.is_deleted; });
     var currentReview = $('reviewText') ? $('reviewText').value.trim() : '';
+    var workspace = activeWorkspace();
     var payload = {
+      workspace: { id: workspace.client_id, name: workspace.name, status: workspace.status },
       period: { name: pr.name, start: pr.startStr, end: pr.endStr },
       daily_goal_minutes: getGoal(),
       current_subjects: getSubjects(),
@@ -2421,6 +2654,10 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
       }),
       tasks: tasks.map(function (t) {
         return { date: t.date, title: t.title, completed: !!t.is_completed, is_goal_segment: !!t.goal_split_key };
+      }),
+      project_knowledge: window.KnowledgeBase ? KnowledgeBase.forPrompt(data.knowledge_items || [], { limit: 12 }) : [],
+      learning_notes: (data.notes || []).filter(function (n) { return !n.is_deleted && (n.kind === 'learning_log' || n.visibility === 'private'); }).slice(0, 12).map(function (n) {
+        return { title: n.title, content: String(n.content || '').slice(0, 900), updated_at: n.updated_at || '' };
       }),
       manual_reflection: currentReview || (savedReview && savedReview.content) || '',
       recent_coaching_history: recentReviewHistory(data)
@@ -2995,8 +3232,8 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
       catch (e) { toast('文件不是有效的 JSON', 'error'); return; }
       if (!imported || typeof imported !== 'object') { toast('文件格式不正确', 'error'); return; }
       confirmModal('导入并合并数据？', file.name, '将按 client_id 去重合并到本地（最新优先），不会删除现有数据。', '导入', false, function () {
-        var local = loadData();
-        var keys = ['focus_sessions', 'tasks', 'courses', 'notes', 'checkins', 'reviews', 'goals'];
+        var local = window.WorkbenchStore ? WorkbenchStore.loadFull() : loadData();
+        var keys = ['focus_sessions', 'tasks', 'courses', 'notes', 'checkins', 'reviews', 'goals', 'workspace_states', 'knowledge_items', 'workspaces'];
         var added = 0;
         keys.forEach(function (k) {
           var inc = Array.isArray(imported[k]) ? imported[k] : [];
@@ -3006,7 +3243,8 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
           local[k] = r.merged;
         });
         if (imported.settings) local.settings = syncEngine.mergeSettings(local.settings, imported.settings);
-        saveData(local);
+        if (window.WorkbenchStore) WorkbenchStore.saveFull(local); else saveData(local);
+        renderWorkspaceBar();
         renderAll();
         if (currentView !== 'home') switchView(currentView);
         toast('导入完成，合并了 ' + added + ' 条新数据 📥');
@@ -3026,18 +3264,6 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
   $('gistIdInput').value = localStorage.getItem(LS_GIST) || '';
 
   initSync();
-
-  // 手机端：每次打开 App 执行 14 天安全清理（指南 3.1）
-  if (isMobile() && typeof safeCleanLocalData === 'function') {
-    try {
-      var clean = safeCleanLocalData();
-      if (clean.removedSessions > 0 || clean.removedTasks > 0) {
-        setTimeout(function () {
-          toast('已清理 ' + (clean.removedSessions + clean.removedTasks) + ' 条过期记录', 'info');
-        }, 800);
-      }
-    } catch (e) { /* 清理失败不影响使用 */ }
-  }
 
   splitDailyGoalIntoTasks(true);
   renderAll();

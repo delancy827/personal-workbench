@@ -1,4 +1,4 @@
-const CACHE_NAME = 'personal-workbench-v3';
+const CACHE_NAME = 'personal-workbench-v4';
 const APP_SHELL = [
   './',
   './index.html',
@@ -7,6 +7,9 @@ const APP_SHELL = [
   './data-filter.js',
   './sync-engine.js',
   './glm-client.js',
+  './sinopec-knowledge.js',
+  './knowledge-base.js',
+  './workspace-store.js',
   './icons/icon-180.png',
   './icons/icon-180.svg',
   './icons/icon-512.svg'

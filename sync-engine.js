@@ -14,7 +14,7 @@
 
 // 参与同步的记录集合（均以 client_id 为键、updated_at 最新优先合并）
 // v2.1：在 focus_sessions / tasks 基础上扩展 courses / notes / checkins / reviews / goals
-const SYNC_COLLECTIONS = ["focus_sessions", "tasks", "courses", "notes", "checkins", "reviews", "goals"];
+const SYNC_COLLECTIONS = ["focus_sessions", "tasks", "courses", "notes", "checkins", "reviews", "goals", "workspace_states", "knowledge_items", "workspaces"];
 
 /**
  * SyncEngine - 同步引擎
@@ -40,7 +40,7 @@ class SyncEngine {
   getLocalData() {
     const empty = {
       focus_sessions: [], tasks: [], courses: [], notes: [],
-      checkins: [], reviews: [], goals: [],
+      checkins: [], reviews: [], goals: [], workspace_states: [], knowledge_items: [], workspaces: [],
       settings: null, meta: { last_sync_at: null },
     };
     const raw = localStorage.getItem("workbench_data");
@@ -170,7 +170,7 @@ class SyncEngine {
 
       // 3. 逐集合合并（Last-Write-Wins）
       const uploadPayload = {
-        version: 1,
+      version: 2,
         last_updated_at: new Date().toISOString(),
         last_updated_by: "mobile",
       };
@@ -196,7 +196,7 @@ class SyncEngine {
 
       return {
         success: true,
-        message: `上传成功！专注 ${uploadPayload.focus_sessions.length} 条，任务 ${uploadPayload.tasks.length} 条，课程 ${uploadPayload.courses.length} 门，笔记 ${uploadPayload.notes.length} 篇`,
+        message: `上传成功！专注 ${uploadPayload.focus_sessions.length} 条，任务 ${uploadPayload.tasks.length} 条，课程 ${uploadPayload.courses.length} 门，笔记 ${uploadPayload.notes.length} 篇，知识 ${uploadPayload.knowledge_items.length} 条`,
         stats,
       };
     } catch (err) {
@@ -215,7 +215,7 @@ class SyncEngine {
    *   2. 读取本地数据
    *   3. 合并（Last-Write-Wins）
    *   4. 将合并结果保存到本地
-   *   5. 手机端额外执行 14 天裁剪（由 data-filter.js 处理）
+   *   5. 保留本地与云端的完整历史，不因设备类型裁剪学习记录
    *
    * @param {object} options
    * @param {boolean} options.trimTo14Days - 是否裁剪到14天（手机端=true，电脑端=false）
@@ -229,7 +229,7 @@ class SyncEngine {
       // 2. 读取本地
       const localData = this.getLocalData();
 
-      // 3. 逐集合合并（14 天裁剪仅作用于 focus_sessions / tasks）
+      // 3. 逐集合合并；历史数据完整保留
       const newLocalData = {
         meta: {
           last_sync_at: new Date().toISOString(),
@@ -241,13 +241,6 @@ class SyncEngine {
       for (const key of SYNC_COLLECTIONS) {
         const r = this.mergeRecords(localData[key] || [], remoteData[key] || []);
         let merged = r.merged;
-        if (
-          options.trimTo14Days &&
-          typeof filterLast14Days === "function" &&
-          (key === "focus_sessions" || key === "tasks")
-        ) {
-          merged = filterLast14Days(merged);
-        }
         newLocalData[key] = merged;
         stats[key] = r.stats;
       }
@@ -259,7 +252,7 @@ class SyncEngine {
 
       return {
         success: true,
-        message: `下载成功！专注 ${newLocalData.focus_sessions.length} 条，任务 ${newLocalData.tasks.length} 条，课程 ${newLocalData.courses.length} 门，笔记 ${newLocalData.notes.length} 篇`,
+        message: `下载成功！专注 ${newLocalData.focus_sessions.length} 条，任务 ${newLocalData.tasks.length} 条，课程 ${newLocalData.courses.length} 门，笔记 ${newLocalData.notes.length} 篇，知识 ${newLocalData.knowledge_items.length} 条`,
         data: newLocalData,
         stats,
       };
