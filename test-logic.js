@@ -14,6 +14,7 @@ global.localStorage = {
 // 引入模块
 const { filterLast14Days, getCutoffDate, safeCleanLocalData, getDataStats } = require("./data-filter.js");
 const { SyncEngine } = require("./sync-engine.js");
+const { normalizeSleepSchedule, learningDateString } = require("./sleep-schedule.js");
 
 let passed = 0;
 let failed = 0;
@@ -22,6 +23,13 @@ function assert(condition, msg) {
   if (condition) { passed++; console.log(`  [PASS] ${msg}`); }
   else { failed++; console.log(`  [FAIL] ${msg}`); }
 }
+
+// ==================== 测试作息日切分 ====================
+console.log("\n=== Test 0: sleep schedule ===");
+const schedule = normalizeSleepSchedule({ sleep_time: "07:00", wake_time: "15:00", day_start: "15:00" });
+assert(learningDateString(new Date("2026-08-20T04:00:00+08:00"), schedule) === "2026-08-19", "凌晨4点归入前一天学习日");
+assert(learningDateString(new Date("2026-08-20T15:00:00+08:00"), schedule) === "2026-08-20", "下午3点开启新学习日");
+assert(learningDateString(new Date("2026-08-20T12:00:00+08:00"), schedule) === "2026-08-19", "中午12点仍归入前一天学习日");
 
 // ==================== 测试 14 天过滤 ====================
 console.log("\n=== Test 1: filterLast14Days ===");

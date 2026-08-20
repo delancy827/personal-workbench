@@ -48,6 +48,24 @@ body {
 button { font-family: inherit; border: none; cursor: pointer; user-select: none; }
 input { font-family: inherit; border: none; outline: none; }
 
+/* ---------- BLE 电池探测 ---------- */
+.ble-card { padding: 18px; }
+.ble-status-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+.ble-device-name { font-weight: 800; font-size: 1rem; }
+.ble-device-id, .ble-meta { color: var(--text-2); font-size: 0.74rem; word-break: break-all; }
+.ble-device-id { margin-top: 3px; }
+.ble-input { width: 100%; background: var(--fill-2); border-radius: 13px; padding: 12px 13px; margin: 10px 0 6px; font-size: 0.84rem; }
+.ble-hint { color: var(--text-2); font-size: 0.72rem; line-height: 1.45; }
+.ble-actions { display: flex; gap: 8px; margin-top: 12px; }
+.ble-actions .btn { flex: 1; }
+.ble-service-count { color: var(--text-2); font-size: 0.78rem; margin: 16px 0 8px; }
+.ble-characteristic { display: flex; align-items: center; justify-content: space-between; gap: 8px; border-top: 1px solid var(--fill); padding: 10px 0; }
+.ble-characteristic-main { min-width: 0; flex: 1; }
+.ble-uuid { font-size: 0.76rem; font-weight: 700; word-break: break-all; }
+.ble-read-btn { padding: 8px 12px; border-radius: 10px; font-size: 0.74rem; flex-shrink: 0; }
+.ble-card .btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.ble-log { margin-top: 12px; max-height: 180px; overflow: auto; padding: 12px; border-radius: 14px; background: #17181c; color: #D7F9DF; font: 0.68rem/1.6 ui-monospace, SFMono-Regular, Menlo, monospace; white-space: pre-wrap; word-break: break-word; }
+
 /* ---------- 布局 ---------- */
 .app { max-width: 560px; margin: 0 auto; padding: 12px 16px 0; }
 @media (min-width: 900px) {
@@ -889,6 +907,31 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
 
   </div><!-- /view-home -->
 
+  <!-- 视图：电池蓝牙（从抽屉进入，不打扰学习首页） -->
+  <div class="view" id="view-bluetooth">
+    <div class="section-title">🔋 电池蓝牙 <span class="hint">通用 BLE 探测</span></div>
+    <div class="card ble-card" id="bleCard">
+      <div class="ble-status-row">
+        <div>
+          <div class="ble-device-name" id="bleDeviceName">未选择设备</div>
+          <div class="ble-device-id" id="bleDeviceId">点击连接后选择附近 BLE 设备</div>
+        </div>
+        <span class="pill gray" id="bleStatus">未连接</span>
+      </div>
+      <input class="ble-input" id="bleTargetNameInput" type="text" value="4803012MNBV230224842" placeholder="蓝牙设备名称">
+      <input class="ble-input" id="bleServiceUuidInput" type="text" placeholder="可选：自定义 Service UUID">
+      <div class="ble-hint">连接后只读取、订阅并记录原始数据，不会向设备写入查询命令。</div>
+      <div class="ble-actions">
+        <button class="btn blue" id="bleConnectBtn"><span class="label">快速连接电池</span></button>
+        <button class="btn gray" id="bleDisconnectBtn" disabled><span class="label">断开</span></button>
+      </div>
+      <div class="ble-service-count" id="bleServiceCount">0 个服务 · 0 个特征</div>
+      <div id="bleCharacteristicList"></div>
+      <pre class="ble-log" id="bleLog"></pre>
+      <button class="link-btn" id="bleClearBtn" style="margin-top:10px">清空蓝牙日志</button>
+    </div>
+  </div>
+
   <!-- 视图：课程进度 -->
   <div class="view" id="view-courses">
     <button class="btn grad" id="courseAddBtn" style="width:100%;margin-bottom:14px"><span class="label">＋ 新建课程</span></button>
@@ -1021,6 +1064,19 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
       <div class="set-desc">设置后首页显示「距考试还有 X 天」。</div>
     </div>
     <div class="card">
+      <div class="section-title" style="margin:0 0 12px">🌙 作息与学习日</div>
+      <div class="set-row">
+        <label class="field" style="flex:1"><span>入睡</span><input type="time" id="sleepTimeInput"></label>
+        <label class="field" style="flex:1"><span>起床</span><input type="time" id="wakeTimeInput"></label>
+      </div>
+      <div class="set-row" style="margin-top:10px">
+        <label class="field" style="flex:1"><span>学习日从</span><input type="time" id="dayStartInput"></label>
+        <button class="btn blue" id="sleepScheduleSave"><span class="label">保存</span></button>
+      </div>
+      <div class="set-desc">凌晨学习会归到前一天；例如学习日从 15:00 开始，04:00 的记录仍算作昨天。</div>
+      <div class="set-desc" id="sleepScheduleSummary"></div>
+    </div>
+    <div class="card">
       <div class="section-title" style="margin:0 0 12px">⏱️ 每日目标学习时间</div>
       <div class="set-row">
         <input type="number" id="dailyGoalHoursInput" min="0.25" max="12" step="0.25">
@@ -1121,6 +1177,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     </div>
   </div>
   <button class="drawer-item active" data-view="home"><span class="d-icon">📊</span>工作台</button>
+  <button class="drawer-item" data-view="bluetooth"><span class="d-icon">🔋</span>电池蓝牙</button>
   <button class="drawer-item" data-view="courses"><span class="d-icon">📚</span>课程进度</button>
   <button class="drawer-item" data-view="goals"><span class="d-icon">🎯</span>目标管理</button>
   <button class="drawer-item" data-view="review"><span class="d-icon">📈</span>总结复盘</button>
@@ -1250,6 +1307,8 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
 <script src="sinopec-knowledge.js"></script>
 <script src="knowledge-base.js"></script>
 <script src="workspace-store.js"></script>
+<script src="sleep-schedule.js"></script>
+<script src="bluetooth.js"></script>
 <script>
 /* ============================================================
    个人工作台 前端 App（Kimi K3）
@@ -1326,8 +1385,8 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     if (!iso) return '从未同步';
     var d = new Date(iso);
     if (isNaN(d)) return '从未同步';
-    var today = localDateStr();
-    var ds = localDateStr(d);
+    var today = todayWorkdayStr();
+    var ds = learningDateStr(d);
     var hm = pad2(d.getHours()) + ':' + pad2(d.getMinutes());
     if (ds === today) return '今天 ' + hm;
     return (d.getMonth() + 1) + '月' + d.getDate() + '日 ' + hm;
@@ -1421,6 +1480,18 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     var d = loadData();
     return d.settings || {};
   }
+  function getSleepSchedule() {
+    return SleepSchedule.normalizeSleepSchedule(getSettings().sleep_schedule);
+  }
+  function learningDateStr(d) {
+    return SleepSchedule.learningDateString(d || new Date(), getSleepSchedule());
+  }
+  function todayWorkdayStr() { return learningDateStr(new Date()); }
+  function yesterdayWorkdayStr() {
+    var d = new Date();
+    d.setDate(d.getDate() - 1);
+    return learningDateStr(d);
+  }
   function saveSettings(patch) {
     var d = loadData();
     d.settings = Object.assign({}, d.settings || {}, patch, { updated_at: new Date().toISOString() });
@@ -1481,7 +1552,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     saveData({
       focus_sessions: [], tasks: [], notes: [], checkins: [], reviews: [],
       courses: [], goals: [],
-      settings: null,
+      settings: { sleep_schedule: SleepSchedule.DEFAULT_SLEEP_SCHEDULE },
       meta: {}
     });
   }
@@ -1661,7 +1732,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     var data = loadData();
     data.notes = data.notes || [];
     var now = new Date().toISOString();
-    data.notes.push({ client_id: uuid(), kind: 'learning_log', title: '学习记录 · ' + localDateStr(), content: content, visibility: 'private', updated_at: now, is_deleted: false });
+    data.notes.push({ client_id: uuid(), kind: 'learning_log', title: '学习记录 · ' + todayWorkdayStr(), content: content, visibility: 'private', updated_at: now, is_deleted: false });
     saveData(data);
     $('learningLogInput').value = '';
     toast('学习内容已保存');
@@ -1752,7 +1823,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
   // ---------- 渲染 ----------
   function renderHero() {
     var data = loadData();
-    var today = localDateStr();
+    var today = todayWorkdayStr();
     var goal = getGoal();
     var power = dayPower(data, today);
     var mins = dayMinutes(data, today);
@@ -1789,7 +1860,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     var d = new Date();
     if (dayPower(data, today) < goal) d.setDate(d.getDate() - 1); // 今天未达标从今天不算
     while (streak < 365) {
-      var ds = localDateStr(d);
+      var ds = learningDateStr(d);
       if (dayPower(data, ds) >= goal && goal > 0) { streak++; d.setDate(d.getDate() - 1); }
       else break;
     }
@@ -1808,7 +1879,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     var max = goal;
     for (var i = days - 1; i >= 0; i--) {
       var d = new Date(); d.setDate(d.getDate() - i);
-      var ds = localDateStr(d);
+      var ds = learningDateStr(d);
       var minutes = dayMinutes(data, ds);
       list.push({ date: ds, minutes: minutes, hours: Math.round(minutes / 6) / 10, hit: minutes >= goal && goal > 0, today: i === 0, month: d.getMonth() + 1, day: d.getDate() });
       if (minutes > max) max = minutes;
@@ -1832,13 +1903,13 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
   var taskFilter = 'today';
   function renderTasks() {
     var data = loadData();
-    var today = localDateStr();
+    var today = todayWorkdayStr();
     var yesterday = new Date();
     yesterday.setDate(yesterday.getDate() - 1);
     var tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
-    var yesterdayDate = localDateStr(yesterday);
-    var tomorrowDate = localDateStr(tomorrow);
+    var yesterdayDate = learningDateStr(yesterday);
+    var tomorrowDate = learningDateStr(tomorrow);
     var all = data.tasks.filter(function (t) { return !t.is_deleted && !t.goal_split_key; });
     var goalKey = today + '-' + getGoal();
     var segments = data.tasks.filter(function (t) {
@@ -2333,7 +2404,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
   // ---------- 关于（已移至「设置」视图） ----------
 
   // ==================== v2.1 导航与视图切换 ====================
-  var VIEW_NAMES = { home: '工作台', courses: '课程进度', goals: '目标管理', review: '总结复盘', notes: '学习笔记', knowledge: '项目知识库', settings: '设置' };
+  var VIEW_NAMES = { home: '工作台', bluetooth: '电池蓝牙', courses: '课程进度', goals: '目标管理', review: '总结复盘', notes: '学习笔记', knowledge: '项目知识库', settings: '设置' };
   var currentView = 'home';
   function switchView(name) {
     if (!VIEW_NAMES[name]) name = 'home';
@@ -2355,6 +2426,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     else if (name === 'notes') renderNotes();
     else if (name === 'knowledge') renderKnowledgeView();
     else if (name === 'settings') renderSettingsView();
+    else if (name === 'bluetooth') { /* BluetoothWorkbench owns this view. */ }
     else renderAll();
   }
   function openDrawer() { $('drawer').classList.add('show'); $('backdrop').classList.add('show'); }
@@ -2377,7 +2449,9 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     var greet = h < 5 ? '夜深了' : h < 11 ? '早上好' : h < 13 ? '中午好' : h < 18 ? '下午好' : '晚上好';
     $('greetText').innerHTML = greet + '，<span class="nick">' + esc(nick) + '</span>';
     var d = new Date();
-    var dateLine = '今天 ' + (d.getMonth() + 1) + '月' + d.getDate() + '日 周' + '日一二三四五六'[d.getDay()];
+    var learningToday = learningDateStr(d);
+    var learningDate = new Date(learningToday + 'T00:00:00');
+    var dateLine = '学习日 ' + (learningDate.getMonth() + 1) + '月' + learningDate.getDate() + '日 周' + '日一二三四五六'[learningDate.getDay()];
     var cd = '';
     if (s.exam_date) {
       var diff = Math.round((new Date(s.exam_date + 'T00:00:00') - new Date(localDateStr() + 'T00:00:00')) / 86400000);
@@ -2391,7 +2465,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
 
   // ==================== v2.1 打卡 ====================
   function isCheckedToday() {
-    var d = loadData(); var today = localDateStr();
+    var d = loadData(); var today = todayWorkdayStr();
     return (d.checkins || []).some(function (c) { return !c.is_deleted && c.date === today; });
   }
   function checkinStreakDays() {
@@ -2399,7 +2473,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     var set = {};
     (d.checkins || []).forEach(function (c) { if (!c.is_deleted && c.date) set[c.date] = 1; });
     var streak = 0;
-    var dt = new Date();
+    var dt = new Date(todayWorkdayStr() + 'T12:00:00');
     if (!set[localDateStr(dt)]) dt.setDate(dt.getDate() - 1);
     while (set[localDateStr(dt)] && streak < 3650) { streak++; dt.setDate(dt.getDate() - 1); }
     return streak;
@@ -2414,7 +2488,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     if (isCheckedToday()) { toast('今天已经打过卡了', 'info'); return; }
     var d = loadData(); d.checkins = d.checkins || [];
     var now = new Date();
-    d.checkins.push({ client_id: uuid(), date: localDateStr(now), updated_at: now.toISOString(), is_deleted: false });
+    d.checkins.push({ client_id: uuid(), date: learningDateStr(now), updated_at: now.toISOString(), is_deleted: false });
     saveData(d);
     renderCheckin();
     toast('打卡成功 🔥 已连续 ' + checkinStreakDays() + ' 天');
@@ -2431,7 +2505,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     $('weekHours').textContent = weekH + ' / ' + weekGoal + 'h';
     $('weekBar').style.width = pct + '%';
     var goalMin = getGoal();
-    var todayMin = dayMinutes(data, localDateStr());
+    var todayMin = dayMinutes(data, todayWorkdayStr());
     var tpct = goalMin > 0 ? Math.min(100, Math.round(todayMin / goalMin * 100)) : 0;
     $('todayPct').textContent = tpct + '%';
     $('todayMin').textContent = todayMin + ' / ' + goalMin + 'min';
@@ -3034,8 +3108,13 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
   function renderSettingsView() {
     var s = getSettings();
     var glm = getGlmConfig();
+    var sleepSchedule = getSleepSchedule();
     $('nickInput').value = s.nickname || '';
     $('examDateInput').value = s.exam_date || '';
+    $('sleepTimeInput').value = sleepSchedule.sleep_time;
+    $('wakeTimeInput').value = sleepSchedule.wake_time;
+    $('dayStartInput').value = sleepSchedule.day_start;
+    $('sleepScheduleSummary').textContent = SleepSchedule.describeSleepSchedule(sleepSchedule);
     var goalHours = getGoal() / 60;
     $('dailyGoalHoursInput').value = Number.isInteger(goalHours) ? String(goalHours) : goalHours.toFixed(2).replace(/0+$/, '').replace(/\.$/, '');
     $('autoUploadToggle').checked = isAutoUploadEnabled();
@@ -3220,6 +3299,21 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     saveSettings({ exam_date: $('examDateInput').value || null });
     renderGreeting();
     toast('考试日期已保存 📅');
+  });
+  $('sleepScheduleSave').addEventListener('click', function () {
+    var sleepTime = $('sleepTimeInput').value;
+    var wakeTime = $('wakeTimeInput').value;
+    var dayStart = $('dayStartInput').value;
+    if (!/^([01]\d|2[0-3]):[0-5]\d$/.test(sleepTime) ||
+        !/^([01]\d|2[0-3]):[0-5]\d$/.test(wakeTime) ||
+        !/^([01]\d|2[0-3]):[0-5]\d$/.test(dayStart)) {
+      toast('请填写完整的时间', 'error');
+      return;
+    }
+    saveSettings({ sleep_schedule: { sleep_time: sleepTime, wake_time: wakeTime, day_start: dayStart } });
+    renderSettingsView();
+    renderAll();
+    toast('作息与学习日已保存 🌙');
   });
   $('importBtn').addEventListener('click', function () { $('importFile').click(); });
   $('importFile').addEventListener('change', function () {
