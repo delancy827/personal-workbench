@@ -42,6 +42,16 @@
     return dateString(currentTime < dayStart ? shiftDate(current, -1) : current);
   }
 
+  function shiftDateString(value, days) {
+    var current = new Date(String(value) + 'T12:00:00');
+    if (isNaN(current.getTime())) return String(value || '');
+    return dateString(shiftDate(current, days || 0));
+  }
+
+  function learningDateOffset(date, schedule, days) {
+    return shiftDateString(learningDateString(date, schedule), days || 0);
+  }
+
   function describeSleepSchedule(schedule) {
     var s = normalizeSleepSchedule(schedule);
     return '学习日 ' + s.day_start + ' 开始 · 作息 ' + s.sleep_time + '–' + s.wake_time;
@@ -51,6 +61,8 @@
     DEFAULT_SLEEP_SCHEDULE: DEFAULT_SLEEP_SCHEDULE,
     normalizeSleepSchedule: normalizeSleepSchedule,
     learningDateString: learningDateString,
+    shiftDateString: shiftDateString,
+    learningDateOffset: learningDateOffset,
     describeSleepSchedule: describeSleepSchedule
   };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;

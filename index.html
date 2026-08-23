@@ -1486,12 +1486,12 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
   function learningDateStr(d) {
     return SleepSchedule.learningDateString(d || new Date(), getSleepSchedule());
   }
-  function todayWorkdayStr() { return learningDateStr(new Date()); }
-  function yesterdayWorkdayStr() {
-    var d = new Date();
-    d.setDate(d.getDate() - 1);
-    return learningDateStr(d);
+  function workdayDateOffset(days, baseDate) {
+    return SleepSchedule.learningDateOffset(baseDate || new Date(), getSleepSchedule(), days || 0);
   }
+  function todayWorkdayStr() { return workdayDateOffset(0); }
+  function yesterdayWorkdayStr() { return workdayDateOffset(-1); }
+  function tomorrowWorkdayStr() { return workdayDateOffset(1); }
   function saveSettings(patch) {
     var d = loadData();
     d.settings = Object.assign({}, d.settings || {}, patch, { updated_at: new Date().toISOString() });
@@ -1527,16 +1527,16 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
   }
   // 周范围（周一为起点）
   function weekRange(offset) {
-    var now = new Date();
-    var day = (now.getDay() + 6) % 7; // 周一=0
-    var mon = new Date(now); mon.setDate(now.getDate() - day + (offset || 0) * 7); mon.setHours(0, 0, 0, 0);
+    var anchor = new Date(todayWorkdayStr() + 'T12:00:00');
+    var day = (anchor.getDay() + 6) % 7; // 周一=0
+    var mon = new Date(anchor); mon.setDate(anchor.getDate() - day + (offset || 0) * 7); mon.setHours(0, 0, 0, 0);
     var sun = new Date(mon); sun.setDate(mon.getDate() + 6);
     return { start: mon, end: sun, startStr: localDateStr(mon), endStr: localDateStr(sun) };
   }
   function monthRange(offset) {
-    var now = new Date();
-    var first = new Date(now.getFullYear(), now.getMonth() + (offset || 0), 1);
-    var last = new Date(now.getFullYear(), now.getMonth() + (offset || 0) + 1, 0);
+    var anchor = new Date(todayWorkdayStr() + 'T12:00:00');
+    var first = new Date(anchor.getFullYear(), anchor.getMonth() + (offset || 0), 1);
+    var last = new Date(anchor.getFullYear(), anchor.getMonth() + (offset || 0) + 1, 0);
     return { start: first, end: last, startStr: localDateStr(first), endStr: localDateStr(last) };
   }
   function hoursInRange(data, startStr, endStr) {
@@ -1857,11 +1857,10 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
 
     // 连续达标天数
     var streak = 0;
-    var d = new Date();
-    if (dayPower(data, today) < goal) d.setDate(d.getDate() - 1); // 今天未达标从今天不算
+    var dayOffset = dayPower(data, today) >= goal && goal > 0 ? 0 : -1;
     while (streak < 365) {
-      var ds = learningDateStr(d);
-      if (dayPower(data, ds) >= goal && goal > 0) { streak++; d.setDate(d.getDate() - 1); }
+      var ds = workdayDateOffset(dayOffset);
+      if (dayPower(data, ds) >= goal && goal > 0) { streak++; dayOffset--; }
       else break;
     }
     $('statStreak').textContent = streak;
@@ -1877,11 +1876,12 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     var days = 14;
     var list = [];
     var max = goal;
+    var today = todayWorkdayStr();
     for (var i = days - 1; i >= 0; i--) {
-      var d = new Date(); d.setDate(d.getDate() - i);
-      var ds = learningDateStr(d);
+      var ds = workdayDateOffset(-i);
+      var d = new Date(ds + 'T12:00:00');
       var minutes = dayMinutes(data, ds);
-      list.push({ date: ds, minutes: minutes, hours: Math.round(minutes / 6) / 10, hit: minutes >= goal && goal > 0, today: i === 0, month: d.getMonth() + 1, day: d.getDate() });
+      list.push({ date: ds, minutes: minutes, hours: Math.round(minutes / 6) / 10, hit: minutes >= goal && goal > 0, today: ds === today, month: d.getMonth() + 1, day: d.getDate() });
       if (minutes > max) max = minutes;
     }
     var html = '';
@@ -1904,12 +1904,8 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
   function renderTasks() {
     var data = loadData();
     var today = todayWorkdayStr();
-    var yesterday = new Date();
-    yesterday.setDate(yesterday.getDate() - 1);
-    var tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    var yesterdayDate = learningDateStr(yesterday);
-    var tomorrowDate = learningDateStr(tomorrow);
+    var yesterdayDate = yesterdayWorkdayStr();
+    var tomorrowDate = tomorrowWorkdayStr();
     var all = data.tasks.filter(function (t) { return !t.is_deleted && !t.goal_split_key; });
     var goalKey = today + '-' + getGoal();
     var segments = data.tasks.filter(function (t) {
@@ -2031,7 +2027,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     data.tasks.push({
       client_id: uuid(),
       title: title,
-      date: localDateStr(now),
+      date: learningDateStr(now),
       is_completed: false,
       completed_at: null,
       priority: 1,
@@ -2071,23 +2067,21 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
 
   // ---------- 记一笔专注 ----------
   var selDuration = 25, selSubject = '', selEff = 0.75, editingSessionId = null;
-  var selDate = localDateStr(), sessionDateMore = false;
+  var selDate = todayWorkdayStr(), sessionDateMore = false;
 
   function dateLabel(dateStr) {
     var d = new Date(dateStr + 'T00:00:00');
     return (d.getMonth() + 1) + '月' + d.getDate() + '日';
   }
   function yesterdayStr() {
-    var d = new Date();
-    d.setDate(d.getDate() - 1);
-    return localDateStr(d);
+    return yesterdayWorkdayStr();
   }
 
   function buildSheetOptions() {
     $('durationChips').innerHTML = DURATIONS.map(function (d) {
       return '<button class="chip' + (d === selDuration ? ' selected' : '') + '" data-v="' + d + '">' + d + ' 分钟</button>';
     }).join('');
-    var today = localDateStr();
+    var today = todayWorkdayStr();
     var yesterday = yesterdayStr();
     $('dateChips').innerHTML = [
       { key: today, name: '今天', date: dateLabel(today) },
@@ -2152,8 +2146,8 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
       selDuration = DURATIONS.indexOf(existingDuration) >= 0 ? existingDuration : 25;
       selSubject = existing.subject || '';
       selEff = effOf(existing);
-      selDate = existing.date || localDateStr();
-      sessionDateMore = selDate !== localDateStr() && selDate !== yesterdayStr();
+      selDate = existing.date || todayWorkdayStr();
+      sessionDateMore = selDate !== todayWorkdayStr() && selDate !== yesterdayStr();
       $('customDuration').value = DURATIONS.indexOf(existingDuration) >= 0 ? '' : existingDuration;
       $('subjectInput').value = getSubjects().indexOf(selSubject) >= 0 ? '' : selSubject;
       $('sessionContentInput').value = existing.content || existing.note || '';
@@ -2163,7 +2157,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
       selDuration = 25;
       selSubject = '';
       selEff = 0.75;
-      selDate = localDateStr();
+      selDate = todayWorkdayStr();
       sessionDateMore = false;
       $('customDuration').value = '';
       $('subjectInput').value = '';
@@ -2334,7 +2328,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
 
   async function runDailyAutoUpload() {
     if (!isAutoUploadEnabled() || !isConfigured() || !syncEngine) return;
-    var today = localDateStr();
+    var today = todayWorkdayStr();
     if (localStorage.getItem(LS_AUTO_UPLOAD_LAST) === today) return;
     var result = await syncEngine.pushToCloud();
     if (result.success) {
@@ -2473,9 +2467,8 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     var set = {};
     (d.checkins || []).forEach(function (c) { if (!c.is_deleted && c.date) set[c.date] = 1; });
     var streak = 0;
-    var dt = new Date(todayWorkdayStr() + 'T12:00:00');
-    if (!set[localDateStr(dt)]) dt.setDate(dt.getDate() - 1);
-    while (set[localDateStr(dt)] && streak < 3650) { streak++; dt.setDate(dt.getDate() - 1); }
+    var offset = 0;
+    while (set[workdayDateOffset(offset)] && streak < 3650) { streak++; offset--; }
     return streak;
   }
   function renderCheckin() {
@@ -2672,7 +2665,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
       return { start: m.start, end: m.end, startStr: m.startStr, endStr: m.endStr, label: m.start.getFullYear() + '年' + (m.start.getMonth() + 1) + '月', key: 'month-' + m.startStr.slice(0, 7), name: '月' };
     }
     if (reviewPeriod === 'quarter') {
-      var now = new Date();
+      var now = new Date(todayWorkdayStr() + 'T12:00:00');
       var q = Math.floor(now.getMonth() / 3) + reviewOffset;
       var year = now.getFullYear() + Math.floor(q / 4);
       var qq = ((q % 4) + 4) % 4;
@@ -2680,7 +2673,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
       var last = new Date(year, qq * 3 + 3, 0);
       return { start: first, end: last, startStr: localDateStr(first), endStr: localDateStr(last), label: year + '年 Q' + (qq + 1), key: 'quarter-' + year + '-Q' + (qq + 1), name: '季' };
     }
-    var now2 = new Date();
+    var now2 = new Date(todayWorkdayStr() + 'T12:00:00');
     var hIdx = (now2.getMonth() < 6 ? 0 : 1) + reviewOffset * 2;
     var hy = now2.getFullYear() + Math.floor(hIdx / 2);
     var hh = ((hIdx % 2) + 2) % 2;
@@ -2788,7 +2781,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
   var autoAiReviewTimer = null;
   var transientAiReviews = {};
   function aiAutoRunCount() {
-    var today = localDateStr();
+    var today = todayWorkdayStr();
     if (localStorage.getItem(LS_AI_RUN_DATE) !== today) {
       localStorage.setItem(LS_AI_RUN_DATE, today);
       localStorage.setItem(LS_AI_RUN_COUNT, '0');
@@ -3129,7 +3122,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
   }
   function splitDailyGoalIntoTasks(silent) {
     var target = getGoal();
-    var today = localDateStr();
+    var today = todayWorkdayStr();
     var key = today + '-' + target;
     var data = loadData();
     var existing = (data.tasks || []).some(function (task) {
