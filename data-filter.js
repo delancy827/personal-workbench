@@ -39,6 +39,12 @@ function filterLast14Days(records, days = 14) {
   });
 }
 
+function localDateString(date) {
+  return date.getFullYear() + "-" +
+    String(date.getMonth() + 1).padStart(2, "0") + "-" +
+    String(date.getDate()).padStart(2, "0");
+}
+
 /**
  * 计算截止日期字符串
  * @param {number} days - 往回推的天数
@@ -47,7 +53,7 @@ function filterLast14Days(records, days = 14) {
 function getCutoffDate(days = 14) {
   const now = new Date();
   now.setDate(now.getDate() - days);
-  return now.toISOString().split("T")[0]; // "2026-07-14"
+  return localDateString(now);
 }
 
 /**
@@ -137,7 +143,7 @@ function getDataStats(records) {
     return { total: 0, todayCount: 0, last14DaysCount: 0, dateRange: null };
   }
 
-  const today = new Date().toISOString().split("T")[0];
+  const today = localDateString(new Date());
   const cutoff = getCutoffDate(14);
 
   const dates = records.map((r) => r.date).filter(Boolean).sort();

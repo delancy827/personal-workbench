@@ -1308,6 +1308,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
 <script src="knowledge-base.js"></script>
 <script src="workspace-store.js"></script>
 <script src="sleep-schedule.js"></script>
+<script src="learning-timeline.js"></script>
 <script src="bluetooth.js"></script>
 <script>
 /* ============================================================
@@ -1492,6 +1493,44 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
   function todayWorkdayStr() { return workdayDateOffset(0); }
   function yesterdayWorkdayStr() { return workdayDateOffset(-1); }
   function tomorrowWorkdayStr() { return workdayDateOffset(1); }
+  function sessionLearningDate(session) {
+    return LearningTimeline.sessionLearningDate(session, getSleepSchedule());
+  }
+  function sessionMinutesOnLearningDate(session, dateStr) {
+    return LearningTimeline.sessionMinutesOnLearningDate(session, dateStr, getSleepSchedule());
+  }
+  function sessionMinutesInLearningRange(session, startStr, endStr) {
+    return LearningTimeline.sessionMinutesInLearningRange(session, startStr, endStr, getSleepSchedule());
+  }
+  function sessionSortTime(session) {
+    return LearningTimeline.sessionSortTime(session, getSleepSchedule());
+  }
+  function taskLearningDate(task) {
+    return LearningTimeline.learningDateForTask(task, getSleepSchedule());
+  }
+  function checkinLearningDate(checkin) {
+    return LearningTimeline.learningDateForCheckin(checkin, getSleepSchedule());
+  }
+  function migrateLearningTimelineData() {
+    var data = window.WorkbenchStore ? WorkbenchStore.loadFull() : loadData();
+    var schedule = SleepSchedule.normalizeSleepSchedule((data.settings || {}).sleep_schedule);
+    var now = new Date().toISOString();
+    var migrated = { sessions: 0, tasks: 0, checkins: 0 };
+    (data.focus_sessions || []).forEach(function (session) {
+      if (LearningTimeline.migrateFocusSession(session, schedule, now)) migrated.sessions++;
+    });
+    (data.tasks || []).forEach(function (task) {
+      if (LearningTimeline.migrateTask(task, schedule, now)) migrated.tasks++;
+    });
+    (data.checkins || []).forEach(function (checkin) {
+      if (LearningTimeline.migrateCheckin(checkin, schedule, now)) migrated.checkins++;
+    });
+    if (migrated.sessions || migrated.tasks || migrated.checkins) {
+      if (window.WorkbenchStore) WorkbenchStore.saveFull(data);
+      else saveData(data);
+    }
+    return migrated;
+  }
   function saveSettings(patch) {
     var d = loadData();
     d.settings = Object.assign({}, d.settings || {}, patch, { updated_at: new Date().toISOString() });
@@ -1541,8 +1580,8 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
   }
   function hoursInRange(data, startStr, endStr) {
     var mins = data.focus_sessions.reduce(function (sum, s) {
-      if (s.is_deleted || !s.date || s.date < startStr || s.date > endStr) return sum;
-      return sum + (parseFloat(s.duration_minutes) || 0);
+      if (s.is_deleted) return sum;
+      return sum + sessionMinutesInLearningRange(s, startStr, endStr);
     }, 0);
     return Math.round(mins / 6) / 10; // 小时，1位小数
   }
@@ -1566,15 +1605,15 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
   }
   function dayPower(data, dateStr) {
     return data.focus_sessions.reduce(function (sum, s) {
-      if (s.is_deleted || s.date !== dateStr) return sum;
-      return sum + powerOf(s);
+      if (s.is_deleted) return sum;
+      return sum + sessionMinutesOnLearningDate(s, dateStr) * effOf(s);
     }, 0);
   }
   function dayMinutes(data, dateStr) {
-    return data.focus_sessions.reduce(function (sum, s) {
-      if (s.is_deleted || s.date !== dateStr) return sum;
-      return sum + (parseFloat(s.duration_minutes) || 0);
+    var minutes = data.focus_sessions.reduce(function (sum, s) {
+      return s.is_deleted ? sum : sum + sessionMinutesOnLearningDate(s, dateStr);
     }, 0);
+    return Math.round(minutes);
   }
   function effMeta(value) {
     for (var i = 0; i < EFFICIENCY_OPTIONS.length; i++) {
@@ -1849,9 +1888,13 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     else { pill.className = 'pill gray'; pill.textContent = '尚未开始'; }
 
     // 统计
-    var sessions = data.focus_sessions.filter(function (s) { return !s.is_deleted && s.date === today; });
+    var sessions = data.focus_sessions.filter(function (s) {
+      return !s.is_deleted && sessionMinutesOnLearningDate(s, today) > 0;
+    });
     $('statSessions').textContent = sessions.length;
-    var todayTasks = data.tasks.filter(function (t) { return !t.is_deleted && !t.goal_split_key && t.date === today; });
+    var todayTasks = data.tasks.filter(function (t) {
+      return !t.is_deleted && !t.goal_split_key && taskLearningDate(t) === today;
+    });
     var doneTasks = todayTasks.filter(function (t) { return t.is_completed; });
     $('statTasks').textContent = doneTasks.length + '/' + todayTasks.length;
 
@@ -1907,26 +1950,29 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     var yesterdayDate = yesterdayWorkdayStr();
     var tomorrowDate = tomorrowWorkdayStr();
     var all = data.tasks.filter(function (t) { return !t.is_deleted && !t.goal_split_key; });
-    var goalKey = today + '-' + getGoal();
     var segments = data.tasks.filter(function (t) {
-      return !t.is_deleted && t.goal_split_key === goalKey && t.date === today;
+      return !t.is_deleted && t.goal_split_key && taskLearningDate(t) === today;
     });
     var list = (taskFilter === 'segments' ? segments : all).filter(function (t) {
-      if (taskFilter === 'today') return t.date === today;
-      if (taskFilter === 'tomorrow') return t.date === tomorrowDate;
-      if (taskFilter === 'yesterdayTodo') return t.date === yesterdayDate && !t.is_completed;
+      var learningDate = taskLearningDate(t);
+      if (taskFilter === 'today') return learningDate === today;
+      if (taskFilter === 'tomorrow') return learningDate === tomorrowDate;
+      if (taskFilter === 'yesterdayTodo') return learningDate === yesterdayDate && !t.is_completed;
       if (taskFilter === 'done') return t.is_completed;
       return true;
     }).sort(function (a, b) {
       if (taskFilter === 'segments') {
-        return (b.date || '').localeCompare(a.date || '') || (a.goal_split_index || 0) - (b.goal_split_index || 0);
+        return (a.goal_split_index || 0) - (b.goal_split_index || 0);
       }
-      return (a.is_completed ? 1 : 0) - (b.is_completed ? 1 : 0) || (a.priority || 1) - (b.priority || 1) || (b.date || '').localeCompare(a.date || '');
+      return (a.is_completed ? 1 : 0) - (b.is_completed ? 1 : 0)
+        || (a.priority || 1) - (b.priority || 1)
+        || taskLearningDate(b).localeCompare(taskLearningDate(a))
+        || (b.created_at || b.updated_at || '').localeCompare(a.created_at || a.updated_at || '');
     });
-    var todayAll = all.filter(function (t) { return t.date === today; });
+    var todayAll = all.filter(function (t) { return taskLearningDate(t) === today; });
     var done = todayAll.filter(function (t) { return t.is_completed; }).length;
-    var segmentDone = segments.filter(function (t) { return t.date === today && t.is_completed; }).length;
-    var todaySegments = segments.filter(function (t) { return t.date === today; }).length;
+    var segmentDone = segments.filter(function (t) { return t.is_completed; }).length;
+    var todaySegments = segments.length;
     $('taskHint').textContent = taskFilter === 'segments'
       ? (todaySegments ? ('今日 ' + segmentDone + '/' + todaySegments) : '')
       : (todayAll.length ? ('今日 ' + done + '/' + todayAll.length) : '');
@@ -1943,7 +1989,8 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
       return;
     }
     $('taskList').innerHTML = list.map(function (t, i) {
-      var dateTag = ((taskFilter === 'segments' || taskFilter === 'all') && t.date !== today) ? '<span style="font-size:0.68rem;color:var(--text-3);font-weight:600;margin-right:4px">' + esc(t.date || '') + '</span>' : '';
+      var taskDate = taskLearningDate(t);
+      var dateTag = ((taskFilter === 'segments' || taskFilter === 'all') && taskDate !== today) ? '<span style="font-size:0.68rem;color:var(--text-3);font-weight:600;margin-right:4px">' + esc(taskDate) + '</span>' : '';
       var segmentMeta = t.goal_split_key ? '<span class="task-segment-meta">' + (t.goal_split_minutes || 45) + ' 分钟</span>' : '';
       var delButton = t.goal_split_key ? '' : '<button class="task-del" data-id="' + t.client_id + '" aria-label="删除">✕</button>';
       return '<div class="task-item' + (t.goal_split_key ? ' segment' : '') + (t.is_completed ? ' done' : '') + '" style="animation-delay:' + (i * 40) + 'ms">'
@@ -1966,7 +2013,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     var list = data.focus_sessions
       .filter(function (s) { return !s.is_deleted; })
       .sort(function (a, b) {
-        return (b.date + (b.start_time || '')).localeCompare(a.date + (a.start_time || ''));
+        return sessionSortTime(b) - sessionSortTime(a);
       })
       .slice(0, isMobile() ? 15 : 30);
     if (!list.length) {
@@ -1976,11 +2023,19 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     $('sessionList').innerHTML = list.map(function (s, i) {
       var m = effMeta(effOf(s));
       var sub = s.subject ? ' · ' + esc(s.subject) : '';
+      var interval = LearningTimeline.sessionInterval(s, getSleepSchedule());
+      var learningDate = sessionLearningDate(s);
+      var startDate = localDateStr(interval.start);
+      var endDate = localDateStr(interval.end);
+      var timeText = startDate === endDate
+        ? (startDate !== learningDate ? startDate + ' ' : '') + timeStr(interval.start) + '–' + timeStr(interval.end)
+        : startDate + ' ' + timeStr(interval.start) + '–' + endDate + ' ' + timeStr(interval.end);
+      var dateText = '学习日 ' + learningDate + ' · ' + timeText;
       return '<div class="session-item" data-id="' + esc(s.client_id) + '" style="animation-delay:' + (i * 35) + 'ms">'
         + '<div class="session-icon" style="background:' + m.color + '1F">' + m.emoji + '</div>'
         + '<div class="session-main">'
         + '<div class="t">' + (s.duration_minutes || 0) + ' 分钟' + sub + '</div>'
-        + '<div class="s">' + esc(s.date) + ' ' + esc(s.start_time || '') + ' · ' + m.label + '</div>'
+        + '<div class="s">' + esc(dateText) + ' · ' + m.label + '</div>'
         + '</div>'
         + '<div class="session-power">+' + fmtPower(powerOf(s)) + '<small>战力</small></div>'
         + '<button class="session-edit" aria-label="编辑记录">编辑</button>'
@@ -2028,6 +2083,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
       client_id: uuid(),
       title: title,
       date: learningDateStr(now),
+      created_at: now.toISOString(),
       is_completed: false,
       completed_at: null,
       priority: 1,
@@ -2146,7 +2202,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
       selDuration = DURATIONS.indexOf(existingDuration) >= 0 ? existingDuration : 25;
       selSubject = existing.subject || '';
       selEff = effOf(existing);
-      selDate = existing.date || todayWorkdayStr();
+      selDate = sessionLearningDate(existing) || existing.date || todayWorkdayStr();
       sessionDateMore = selDate !== todayWorkdayStr() && selDate !== yesterdayStr();
       $('customDuration').value = DURATIONS.indexOf(existingDuration) >= 0 ? '' : existingDuration;
       $('subjectInput').value = getSubjects().indexOf(selSubject) >= 0 ? '' : selSubject;
@@ -2178,16 +2234,22 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     var dur = (customDur > 0) ? Math.min(customDur, 600) : selDuration;
     var sessionDate = sessionDateMore ? ($('sessionDateInput').value || selDate) : selDate;
     var now = new Date();
+    var schedule = getSleepSchedule();
     var data = loadData();
     var existing = editingSessionId && data.focus_sessions.find(function (s) { return s.client_id === editingSessionId && !s.is_deleted; });
     if (existing) {
-      var endTime = existing.end_time || timeStr(now);
-      var endDate = new Date(sessionDate + 'T' + endTime);
-      if (isNaN(endDate.getTime())) endDate = now;
+      var existingInterval = LearningTimeline.sessionInterval(existing, schedule);
+      var existingLearningDate = LearningTimeline.sessionLearningDate(existing, schedule);
+      var endDate = sessionDate === existingLearningDate
+        ? existingInterval.end
+        : SleepSchedule.dateTimeForLearningDate(sessionDate, timeStr(existingInterval.end), schedule);
+      if (!endDate) endDate = existingInterval.end;
       var start = new Date(endDate.getTime() - dur * 60000);
-      existing.date = sessionDate;
+      existing.date = learningDateStr(endDate);
       existing.start_time = timeStr(start);
       existing.end_time = timeStr(endDate);
+      existing.started_at = start.toISOString();
+      existing.ended_at = endDate.toISOString();
       existing.duration_minutes = dur;
       existing.efficiency = selEff;
       existing.effective_power = Math.round(dur * selEff * 100) / 100;
@@ -2195,12 +2257,15 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
       existing.content = content;
       existing.updated_at = now.toISOString();
     } else {
-      var start = new Date(now.getTime() - dur * 60000);
+      var endDate = SleepSchedule.dateTimeForLearningDate(sessionDate, timeStr(now), schedule) || now;
+      var start = new Date(endDate.getTime() - dur * 60000);
       data.focus_sessions.push({
         client_id: uuid(),
-        date: sessionDate,
+        date: learningDateStr(endDate),
         start_time: timeStr(start),
-        end_time: timeStr(now),
+        end_time: timeStr(endDate),
+        started_at: start.toISOString(),
+        ended_at: endDate.toISOString(),
         duration_minutes: dur,
         efficiency: selEff,
         effective_power: Math.round(dur * selEff * 100) / 100,
@@ -2317,6 +2382,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     try {
       var go = await checkConflictBefore('上传');
       if (!go) return;
+      migrateLearningTimelineData();
       var result = await syncEngine.pushToCloud();
       toast(result.message, result.success ? 'success' : 'error');
       flashBtn(btn, result.success ? 'success' : 'error');
@@ -2330,6 +2396,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     if (!isAutoUploadEnabled() || !isConfigured() || !syncEngine) return;
     var today = todayWorkdayStr();
     if (localStorage.getItem(LS_AUTO_UPLOAD_LAST) === today) return;
+    migrateLearningTimelineData();
     var result = await syncEngine.pushToCloud();
     if (result.success) {
       localStorage.setItem(LS_AUTO_UPLOAD_LAST, today);
@@ -2348,7 +2415,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
       var result = await syncEngine.pullFromCloud({ trimTo14Days: false });
       toast(result.message, result.success ? 'success' : 'error');
       flashBtn(btn, result.success ? 'success' : 'error');
-      if (result.success) { renderAll(); scheduleAutoAiReview(); }
+      if (result.success) { migrateLearningTimelineData(); renderAll(); scheduleAutoAiReview(); }
     } finally {
       setBtnLoading(btn, false);
     }
@@ -2460,12 +2527,14 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
   // ==================== v2.1 打卡 ====================
   function isCheckedToday() {
     var d = loadData(); var today = todayWorkdayStr();
-    return (d.checkins || []).some(function (c) { return !c.is_deleted && c.date === today; });
+    return (d.checkins || []).some(function (c) { return !c.is_deleted && checkinLearningDate(c) === today; });
   }
   function checkinStreakDays() {
     var d = loadData();
     var set = {};
-    (d.checkins || []).forEach(function (c) { if (!c.is_deleted && c.date) set[c.date] = 1; });
+    (d.checkins || []).forEach(function (c) {
+      if (!c.is_deleted) set[checkinLearningDate(c)] = 1;
+    });
     var streak = 0;
     var offset = 0;
     while (set[workdayDateOffset(offset)] && streak < 3650) { streak++; offset--; }
@@ -2481,7 +2550,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     if (isCheckedToday()) { toast('今天已经打过卡了', 'info'); return; }
     var d = loadData(); d.checkins = d.checkins || [];
     var now = new Date();
-    d.checkins.push({ client_id: uuid(), date: learningDateStr(now), updated_at: now.toISOString(), is_deleted: false });
+    d.checkins.push({ client_id: uuid(), date: learningDateStr(now), checkin_at: now.toISOString(), updated_at: now.toISOString(), is_deleted: false });
     saveData(d);
     renderCheckin();
     toast('打卡成功 🔥 已连续 ' + checkinStreakDays() + ' 天');
@@ -2706,8 +2775,13 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
       });
   }
   function buildGlmReviewPrompt(pr, data) {
-    var sessions = data.focus_sessions.filter(function (s) { return !s.is_deleted && s.date >= pr.startStr && s.date <= pr.endStr; });
-    var tasks = data.tasks.filter(function (t) { return !t.is_deleted && t.date >= pr.startStr && t.date <= pr.endStr; });
+    var sessions = data.focus_sessions.filter(function (s) {
+      return !s.is_deleted && sessionMinutesInLearningRange(s, pr.startStr, pr.endStr) > 0;
+    });
+    var tasks = data.tasks.filter(function (t) {
+      var date = taskLearningDate(t);
+      return !t.is_deleted && date >= pr.startStr && date <= pr.endStr;
+    });
     var savedReview = (data.reviews || []).find(function (r) { return r.client_id === pr.key && !r.is_deleted; });
     var currentReview = $('reviewText') ? $('reviewText').value.trim() : '';
     var workspace = activeWorkspace();
@@ -2717,10 +2791,15 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
       daily_goal_minutes: getGoal(),
       current_subjects: getSubjects(),
       focus_sessions: sessions.map(function (s) {
-        return { date: s.date, minutes: parseFloat(s.duration_minutes) || 0, subject: s.subject || '未分类', efficiency: parseFloat(s.efficiency) || 0.5 };
+        return {
+          date: sessionLearningDate(s),
+          minutes: Math.round(sessionMinutesInLearningRange(s, pr.startStr, pr.endStr)),
+          subject: s.subject || '未分类',
+          efficiency: parseFloat(s.efficiency) || 0.5
+        };
       }),
       tasks: tasks.map(function (t) {
-        return { date: t.date, title: t.title, completed: !!t.is_completed, is_goal_segment: !!t.goal_split_key };
+        return { date: taskLearningDate(t), title: t.title, completed: !!t.is_completed, is_goal_segment: !!t.goal_split_key };
       }),
       project_knowledge: window.KnowledgeBase ? KnowledgeBase.forPrompt(data.knowledge_items || [], { limit: 12 }) : [],
       learning_notes: (data.notes || []).filter(function (n) { return !n.is_deleted && (n.kind === 'learning_log' || n.visibility === 'private'); }).slice(0, 12).map(function (n) {
@@ -2865,14 +2944,25 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     var data = loadData();
     var pr = periodRange();
     $('periodLabel').textContent = pr.label;
-    var sessions = data.focus_sessions.filter(function (s) { return !s.is_deleted && s.date >= pr.startStr && s.date <= pr.endStr; });
-    var totalMin = sessions.reduce(function (s, x) { return s + (parseFloat(x.duration_minutes) || 0); }, 0);
+    var sessions = data.focus_sessions.filter(function (s) {
+      return !s.is_deleted && sessionMinutesInLearningRange(s, pr.startStr, pr.endStr) > 0;
+    });
+    var totalMin = sessions.reduce(function (sum, session) {
+      return sum + sessionMinutesInLearningRange(session, pr.startStr, pr.endStr);
+    }, 0);
     var totalH = Math.round(totalMin / 6) / 10;
     var days = {}, subjects = {};
     sessions.forEach(function (s) {
-      days[s.date] = 1;
       var sub = s.subject || '未分类';
-      subjects[sub] = (subjects[sub] || 0) + (parseFloat(s.duration_minutes) || 0);
+      var cursor = pr.startStr;
+      while (cursor <= pr.endStr) {
+        var minutes = sessionMinutesOnLearningDate(s, cursor);
+        if (minutes > 0) {
+          days[cursor] = 1;
+          subjects[sub] = (subjects[sub] || 0) + minutes;
+        }
+        cursor = SleepSchedule.shiftDateString(cursor, 1);
+      }
     });
     var dayCount = Object.keys(days).length;
     var subCount = Object.keys(subjects).length;
@@ -2890,7 +2980,9 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
       Object.keys(subjects).forEach(function (sub) {
         var rowTotal = 0;
         html += '<tr><td>' + esc(sub) + '</td>' + cols.map(function (c) {
-          var v = sessions.reduce(function (s, x) { return (x.date === c && (x.subject || '未分类') === sub) ? s + (parseFloat(x.duration_minutes) || 0) : s; }, 0);
+          var v = sessions.reduce(function (sum, x) {
+            return (x.subject || '未分类') === sub ? sum + sessionMinutesOnLearningDate(x, c) : sum;
+          }, 0);
           rowTotal += v;
           return '<td>' + (v > 0 ? (Math.round(v / 6) / 10) : '') + '</td>';
         }).join('') + '<td class="total">' + (Math.round(rowTotal / 6) / 10) + '</td></tr>';
@@ -3126,7 +3218,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     var key = today + '-' + target;
     var data = loadData();
     var existing = (data.tasks || []).some(function (task) {
-      return !task.is_deleted && task.date === today && task.goal_split_key === key;
+      return !task.is_deleted && task.goal_split_key && taskLearningDate(task) === today;
     });
     if (existing) {
       if (!silent) toast('今天已经生成过这组任务', 'info');
@@ -3143,6 +3235,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
         client_id: uuid(),
         title: '学习第 ' + (index + 1) + '/' + chunks.length + ' 段 · ' + minutes + ' 分钟',
         date: today,
+        created_at: now,
         is_completed: false,
         completed_at: null,
         priority: 1,
@@ -3304,6 +3397,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
       return;
     }
     saveSettings({ sleep_schedule: { sleep_time: sleepTime, wake_time: wakeTime, day_start: dayStart } });
+    migrateLearningTimelineData();
     renderSettingsView();
     renderAll();
     toast('作息与学习日已保存 🌙');
@@ -3331,6 +3425,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
         });
         if (imported.settings) local.settings = syncEngine.mergeSettings(local.settings, imported.settings);
         if (window.WorkbenchStore) WorkbenchStore.saveFull(local); else saveData(local);
+        migrateLearningTimelineData();
         renderWorkspaceBar();
         renderAll();
         if (currentView !== 'home') switchView(currentView);
@@ -3352,6 +3447,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
 
   initSync();
 
+  migrateLearningTimelineData();
   splitDailyGoalIntoTasks(true);
   renderAll();
   updateAiAutoReviewStatus();

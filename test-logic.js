@@ -15,6 +15,17 @@ global.localStorage = {
 const { filterLast14Days, getCutoffDate, safeCleanLocalData, getDataStats } = require("./data-filter.js");
 const { SyncEngine } = require("./sync-engine.js");
 const { normalizeSleepSchedule, learningDateString, learningDateOffset } = require("./sleep-schedule.js");
+const {
+  sessionInterval,
+  sessionLearningDate,
+  sessionMinutesOnLearningDate,
+  sessionSortTime,
+  learningDateForTask,
+  learningDateForCheckin,
+  migrateFocusSession,
+  migrateTask,
+  migrateCheckin
+} = require("./learning-timeline.js");
 
 let passed = 0;
 let failed = 0;
@@ -33,11 +44,49 @@ assert(learningDateString(new Date("2026-08-20T12:00:00+08:00"), schedule) === "
 assert(learningDateOffset(new Date("2026-08-20T04:00:00+08:00"), schedule, -1) === "2026-08-18", "凌晨学习日向前偏移一天正确");
 assert(learningDateOffset(new Date("2026-08-20T04:00:00+08:00"), schedule, 1) === "2026-08-20", "凌晨学习日向后偏移一天正确");
 
+const earlySession = {
+  date: "2026-08-31",
+  start_time: "03:35",
+  end_time: "04:00",
+  duration_minutes: 25,
+  updated_at: "2026-09-01T04:00:00+08:00"
+};
+const earlyInterval = sessionInterval(earlySession, schedule);
+assert(earlyInterval.end.getDate() === 1 && earlyInterval.end.getHours() === 4, "旧版凌晨记录恢复为真实自然日时间");
+assert(sessionLearningDate(earlySession, schedule) === "2026-08-31", "凌晨记录归入前一天学习日");
+
+const boundarySession = {
+  started_at: "2026-09-01T14:30:00+08:00",
+  ended_at: "2026-09-01T15:30:00+08:00",
+  duration_minutes: 60
+};
+assert(sessionMinutesOnLearningDate(boundarySession, "2026-08-31", schedule) === 30, "跨学习日起点前的30分钟归前一天");
+assert(sessionMinutesOnLearningDate(boundarySession, "2026-09-01", schedule) === 30, "跨学习日起点后的30分钟归当天");
+
+const lateSession = {
+  started_at: "2026-09-01T20:00:00+08:00",
+  ended_at: "2026-09-01T20:30:00+08:00",
+  duration_minutes: 30
+};
+assert(sessionSortTime(lateSession, schedule) > sessionSortTime(earlySession, schedule), "记录按真实时间而非学习日日期排序");
+assert(learningDateForTask({ date: "2026-09-01", created_at: "2026-09-01T04:00:00+08:00" }, schedule) === "2026-08-31", "凌晨新建任务归前一天学习日");
+assert(learningDateForCheckin({ date: "2026-09-01", checkin_at: "2026-09-01T04:00:00+08:00" }, schedule) === "2026-08-31", "凌晨打卡归前一天学习日");
+
+const legacySession = { ...earlySession };
+assert(migrateFocusSession(legacySession, schedule, "2026-09-01T10:00:00+08:00"), "旧版专注记录会补全真实时间");
+assert(legacySession.started_at && legacySession.ended_at && legacySession.date === "2026-08-31", "旧版专注记录迁移后保留正确学习日");
+const legacyTask = { date: "2026-08-31", updated_at: "2026-09-01T04:00:00+08:00" };
+assert(migrateTask(legacyTask, schedule, "2026-09-01T10:00:00+08:00"), "凌晨旧任务会补全创建时间");
+assert(legacyTask.created_at && learningDateForTask(legacyTask, schedule) === "2026-08-31", "旧任务迁移后归属正确学习日");
+const legacyCheckin = { date: "2026-08-31", updated_at: "2026-09-01T04:00:00+08:00" };
+assert(migrateCheckin(legacyCheckin, schedule, "2026-09-01T10:00:00+08:00"), "凌晨旧打卡会补全真实时间");
+assert(legacyCheckin.checkin_at && learningDateForCheckin(legacyCheckin, schedule) === "2026-08-31", "旧打卡迁移后归属正确学习日");
+
 // ==================== 测试 14 天过滤 ====================
 console.log("\n=== Test 1: filterLast14Days ===");
 
 const today = new Date();
-const fmt = (d) => d.toISOString().split("T")[0];
+const fmt = (d) => d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
 const daysAgo = (n) => { const d = new Date(); d.setDate(d.getDate() - n); return fmt(d); };
 
 const testRecords = [

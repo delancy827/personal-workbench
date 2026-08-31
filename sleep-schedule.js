@@ -12,6 +12,12 @@
     return typeof value === 'string' && /^([01]\d|2[0-3]):[0-5]\d$/.test(value);
   }
 
+  function timeToMinutes(value) {
+    if (!validTime(value)) return 0;
+    var parts = value.split(':');
+    return parseInt(parts[0], 10) * 60 + parseInt(parts[1], 10);
+  }
+
   function normalizeSleepSchedule(value) {
     value = value || {};
     return {
@@ -33,12 +39,27 @@
       String(date.getDate()).padStart(2, '0');
   }
 
+  function dateAtTime(value, time) {
+    var match = String(value || '').match(/^(\d{4})-(\d{2})-(\d{2})$/);
+    if (!match || !validTime(time)) return null;
+    var parts = time.split(':');
+    var result = new Date(
+      parseInt(match[1], 10),
+      parseInt(match[2], 10) - 1,
+      parseInt(match[3], 10),
+      parseInt(parts[0], 10),
+      parseInt(parts[1], 10),
+      0,
+      0
+    );
+    return isNaN(result.getTime()) ? null : result;
+  }
+
   function learningDateString(date, schedule) {
     var current = date instanceof Date ? new Date(date) : new Date();
     var normalized = normalizeSleepSchedule(schedule);
     var currentTime = current.getHours() * 60 + current.getMinutes();
-    var startParts = normalized.day_start.split(':');
-    var dayStart = parseInt(startParts[0], 10) * 60 + parseInt(startParts[1], 10);
+    var dayStart = timeToMinutes(normalized.day_start);
     return dateString(currentTime < dayStart ? shiftDate(current, -1) : current);
   }
 
@@ -52,6 +73,21 @@
     return shiftDateString(learningDateString(date, schedule), days || 0);
   }
 
+  function learningDayStart(value, schedule) {
+    var normalized = normalizeSleepSchedule(schedule);
+    return dateAtTime(value, normalized.day_start);
+  }
+
+  function dateTimeForLearningDate(value, time, schedule) {
+    var normalized = normalizeSleepSchedule(schedule);
+    var result = dateAtTime(value, time);
+    if (!result) return null;
+    if (timeToMinutes(time) < timeToMinutes(normalized.day_start)) {
+      result.setDate(result.getDate() + 1);
+    }
+    return result;
+  }
+
   function describeSleepSchedule(schedule) {
     var s = normalizeSleepSchedule(schedule);
     return '学习日 ' + s.day_start + ' 开始 · 作息 ' + s.sleep_time + '–' + s.wake_time;
@@ -60,9 +96,14 @@
   var api = {
     DEFAULT_SLEEP_SCHEDULE: DEFAULT_SLEEP_SCHEDULE,
     normalizeSleepSchedule: normalizeSleepSchedule,
+    validTime: validTime,
+    timeToMinutes: timeToMinutes,
+    dateAtTime: dateAtTime,
     learningDateString: learningDateString,
     shiftDateString: shiftDateString,
     learningDateOffset: learningDateOffset,
+    learningDayStart: learningDayStart,
+    dateTimeForLearningDate: dateTimeForLearningDate,
     describeSleepSchedule: describeSleepSchedule
   };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;

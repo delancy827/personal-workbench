@@ -1,4 +1,4 @@
-const CACHE_NAME = 'personal-workbench-v4';
+const CACHE_NAME = 'personal-workbench-v5';
 const APP_SHELL = [
   './',
   './index.html',
@@ -10,6 +10,9 @@ const APP_SHELL = [
   './sinopec-knowledge.js',
   './knowledge-base.js',
   './workspace-store.js',
+  './sleep-schedule.js',
+  './learning-timeline.js',
+  './bluetooth.js',
   './icons/icon-180.png',
   './icons/icon-180.svg',
   './icons/icon-512.svg'
