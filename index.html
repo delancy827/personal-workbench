@@ -48,24 +48,6 @@ body {
 button { font-family: inherit; border: none; cursor: pointer; user-select: none; }
 input { font-family: inherit; border: none; outline: none; }
 
-/* ---------- BLE 电池探测 ---------- */
-.ble-card { padding: 18px; }
-.ble-status-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
-.ble-device-name { font-weight: 800; font-size: 1rem; }
-.ble-device-id, .ble-meta { color: var(--text-2); font-size: 0.74rem; word-break: break-all; }
-.ble-device-id { margin-top: 3px; }
-.ble-input { width: 100%; background: var(--fill-2); border-radius: 13px; padding: 12px 13px; margin: 10px 0 6px; font-size: 0.84rem; }
-.ble-hint { color: var(--text-2); font-size: 0.72rem; line-height: 1.45; }
-.ble-actions { display: flex; gap: 8px; margin-top: 12px; }
-.ble-actions .btn { flex: 1; }
-.ble-service-count { color: var(--text-2); font-size: 0.78rem; margin: 16px 0 8px; }
-.ble-characteristic { display: flex; align-items: center; justify-content: space-between; gap: 8px; border-top: 1px solid var(--fill); padding: 10px 0; }
-.ble-characteristic-main { min-width: 0; flex: 1; }
-.ble-uuid { font-size: 0.76rem; font-weight: 700; word-break: break-all; }
-.ble-read-btn { padding: 8px 12px; border-radius: 10px; font-size: 0.74rem; flex-shrink: 0; }
-.ble-card .btn:disabled { opacity: 0.45; cursor: not-allowed; }
-.ble-log { margin-top: 12px; max-height: 180px; overflow: auto; padding: 12px; border-radius: 14px; background: #17181c; color: #D7F9DF; font: 0.68rem/1.6 ui-monospace, SFMono-Regular, Menlo, monospace; white-space: pre-wrap; word-break: break-word; }
-
 /* ---------- 布局 ---------- */
 .app { max-width: 560px; margin: 0 auto; padding: 12px 16px 0; }
 @media (min-width: 900px) {
@@ -704,16 +686,13 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
 .speed-match-feedback.success { color:#248A3D; transform:scale(1.03); }
 .speed-match-feedback.error { color:#C93400; transform:scale(1.03); }
 .speed-match-grid { display:grid; grid-template-columns:repeat(4, minmax(0, 1fr)); gap:10px; max-width:520px; margin:4px auto 0; }
-.speed-match-card { position:relative; width:100%; aspect-ratio:1 / 1; min-width:0; padding:0; border-radius:16px; background:transparent; perspective:700px; }
-.speed-match-card-inner { position:absolute; inset:0; display:block; transform-style:preserve-3d; transition:transform .3s var(--ease-spring); }
-.speed-match-card.flipped .speed-match-card-inner, .speed-match-card.matched .speed-match-card-inner { transform:rotateY(180deg); }
-.speed-match-card-back, .speed-match-card-front { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; border-radius:16px; backface-visibility:hidden; overflow:hidden; text-align:center; }
-.speed-match-card-back { background:linear-gradient(145deg, #5E5CE6, #3478F6); color:#fff; font-size:1.5rem; font-weight:800; box-shadow:0 5px 14px rgba(52,120,246,.2); }
-.speed-match-card-front { padding:8px; background:var(--card); border:1px solid rgba(94,92,230,.18); color:var(--text); font-size:1rem; font-weight:800; line-height:1.05; letter-spacing:0; overflow-wrap:anywhere; transform:rotateY(180deg); box-shadow:0 4px 12px rgba(28,28,30,.08); }
+.speed-match-card { position:relative; width:100%; aspect-ratio:1 / 1; min-width:0; padding:0; border-radius:16px; background:var(--card); border:1px solid rgba(94,92,230,.18); color:var(--text); box-shadow:0 4px 12px rgba(28,28,30,.08); transition:transform .2s var(--ease-spring), background .2s ease, border-color .2s ease, opacity .28s ease; }
+.speed-match-card-front { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; padding:8px; border-radius:16px; overflow:hidden; text-align:center; color:inherit; font-size:1rem; font-weight:800; line-height:1.05; letter-spacing:0; overflow-wrap:anywhere; }
 .speed-match-card.long .speed-match-card-front { font-size:.76rem; }
-.speed-match-card.just-flipped { animation:speedMatchPop .26s var(--ease-spring); }
-.speed-match-card.matched .speed-match-card-front { background:rgba(52,199,89,.16); border-color:rgba(52,199,89,.55); color:#248A3D; }
-.speed-match-card.matched { animation:speedMatchMatch .42s var(--ease-spring) both; pointer-events:none; }
+.speed-match-card.selected { background:rgba(52,120,246,.12); border-color:var(--blue); transform:translateY(-3px) scale(1.02); box-shadow:0 7px 16px rgba(52,120,246,.2); }
+.speed-match-card.just-selected { animation:speedMatchPop .26s var(--ease-spring); }
+.speed-match-card.matched { background:rgba(52,199,89,.16); border-color:rgba(52,199,89,.55); color:#248A3D; animation:speedMatchMatch .42s var(--ease-spring) both; pointer-events:none; }
+.speed-match-card.matched .speed-match-card-front { animation:speedMatchFade .36s ease .28s both; }
 .speed-match-card.mismatch { animation:speedMatchShake .42s ease both; }
 .speed-match-errors { margin-top:16px; padding-top:14px; border-top:1px solid var(--fill); }
 .speed-match-errors-title { display:flex; align-items:center; justify-content:space-between; gap:8px; font-size:.86rem; font-weight:800; margin-bottom:8px; }
@@ -727,6 +706,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
 .speed-match-errors-empty { color:var(--text-2); font-size:.74rem; padding:4px 0; }
 @keyframes speedMatchPop { 50% { transform:scale(1.06); } }
 @keyframes speedMatchMatch { 50% { transform:scale(1.08); } }
+@keyframes speedMatchFade { to { opacity:0; transform:scale(.72); } }
 @keyframes speedMatchShake { 20%, 60% { transform:translateX(-5px); } 40%, 80% { transform:translateX(5px); } }
 @media (max-width:400px) {
   .speed-match-grid { grid-template-columns:repeat(3, minmax(0, 1fr)); gap:9px; }
@@ -951,37 +931,12 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
 
   </div><!-- /view-home -->
 
-  <!-- 视图：电池蓝牙（从抽屉进入，不打扰学习首页） -->
-  <div class="view" id="view-bluetooth">
-    <div class="section-title">🔋 电池蓝牙 <span class="hint">通用 BLE 探测</span></div>
-    <div class="card ble-card" id="bleCard">
-      <div class="ble-status-row">
-        <div>
-          <div class="ble-device-name" id="bleDeviceName">未选择设备</div>
-          <div class="ble-device-id" id="bleDeviceId">点击连接后选择附近 BLE 设备</div>
-        </div>
-        <span class="pill gray" id="bleStatus">未连接</span>
-      </div>
-      <input class="ble-input" id="bleTargetNameInput" type="text" value="4803012MNBV230224842" placeholder="蓝牙设备名称">
-      <input class="ble-input" id="bleServiceUuidInput" type="text" placeholder="可选：自定义 Service UUID">
-      <div class="ble-hint">连接后只读取、订阅并记录原始数据，不会向设备写入查询命令。</div>
-      <div class="ble-actions">
-        <button class="btn blue" id="bleConnectBtn"><span class="label">快速连接电池</span></button>
-        <button class="btn gray" id="bleDisconnectBtn" disabled><span class="label">断开</span></button>
-      </div>
-      <div class="ble-service-count" id="bleServiceCount">0 个服务 · 0 个特征</div>
-      <div id="bleCharacteristicList"></div>
-      <pre class="ble-log" id="bleLog"></pre>
-      <button class="link-btn" id="bleClearBtn" style="margin-top:10px">清空蓝牙日志</button>
-    </div>
-  </div>
-
   <!-- 视图：公考速算消消乐 -->
   <div class="view" id="view-speed-match">
     <div class="speed-match-header">
       <div>
         <div class="section-title"><span>🧮 公考速算消消乐</span><span class="hint" id="speedMatchRound">第 1 轮</span></div>
-        <div class="set-desc" style="margin:0 2px">翻开两张卡片，找出数值相等的表达式。全部配对后自动进入下一轮。</div>
+        <div class="set-desc" style="margin:0 2px">直接点选两张卡片，找出数值相等的表达式。全部配对后自动进入下一轮。</div>
       </div>
       <button class="btn gray" id="speedMatchReset" type="button" title="重新开始">↻ 新一轮</button>
     </div>
@@ -990,7 +945,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
         <div class="speed-match-stat"><span class="value" id="speedMatchPairs">0/0</span><span class="label">本轮配对</span></div>
         <div class="speed-match-stat"><span class="value" id="speedMatchTime">00:00</span><span class="label">累计用时</span></div>
         <div class="speed-match-stat"><span class="value" id="speedMatchStreak">0</span><span class="label">连续正确</span></div>
-        <div class="speed-match-stat"><span class="value" id="speedMatchFlips">0</span><span class="label">本轮翻牌</span></div>
+        <div class="speed-match-stat"><span class="value" id="speedMatchFlips">0</span><span class="label">本轮选择</span></div>
       </div>
       <div class="speed-match-feedback" id="speedMatchFeedback" role="status">找到数值相等的两张卡片</div>
       <div class="speed-match-grid" id="speedMatchGrid" aria-label="速算配对卡片"></div>
@@ -1247,7 +1202,6 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     </div>
   </div>
   <button class="drawer-item active" data-view="home"><span class="d-icon">📊</span>工作台</button>
-  <button class="drawer-item" data-view="bluetooth"><span class="d-icon">🔋</span>电池蓝牙</button>
   <button class="drawer-item" data-view="speed-match"><span class="d-icon">🧮</span>速算消消乐</button>
   <button class="drawer-item" data-view="courses"><span class="d-icon">📚</span>课程进度</button>
   <button class="drawer-item" data-view="goals"><span class="d-icon">🎯</span>目标管理</button>
@@ -1380,7 +1334,6 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
 <script src="workspace-store.js"></script>
 <script src="sleep-schedule.js"></script>
 <script src="learning-timeline.js"></script>
-<script src="bluetooth.js"></script>
 <script src="speed-match-game.js"></script>
 <script>
 /* ============================================================
@@ -2537,7 +2490,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
   // ---------- 关于（已移至「设置」视图） ----------
 
   // ==================== v2.1 导航与视图切换 ====================
-  var VIEW_NAMES = { home: '工作台', bluetooth: '电池蓝牙', 'speed-match': '速算消消乐', courses: '课程进度', goals: '目标管理', review: '总结复盘', notes: '学习笔记', knowledge: '项目知识库', settings: '设置' };
+  var VIEW_NAMES = { home: '工作台', 'speed-match': '速算消消乐', courses: '课程进度', goals: '目标管理', review: '总结复盘', notes: '学习笔记', knowledge: '项目知识库', settings: '设置' };
   var currentView = 'home';
   function switchView(name) {
     if (!VIEW_NAMES[name]) name = 'home';
@@ -2560,7 +2513,6 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     else if (name === 'notes') renderNotes();
     else if (name === 'knowledge') renderKnowledgeView();
     else if (name === 'settings') renderSettingsView();
-    else if (name === 'bluetooth') { /* BluetoothWorkbench owns this view. */ }
     else renderAll();
     if (name !== 'speed-match' && window.SpeedMatchGame) window.SpeedMatchGame.deactivate();
   }

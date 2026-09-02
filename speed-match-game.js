@@ -132,17 +132,11 @@
     var round = get('speedMatchRound');
     if (!grid) return;
     grid.innerHTML = state.cards.map(function (card, index) {
-      return '<button class="speed-match-card' + cardLabelSize(card.text) + '" type="button" data-card-index="' + index + '" aria-label="翻开卡片">' +
-        '<span class="speed-match-card-inner"><span class="speed-match-card-back">?</span><span class="speed-match-card-front">' + card.text + '</span></span></button>';
+      return '<button class="speed-match-card' + cardLabelSize(card.text) + '" type="button" data-card-index="' + index + '" aria-label="选择 ' + escapeHtml(card.text) + '">' +
+        '<span class="speed-match-card-front">' + escapeHtml(card.text) + '</span></button>';
     }).join('');
     if (round) round.textContent = '第 ' + state.round + ' 轮';
     updateStats();
-  }
-  function reveal(cardNode) {
-    cardNode.classList.add('flipped');
-  }
-  function hide(cardNode) {
-    cardNode.classList.remove('flipped');
   }
   function finishRound() {
     stopTimer();
@@ -183,9 +177,10 @@
     nodes[secondIndex].classList.add('mismatch');
     setFeedback('不匹配，再试一次', 'error');
     window.setTimeout(function () {
-      hide(nodes[firstIndex]); hide(nodes[secondIndex]);
       nodes[firstIndex].classList.remove('mismatch');
       nodes[secondIndex].classList.remove('mismatch');
+      nodes[firstIndex].classList.remove('selected');
+      nodes[secondIndex].classList.remove('selected');
       state.selected = [];
       state.locked = false;
       updateStats();
@@ -194,15 +189,15 @@
   }
   function onGridClick(event) {
     var cardNode = event.target.closest('.speed-match-card');
-    if (!cardNode || state.locked || cardNode.classList.contains('flipped') || cardNode.classList.contains('matched')) return;
+    if (!cardNode || state.locked || cardNode.classList.contains('matched') || cardNode.classList.contains('selected')) return;
     var index = Number(cardNode.dataset.cardIndex);
     if (!state.cards[index]) return;
     startTimer();
     state.flips += 1;
     state.selected.push(index);
-    reveal(cardNode);
-    cardNode.classList.add('just-flipped');
-    window.setTimeout(function () { cardNode.classList.remove('just-flipped'); }, 260);
+    cardNode.classList.add('selected');
+    cardNode.classList.add('just-selected');
+    window.setTimeout(function () { cardNode.classList.remove('just-selected'); }, 260);
     updateStats();
     if (state.selected.length === 2) resolveSelection();
   }
