@@ -690,6 +690,50 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
 .custom-goal-row input.name { flex: 1; }
 .custom-goal-row input.hours { width: 74px; text-align: center; }
 .link-btn { background: none; color: var(--blue); font-size: 0.82rem; font-weight: 700; padding: 4px 2px; }
+
+/* ---------- 公考速算消消乐 ---------- */
+.speed-match-header { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; margin-bottom:12px; }
+.speed-match-header .section-title { margin:4px 0 0; }
+.speed-match-header .btn { flex:0 0 auto; padding:10px 13px; border-radius:12px; font-size:.78rem; }
+.speed-match-panel { padding:14px; }
+.speed-match-stats { display:grid; grid-template-columns:repeat(4, minmax(0, 1fr)); gap:8px; margin-bottom:12px; }
+.speed-match-stat { min-width:0; background:var(--fill-2); border-radius:14px; padding:10px 8px; text-align:center; }
+.speed-match-stat .value { display:block; color:#5E5CE6; font-size:1.05rem; font-weight:800; font-variant-numeric:tabular-nums; white-space:nowrap; }
+.speed-match-stat .label { display:block; color:var(--text-2); font-size:.64rem; font-weight:700; margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.speed-match-feedback { min-height:28px; display:flex; align-items:center; justify-content:center; color:var(--text-2); font-size:.78rem; font-weight:700; text-align:center; transition:color .2s ease, transform .2s var(--ease-spring); }
+.speed-match-feedback.success { color:#248A3D; transform:scale(1.03); }
+.speed-match-feedback.error { color:#C93400; transform:scale(1.03); }
+.speed-match-grid { display:grid; grid-template-columns:repeat(4, minmax(0, 1fr)); gap:10px; max-width:520px; margin:4px auto 0; }
+.speed-match-card { position:relative; width:100%; aspect-ratio:1 / 1; min-width:0; padding:0; border-radius:16px; background:transparent; perspective:700px; }
+.speed-match-card-inner { position:absolute; inset:0; display:block; transform-style:preserve-3d; transition:transform .3s var(--ease-spring); }
+.speed-match-card.flipped .speed-match-card-inner, .speed-match-card.matched .speed-match-card-inner { transform:rotateY(180deg); }
+.speed-match-card-back, .speed-match-card-front { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; border-radius:16px; backface-visibility:hidden; overflow:hidden; text-align:center; }
+.speed-match-card-back { background:linear-gradient(145deg, #5E5CE6, #3478F6); color:#fff; font-size:1.5rem; font-weight:800; box-shadow:0 5px 14px rgba(52,120,246,.2); }
+.speed-match-card-front { padding:8px; background:var(--card); border:1px solid rgba(94,92,230,.18); color:var(--text); font-size:1rem; font-weight:800; line-height:1.05; letter-spacing:0; overflow-wrap:anywhere; transform:rotateY(180deg); box-shadow:0 4px 12px rgba(28,28,30,.08); }
+.speed-match-card.long .speed-match-card-front { font-size:.76rem; }
+.speed-match-card.just-flipped { animation:speedMatchPop .26s var(--ease-spring); }
+.speed-match-card.matched .speed-match-card-front { background:rgba(52,199,89,.16); border-color:rgba(52,199,89,.55); color:#248A3D; }
+.speed-match-card.matched { animation:speedMatchMatch .42s var(--ease-spring) both; pointer-events:none; }
+.speed-match-card.mismatch { animation:speedMatchShake .42s ease both; }
+.speed-match-errors { margin-top:16px; padding-top:14px; border-top:1px solid var(--fill); }
+.speed-match-errors-title { display:flex; align-items:center; justify-content:space-between; gap:8px; font-size:.86rem; font-weight:800; margin-bottom:8px; }
+.speed-match-errors-title .hint { color:var(--text-2); font-size:.68rem; font-weight:600; }
+.speed-match-error-row { display:flex; align-items:center; gap:8px; min-height:34px; padding:7px 0; border-top:1px solid var(--fill-2); }
+.speed-match-error-row .rank { width:20px; height:20px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:rgba(255,149,0,.14); color:#C93400; font-size:.68rem; font-weight:800; flex:0 0 auto; }
+.speed-match-error-row .error-pair { display:flex; align-items:center; gap:5px; min-width:0; flex:1; font-size:.76rem; }
+.speed-match-error-row .error-pair b { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.speed-match-error-row .error-pair span { color:var(--text-3); }
+.speed-match-error-row .error-count { color:#C93400; font-size:.7rem; font-weight:700; white-space:nowrap; }
+.speed-match-errors-empty { color:var(--text-2); font-size:.74rem; padding:4px 0; }
+@keyframes speedMatchPop { 50% { transform:scale(1.06); } }
+@keyframes speedMatchMatch { 50% { transform:scale(1.08); } }
+@keyframes speedMatchShake { 20%, 60% { transform:translateX(-5px); } 40%, 80% { transform:translateX(5px); } }
+@media (max-width:400px) {
+  .speed-match-grid { grid-template-columns:repeat(3, minmax(0, 1fr)); gap:9px; }
+  .speed-match-stats { gap:6px; }
+  .speed-match-stat { padding-left:4px; padding-right:4px; }
+  .speed-match-stat .value { font-size:.95rem; }
+}
 </style>
 </head>
 <body>
@@ -929,6 +973,32 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
       <div id="bleCharacteristicList"></div>
       <pre class="ble-log" id="bleLog"></pre>
       <button class="link-btn" id="bleClearBtn" style="margin-top:10px">清空蓝牙日志</button>
+    </div>
+  </div>
+
+  <!-- 视图：公考速算消消乐 -->
+  <div class="view" id="view-speed-match">
+    <div class="speed-match-header">
+      <div>
+        <div class="section-title"><span>🧮 公考速算消消乐</span><span class="hint" id="speedMatchRound">第 1 轮</span></div>
+        <div class="set-desc" style="margin:0 2px">翻开两张卡片，找出数值相等的表达式。全部配对后自动进入下一轮。</div>
+      </div>
+      <button class="btn gray" id="speedMatchReset" type="button" title="重新开始">↻ 新一轮</button>
+    </div>
+    <div class="card speed-match-panel">
+      <div class="speed-match-stats" aria-live="polite">
+        <div class="speed-match-stat"><span class="value" id="speedMatchPairs">0/0</span><span class="label">本轮配对</span></div>
+        <div class="speed-match-stat"><span class="value" id="speedMatchTime">00:00</span><span class="label">累计用时</span></div>
+        <div class="speed-match-stat"><span class="value" id="speedMatchStreak">0</span><span class="label">连续正确</span></div>
+        <div class="speed-match-stat"><span class="value" id="speedMatchFlips">0</span><span class="label">本轮翻牌</span></div>
+      </div>
+      <div class="speed-match-feedback" id="speedMatchFeedback" role="status">找到数值相等的两张卡片</div>
+      <div class="speed-match-grid" id="speedMatchGrid" aria-label="速算配对卡片"></div>
+      <div class="speed-match-errors">
+        <div class="speed-match-errors-title"><span>错题排行榜</span><span class="hint">累计记录 · 前 5 名</span></div>
+        <div id="speedMatchErrors"></div>
+        <div class="speed-match-errors-empty" id="speedMatchErrorsEmpty">还没有错题记录，先开始一轮吧。</div>
+      </div>
     </div>
   </div>
 
@@ -1178,6 +1248,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
   </div>
   <button class="drawer-item active" data-view="home"><span class="d-icon">📊</span>工作台</button>
   <button class="drawer-item" data-view="bluetooth"><span class="d-icon">🔋</span>电池蓝牙</button>
+  <button class="drawer-item" data-view="speed-match"><span class="d-icon">🧮</span>速算消消乐</button>
   <button class="drawer-item" data-view="courses"><span class="d-icon">📚</span>课程进度</button>
   <button class="drawer-item" data-view="goals"><span class="d-icon">🎯</span>目标管理</button>
   <button class="drawer-item" data-view="review"><span class="d-icon">📈</span>总结复盘</button>
@@ -1310,6 +1381,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
 <script src="sleep-schedule.js"></script>
 <script src="learning-timeline.js"></script>
 <script src="bluetooth.js"></script>
+<script src="speed-match-game.js"></script>
 <script>
 /* ============================================================
    个人工作台 前端 App（Kimi K3）
@@ -2465,7 +2537,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
   // ---------- 关于（已移至「设置」视图） ----------
 
   // ==================== v2.1 导航与视图切换 ====================
-  var VIEW_NAMES = { home: '工作台', bluetooth: '电池蓝牙', courses: '课程进度', goals: '目标管理', review: '总结复盘', notes: '学习笔记', knowledge: '项目知识库', settings: '设置' };
+  var VIEW_NAMES = { home: '工作台', bluetooth: '电池蓝牙', 'speed-match': '速算消消乐', courses: '课程进度', goals: '目标管理', review: '总结复盘', notes: '学习笔记', knowledge: '项目知识库', settings: '设置' };
   var currentView = 'home';
   function switchView(name) {
     if (!VIEW_NAMES[name]) name = 'home';
@@ -2481,7 +2553,8 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     $('checkinBtn').style.display = isHome ? '' : 'none';
     closeDrawer();
     window.scrollTo({ top: 0 });
-    if (name === 'courses') renderCourses();
+    if (name === 'speed-match') { if (window.SpeedMatchGame) window.SpeedMatchGame.mount(); }
+    else if (name === 'courses') renderCourses();
     else if (name === 'goals') renderGoalsView();
     else if (name === 'review') renderReview();
     else if (name === 'notes') renderNotes();
@@ -2489,6 +2562,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     else if (name === 'settings') renderSettingsView();
     else if (name === 'bluetooth') { /* BluetoothWorkbench owns this view. */ }
     else renderAll();
+    if (name !== 'speed-match' && window.SpeedMatchGame) window.SpeedMatchGame.deactivate();
   }
   function openDrawer() { $('drawer').classList.add('show'); $('backdrop').classList.add('show'); }
   function closeDrawer() { $('drawer').classList.remove('show'); if (!activeSheet) $('backdrop').classList.remove('show'); }
