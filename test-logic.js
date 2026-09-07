@@ -69,8 +69,8 @@ const lateSession = {
   duration_minutes: 30
 };
 assert(sessionSortTime(lateSession, schedule) > sessionSortTime(earlySession, schedule), "记录按真实时间而非学习日日期排序");
-assert(learningDateForTask({ date: "2026-09-01", created_at: "2026-09-01T04:00:00+08:00" }, schedule) === "2026-08-31", "凌晨新建任务归前一天学习日");
-assert(learningDateForCheckin({ date: "2026-09-01", checkin_at: "2026-09-01T04:00:00+08:00" }, schedule) === "2026-08-31", "凌晨打卡归前一天学习日");
+assert(learningDateForTask({ date: "2026-09-01", created_at: "2026-09-01T04:00:00+08:00" }, schedule) === "2026-09-01", "任务显式登记日期优先");
+assert(learningDateForCheckin({ date: "2026-09-01", checkin_at: "2026-09-01T04:00:00+08:00" }, schedule) === "2026-09-01", "打卡显式登记日期优先");
 
 const legacySession = { ...earlySession };
 assert(migrateFocusSession(legacySession, schedule, "2026-09-01T10:00:00+08:00"), "旧版专注记录会补全真实时间");
@@ -87,10 +87,11 @@ console.log("\n=== Test 1: filterLast14Days ===");
 
 const today = new Date();
 const fmt = (d) => d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
-const daysAgo = (n) => { const d = new Date(); d.setDate(d.getDate() - n); return fmt(d); };
+const learningToday = learningDateString(today, schedule);
+const daysAgo = (n) => learningDateOffset(today, schedule, -n);
 
 const testRecords = [
-  { client_id: "r1", date: fmt(today), duration_minutes: 25 },        // 今天 → 保留
+  { client_id: "r1", date: learningToday, duration_minutes: 25 },      // 今天 → 保留
   { client_id: "r2", date: daysAgo(7), duration_minutes: 30 },        // 7天前 → 保留
   { client_id: "r3", date: daysAgo(13), duration_minutes: 45 },       // 13天前 → 保留
   { client_id: "r4", date: daysAgo(14), duration_minutes: 20 },       // 14天前 → 边界
@@ -170,6 +171,69 @@ const dataStats = getDataStats(statsRecords);
 assert(dataStats.total === 4, "total = 4");
 assert(dataStats.todayCount === 2, "todayCount = 2");
 assert(dataStats.last14DaysCount === 3, "last14DaysCount = 3");
+
+// ==================== 测试学习日边界与安全兜底 ====================
+console.log("\n=== Test 5: learning-day filtering and cleanup ===");
+
+const RealDate = Date;
+const fixedNow = new RealDate("2026-09-07T04:00:00+08:00");
+class MockDate extends RealDate {
+  constructor(...args) {
+    super(...(args.length ? args : [fixedNow.getTime()]));
+  }
+  static now() { return fixedNow.getTime(); }
+}
+
+global.Date = MockDate;
+try {
+  const lateSchedule = normalizeSleepSchedule({
+    sleep_time: "07:00",
+    wake_time: "15:00",
+    day_start: "15:00"
+  });
+  const currentLearningDate = learningDateString(new Date(), lateSchedule);
+  const cutoff = getCutoffDate(14, lateSchedule);
+
+  assert(currentLearningDate === "2026-09-06", "凌晨4点的当前学习日是前一天");
+  assert(cutoff === "2026-08-23", `学习日14天截止日期正确, 实际 ${cutoff}`);
+
+  const lateRecords = [
+    { client_id: "late-current", date: "2026-09-06" },
+    { client_id: "late-cutoff", date: "2026-08-23" },
+    { client_id: "late-old", date: "2026-08-22" },
+    { client_id: "late-missing", date: null },
+    { client_id: "late-invalid", date: "2026-02-30" },
+  ];
+  const lateFiltered = filterLast14Days(lateRecords, 14, lateSchedule);
+  assert(lateFiltered.some((record) => record.client_id === "late-current"), "当前学习日记录保留");
+  assert(lateFiltered.some((record) => record.client_id === "late-cutoff"), "学习日截止边界记录保留");
+  assert(!lateFiltered.some((record) => record.client_id === "late-old"), "超过学习日截止的记录移除");
+  assert(lateFiltered.some((record) => record.client_id === "late-missing"), "缺失日期记录保留");
+  assert(lateFiltered.some((record) => record.client_id === "late-invalid"), "非法日期记录保留");
+
+  localStorage.setItem("workbench_data", JSON.stringify({
+    settings: { sleep_schedule: { day_start: "00:00" } },
+    meta: { last_sync_at: "2026-09-01T00:00:00+08:00" },
+    focus_sessions: [
+      { client_id: "settings-cutoff", date: "2026-08-23", updated_at: "2026-08-20T00:00:00+08:00" },
+      { client_id: "missing-date", date: null, updated_at: "2026-08-20T00:00:00+08:00" },
+      { client_id: "invalid-date", date: "2026-02-30", updated_at: "2026-08-20T00:00:00+08:00" },
+      { client_id: "missing-updated", date: "2026-08-22" },
+      { client_id: "invalid-updated", date: "2026-08-22", updated_at: "not-a-date" },
+    ],
+    tasks: []
+  }));
+  const settingsCleanup = safeCleanLocalData();
+  const afterSettingsCleanup = JSON.parse(localStorage.getItem("workbench_data"));
+  assert(settingsCleanup.removedSessions === 1, "清理使用 data.settings.sleep_schedule");
+  assert(afterSettingsCleanup.focus_sessions.length === 4, "日期或同步状态不可信的记录保留");
+  assert(afterSettingsCleanup.focus_sessions.some((record) => record.client_id === "missing-date"), "清理保留缺失日期");
+  assert(afterSettingsCleanup.focus_sessions.some((record) => record.client_id === "invalid-date"), "清理保留非法日期");
+  assert(afterSettingsCleanup.focus_sessions.some((record) => record.client_id === "missing-updated"), "非强制清理保留缺失 updated_at");
+  assert(afterSettingsCleanup.focus_sessions.some((record) => record.client_id === "invalid-updated"), "非强制清理保留非法 updated_at");
+} finally {
+  global.Date = RealDate;
+}
 
 // ==================== 结果 ====================
 console.log(`\n${"=".repeat(40)}`);

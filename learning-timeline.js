@@ -7,7 +7,7 @@
     SleepSchedule = require('./sleep-schedule.js');
   }
 
-  var TWO_DAYS = 48 * 60 * 60 * 1000;
+  var DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
 
   function asDate(value) {
     if (!value) return null;
@@ -17,6 +17,21 @@
 
   function hasValidTimestamp(value) {
     return !!asDate(value);
+  }
+
+  function validDateString(value) {
+    return DATE_PATTERN.test(String(value || ''));
+  }
+
+  // A saved learning-day start keeps historical sessions stable when the user
+  // later changes today's schedule. New records receive this snapshot when
+  // they are created or migrated.
+  function sessionSchedule(session, schedule) {
+    var normalized = SleepSchedule.normalizeSleepSchedule(schedule);
+    if (session && SleepSchedule.validTime(session.learning_day_start)) {
+      normalized.day_start = session.learning_day_start;
+    }
+    return normalized;
   }
 
   function durationMinutes(session) {
@@ -37,19 +52,16 @@
     var clock = endClock(session, String(fallback.getHours()).padStart(2, '0') + ':' + String(fallback.getMinutes()).padStart(2, '0'));
     var calendarCandidate = SleepSchedule.dateAtTime(session.date, clock);
     var learningCandidate = SleepSchedule.dateTimeForLearningDate(session.date, clock, schedule);
-    if (!calendarCandidate) return fallback;
-    if (!learningCandidate || !session.updated_at) return calendarCandidate;
-
-    var calendarDistance = Math.abs(calendarCandidate.getTime() - fallback.getTime());
-    var learningDistance = Math.abs(learningCandidate.getTime() - fallback.getTime());
-    return learningDistance < calendarDistance && learningDistance <= TWO_DAYS
-      ? learningCandidate
-      : calendarCandidate;
+    // `date` is the learning date, so a pre-boundary clock belongs to the
+    // following natural date. Do not let an edit timestamp silently switch it
+    // back to a calendar-day interpretation.
+    return learningCandidate || calendarCandidate || fallback;
   }
 
   function sessionInterval(session, schedule) {
     session = session || {};
-    var end = asDate(session.ended_at) || asDate(session.occurred_at) || legacySessionEnd(session, schedule);
+    var effectiveSchedule = sessionSchedule(session, schedule);
+    var end = asDate(session.ended_at) || asDate(session.occurred_at) || legacySessionEnd(session, effectiveSchedule);
     var start = asDate(session.started_at);
     if (!start || start.getTime() > end.getTime()) {
       start = new Date(end.getTime() - durationMinutes(session) * 60000);
@@ -58,7 +70,9 @@
   }
 
   function sessionLearningDate(session, schedule) {
-    return SleepSchedule.learningDateString(sessionInterval(session, schedule).end, schedule);
+    if (session && validDateString(session.date)) return String(session.date);
+    var effectiveSchedule = sessionSchedule(session, schedule);
+    return SleepSchedule.learningDateString(sessionInterval(session, effectiveSchedule).end, effectiveSchedule);
   }
 
   function rangeForLearningDate(date, schedule) {
@@ -75,13 +89,15 @@
   }
 
   function sessionMinutesOnLearningDate(session, date, schedule) {
-    return overlapMinutes(sessionInterval(session, schedule), rangeForLearningDate(date, schedule));
+    var effectiveSchedule = sessionSchedule(session, schedule);
+    return overlapMinutes(sessionInterval(session, effectiveSchedule), rangeForLearningDate(date, effectiveSchedule));
   }
 
   function sessionMinutesInLearningRange(session, startDate, endDate, schedule) {
-    var start = SleepSchedule.learningDayStart(startDate, schedule);
-    var end = SleepSchedule.learningDayStart(SleepSchedule.shiftDateString(endDate, 1), schedule);
-    return overlapMinutes(sessionInterval(session, schedule), { start: start, end: end });
+    var effectiveSchedule = sessionSchedule(session, schedule);
+    var start = SleepSchedule.learningDayStart(startDate, effectiveSchedule);
+    var end = SleepSchedule.learningDayStart(SleepSchedule.shiftDateString(endDate, 1), effectiveSchedule);
+    return overlapMinutes(sessionInterval(session, effectiveSchedule), { start: start, end: end });
   }
 
   function sessionSortTime(session, schedule) {
@@ -89,11 +105,13 @@
   }
 
   function learningDateForTask(task, schedule) {
+    if (task && validDateString(task.date)) return String(task.date);
     var created = asDate(task && task.created_at);
     return created ? SleepSchedule.learningDateString(created, schedule) : String((task && task.date) || '');
   }
 
   function learningDateForCheckin(checkin, schedule) {
+    if (checkin && validDateString(checkin.date)) return String(checkin.date);
     var created = asDate(checkin && (checkin.checkin_at || checkin.created_at));
     return created ? SleepSchedule.learningDateString(created, schedule) : String((checkin && checkin.date) || '');
   }
@@ -111,15 +129,11 @@
     return true;
   }
 
-  function markMigrated(target, changed, nowIso) {
-    if (changed) target.updated_at = nowIso || new Date().toISOString();
-    return changed;
-  }
-
   function migrateFocusSession(session, schedule, nowIso) {
     if (!session || typeof session !== 'object') return false;
 
-    var interval = sessionInterval(session, schedule);
+    var normalized = SleepSchedule.normalizeSleepSchedule(schedule);
+    var interval = sessionInterval(session, normalized);
     var hasCompleteInterval = hasValidTimestamp(session.started_at) && hasValidTimestamp(session.ended_at)
       && new Date(session.started_at).getTime() <= new Date(session.ended_at).getTime();
     var changed = false;
@@ -132,8 +146,13 @@
       String(interval.start.getHours()).padStart(2, '0') + ':' + String(interval.start.getMinutes()).padStart(2, '0')) || changed;
     changed = updateValue(session, 'end_time', SleepSchedule.validTime(session.end_time) ? session.end_time :
       String(interval.end.getHours()).padStart(2, '0') + ':' + String(interval.end.getMinutes()).padStart(2, '0')) || changed;
-    changed = updateValue(session, 'date', SleepSchedule.learningDateString(interval.end, schedule)) || changed;
-    return markMigrated(session, changed, nowIso);
+    if (!validDateString(session.date)) {
+      changed = updateValue(session, 'date', SleepSchedule.learningDateString(interval.end, normalized)) || changed;
+    }
+    if (!SleepSchedule.validTime(session.learning_day_start)) {
+      changed = updateValue(session, 'learning_day_start', normalized.day_start) || changed;
+    }
+    return changed;
   }
 
   function inferTaskTimestamp(task, schedule) {
@@ -147,10 +166,14 @@
   function migrateTask(task, schedule, nowIso) {
     if (!task || typeof task !== 'object') return false;
     var created = inferTaskTimestamp(task, schedule);
-    if (!created) return false;
-    var changed = updateTimestamp(task, 'created_at', created);
-    changed = updateValue(task, 'date', SleepSchedule.learningDateString(created, schedule)) || changed;
-    return markMigrated(task, changed, nowIso);
+    var changed = false;
+    if (!hasValidTimestamp(task.created_at) && created) {
+      changed = updateTimestamp(task, 'created_at', created) || changed;
+    }
+    if (!validDateString(task.date) && created) {
+      changed = updateValue(task, 'date', SleepSchedule.learningDateString(created, schedule)) || changed;
+    }
+    return changed;
   }
 
   function inferCheckinTimestamp(checkin, schedule) {
@@ -164,10 +187,14 @@
   function migrateCheckin(checkin, schedule, nowIso) {
     if (!checkin || typeof checkin !== 'object') return false;
     var checked = inferCheckinTimestamp(checkin, schedule);
-    if (!checked) return false;
-    var changed = updateTimestamp(checkin, 'checkin_at', checked);
-    changed = updateValue(checkin, 'date', SleepSchedule.learningDateString(checked, schedule)) || changed;
-    return markMigrated(checkin, changed, nowIso);
+    var changed = false;
+    if (!hasValidTimestamp(checkin.checkin_at) && checked) {
+      changed = updateTimestamp(checkin, 'checkin_at', checked) || changed;
+    }
+    if (!validDateString(checkin.date) && checked) {
+      changed = updateValue(checkin, 'date', SleepSchedule.learningDateString(checked, schedule)) || changed;
+    }
+    return changed;
   }
 
   var api = {
