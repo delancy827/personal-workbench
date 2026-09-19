@@ -3839,18 +3839,37 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
       toast: toast,
       getRemoteToken: function () { return localStorage.getItem(LS_TOKEN) || ''; }
     });
-    (function seedPublishedQuizBankIfEmpty() {
-      var scoped = loadData();
-      var hasBank = (scoped.quiz_banks || []).some(function (bank) { return !bank.is_deleted; });
-      if (hasBank) return;
-      var url = './published-quiz-banks/工作台导入_新清洗主库_20260919.json';
-      fetch(url).then(function (res) { return res.ok ? res.json() : null; }).then(function (doc) {
+    // 缺少「新清洗主库」时自动合并导入（旧设备可能已有其他题库，不能只在空库时导入）
+    (function seedPublishedQuizBankIfMissing() {
+      var TARGET_BANK_ID = 'sinopec-sixiang-suzhi-20260919';
+      function hasTarget(data) {
+        return (data.quiz_banks || []).some(function (bank) {
+          return !bank.is_deleted && bank.bank_id === TARGET_BANK_ID;
+        });
+      }
+      var scoped0 = loadData();
+      if (hasTarget(QuizData.ensure(scoped0))) return;
+      var candidates = [
+        encodeURI('./published-quiz-banks/工作台导入_新清洗主库_20260919.json'),
+        './published-quiz-banks/' + encodeURIComponent('工作台导入_新清洗主库_20260919.json'),
+        'https://raw.githubusercontent.com/delancy827/personal-workbench/main/quiz_bank.json',
+        'https://gist.githubusercontent.com/delancy827/ef846efff3c2b97464647791295f3231/raw/quiz_bank.json'
+      ];
+      function tryFetch(index) {
+        if (index >= candidates.length) return Promise.resolve(null);
+        return fetch(candidates[index], { cache: 'no-store' }).then(function (res) {
+          return res.ok ? res.json() : null;
+        }).catch(function () { return null; }).then(function (doc) {
+          return doc && doc.questions && doc.bank ? doc : tryFetch(index + 1);
+        });
+      }
+      tryFetch(0).then(function (doc) {
         if (!doc || !window.QuizData || !window.QuizImport) return;
+        if (doc.bank && doc.bank.bank_id && doc.bank.bank_id !== TARGET_BANK_ID) return;
         var current = QuizData.ensure(loadData());
-        var stillEmpty = !(current.quiz_banks || []).some(function (bank) { return !bank.is_deleted; });
-        if (!stillEmpty) return;
+        if (hasTarget(current)) return;
         var analysis = QuizImport.analyze(doc, current);
-        if (!analysis.valid || !analysis.summary.add) return;
+        if (!analysis.valid || !(analysis.summary.add + analysis.summary.update)) return;
         var applied = QuizImport.apply(doc, current, { analysis: analysis, fileName: '工作台导入_新清洗主库_20260919.json' });
         saveData(applied.data);
         if (window.QuizUI && QuizUI.render) QuizUI.render();
