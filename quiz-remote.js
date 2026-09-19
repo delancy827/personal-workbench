@@ -35,10 +35,26 @@
 
   function getSources(settings) {
     var saved = settings && Array.isArray(settings.quiz_remote_sources) ? settings.quiz_remote_sources : [];
-    var sources = saved.length ? saved : DEFAULT_SOURCES;
-    return sources.filter(validSource).map(function (source) {
-      return Object.assign({ filename: FILENAME }, clone(source), { key: sourceKey(source) });
+    var merged = [];
+    var seen = {};
+    function push(source) {
+      if (!validSource(source)) return;
+      var key = sourceKey(source);
+      if (!key || seen[key]) return;
+      seen[key] = true;
+      merged.push(Object.assign({ filename: FILENAME }, clone(source), { key: key }));
+    }
+    // 默认源始终保留，避免旧 settings 里只有部分源时丢掉新清洗库
+    DEFAULT_SOURCES.forEach(push);
+    saved.forEach(push);
+    if (!merged.length) DEFAULT_SOURCES.forEach(push);
+    // 新清洗库排在最前
+    merged.sort(function (a, b) {
+      var ax = a.bank_id === 'sinopec-sixiang-suzhi-20260919' ? 0 : 1;
+      var bx = b.bank_id === 'sinopec-sixiang-suzhi-20260919' ? 0 : 1;
+      return ax - bx;
     });
+    return merged;
   }
 
   function sourceWithForm(source, gistId, name) {
