@@ -43,7 +43,10 @@ const originalFetch = global.fetch;
 async function run() {
   console.log('\n=== Test: remote quiz bank ===');
   assert(QuizRemote.FILENAME === 'quiz_bank.json', '远程题库使用独立文件名');
-  assert(QuizRemote.getSources({}).length === 2, '默认配置包含两个已发布题库源');
+  const defaultSources = QuizRemote.getSources({});
+  assert(defaultSources.length === 3, '默认配置包含三个已发布题库源');
+  assert(defaultSources[0].bank_id === 'sinopec-sixiang-suzhi-20260919', '新清洗库排在默认题库源首位');
+  assert(defaultSources.every((source) => /^[A-Za-z0-9]+$/.test(source.gist_id)), '默认题库源 Gist ID 合法');
   assert(new GistClient('token', 'gist', 'quiz_bank.json').filename === 'quiz_bank.json', 'Gist 客户端支持自定义文件名');
 
   global.fetch = async function (url) {
