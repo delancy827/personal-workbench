@@ -8,7 +8,8 @@
   var COLLECTIONS = [
     'quiz_banks', 'quiz_questions', 'quiz_question_versions',
     'quiz_sessions', 'quiz_attempts', 'quiz_question_states',
-    'quiz_import_batches'
+    'quiz_import_batches', 'quiz_exam_sessions', 'quiz_exam_answers',
+    'quiz_exam_results'
   ];
 
   function newId(prefix) {
@@ -31,7 +32,10 @@
       quiz_sessions: [],
       quiz_attempts: [],
       quiz_question_states: [],
-      quiz_import_batches: []
+      quiz_import_batches: [],
+      quiz_exam_sessions: [],
+      quiz_exam_answers: [],
+      quiz_exam_results: []
     };
   }
 
