@@ -10,6 +10,11 @@
   var FILENAME = 'quiz_bank.json';
   var DEFAULT_SOURCES = [
     {
+      provider: 'github_gist', gist_id: 'ef846efff3c2b97464647791295f3231', filename: FILENAME,
+      owner: 'delancy827', raw_url: 'https://gist.githubusercontent.com/delancy827/ef846efff3c2b97464647791295f3231/raw/quiz_bank.json',
+      bank_id: 'sinopec-sixiang-suzhi-20260919', name: '中国石化思想素质新清洗库（2026-09-19）'
+    },
+    {
       provider: 'github_gist', gist_id: '9baacee6a3ec7c24447b16cc65cdb773', filename: FILENAME,
       owner: 'delancy827', raw_url: 'https://gist.githubusercontent.com/delancy827/9baacee6a3ec7c24447b16cc65cdb773/raw/quiz_bank.json',
       bank_id: 'sixiang-suzhi-formal', name: '思想素质综合正式库'
