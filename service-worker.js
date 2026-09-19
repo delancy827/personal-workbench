@@ -1,4 +1,4 @@
-const CACHE_NAME = 'personal-workbench-v10';
+const CACHE_NAME = 'personal-workbench-v11';
 const APP_SHELL = [
   './',
   './index.html',
