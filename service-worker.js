@@ -1,4 +1,4 @@
-const CACHE_NAME = 'personal-workbench-v7';
+const CACHE_NAME = 'personal-workbench-v9';
 const APP_SHELL = [
   './',
   './index.html',
@@ -18,6 +18,8 @@ const APP_SHELL = [
   './quiz-import.js',
   './quiz-remote.js',
   './quiz-ui.js',
+  './quiz-stats.js',
+  './quiz-exam.js',
   './icons/icon-180.png',
   './icons/icon-180.svg',
   './icons/icon-512.svg'
