@@ -10,11 +10,6 @@
   var FILENAME = 'quiz_bank.json';
   var DEFAULT_SOURCES = [
     {
-      provider: 'github_gist', gist_id: 'ef846efff3c2b97464647791295f3231', filename: FILENAME,
-      owner: 'delancy827', raw_url: 'https://gist.githubusercontent.com/delancy827/ef846efff3c2b97464647791295f3231/raw/quiz_bank.json',
-      bank_id: 'sinopec-sixiang-suzhi-20260919', name: '中国石化思想素质新清洗库（2026-09-19）'
-    },
-    {
       provider: 'github_gist', gist_id: '9baacee6a3ec7c24447b16cc65cdb773', filename: FILENAME,
       owner: 'delancy827', raw_url: 'https://gist.githubusercontent.com/delancy827/9baacee6a3ec7c24447b16cc65cdb773/raw/quiz_bank.json',
       bank_id: 'sixiang-suzhi-formal', name: '思想素质综合正式库'
@@ -44,16 +39,12 @@
       seen[key] = true;
       merged.push(Object.assign({ filename: FILENAME }, clone(source), { key: key }));
     }
-    // 默认源始终保留，避免旧 settings 里只有部分源时丢掉新清洗库
+    // 合并默认源与已保存源（清洗失败的新库不在默认列表中）
     DEFAULT_SOURCES.forEach(push);
-    saved.forEach(push);
+    saved.filter(function (source) {
+      return source && source.bank_id !== 'sinopec-sixiang-suzhi-20260919';
+    }).forEach(push);
     if (!merged.length) DEFAULT_SOURCES.forEach(push);
-    // 新清洗库排在最前
-    merged.sort(function (a, b) {
-      var ax = a.bank_id === 'sinopec-sixiang-suzhi-20260919' ? 0 : 1;
-      var bx = b.bank_id === 'sinopec-sixiang-suzhi-20260919' ? 0 : 1;
-      return ax - bx;
-    });
     return merged;
   }
 
