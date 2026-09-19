@@ -5,7 +5,12 @@
   var ACTIVE_KEY = 'workbench_active_workspace';
   var LEGACY_MIGRATION_KEY = 'legacy_history_workspace_migrated';
   var LEGACY_HISTORY_WORKSPACE = 'sinopec-2027';
-  var SCOPED_COLLECTIONS = ['focus_sessions', 'tasks', 'courses', 'notes', 'checkins', 'reviews', 'goals', 'workspace_states'];
+  var SCOPED_COLLECTIONS = [
+    'focus_sessions', 'tasks', 'courses', 'notes', 'checkins', 'reviews', 'goals', 'workspace_states',
+    'quiz_banks', 'quiz_questions', 'quiz_question_versions', 'quiz_sessions',
+    'quiz_attempts', 'quiz_question_states', 'quiz_import_batches',
+    'quiz_exam_sessions', 'quiz_exam_answers', 'quiz_exam_results'
+  ];
   var ALL_COLLECTIONS = SCOPED_COLLECTIONS.concat(['knowledge_items']);
   var DEFAULT_WORKSPACES = [
     {

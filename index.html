@@ -724,6 +724,108 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
 .speed-match-error-row .error-pair span { color:var(--text-3); }
 .speed-match-error-row .error-count { color:#C93400; font-size:.7rem; font-weight:700; white-space:nowrap; }
 .speed-match-errors-empty { color:var(--text-2); font-size:.74rem; padding:4px 0; }
+.quiz-stats { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:14px; }
+.quiz-stat { background:var(--fill-2); border-radius:16px; padding:12px 10px; text-align:center; }
+.quiz-stat .v { font-size:1.2rem; font-weight:800; color:#7A5CFF; font-variant-numeric:tabular-nums; }
+.quiz-stat .k { color:var(--text-2); font-size:.68rem; font-weight:700; margin-top:2px; }
+.quiz-actions { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.quiz-actions .btn { width:100%; padding:13px 10px; font-size:.88rem; }
+.quiz-actions .btn.orange { background:linear-gradient(180deg,#FFB340,var(--orange)); color:#fff; box-shadow:0 6px 18px rgba(255,149,0,.28); }
+.quiz-import-report,.quiz-remote-report { background:var(--fill-2); border-radius:14px; padding:12px; margin-top:12px; font-size:.8rem; line-height:1.5; }
+.quiz-report-grid { display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-top:8px; color:var(--text-2); }
+.quiz-error { color:var(--red); margin-top:8px; }
+.quiz-remote-panel { margin-top:14px; padding-top:14px; border-top:1px solid var(--fill); }
+.quiz-remote-head { display:flex; align-items:center; gap:8px; margin-bottom:8px; }
+.quiz-remote-head strong { font-size:.9rem; }
+.quiz-remote-select { width:100%; background:var(--fill-2); color:var(--text); border:0; border-radius:12px; padding:11px 12px; font:inherit; }
+.quiz-remote-meta { min-height:18px; color:var(--text-2); font-size:.7rem; margin-top:6px; overflow-wrap:anywhere; }
+.quiz-remote-actions { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:9px; }
+.quiz-remote-actions .btn { width:100%; padding:11px 8px; font-size:.78rem; }
+.quiz-remote-report > b,.quiz-remote-report > span,.quiz-remote-report > small { display:block; }
+.quiz-remote-version { color:var(--text-2); margin-top:3px; }
+.quiz-remote-message.error { color:var(--red); }
+.quiz-remote-confirm-row { display:flex; gap:8px; margin-top:8px; }
+.quiz-remote-confirm-row .btn { flex:1; padding:10px 8px; font-size:.78rem; }
+.quiz-bank-row { display:flex; align-items:center; justify-content:space-between; gap:10px; padding:12px 2px; border-bottom:1px solid var(--fill); }
+.quiz-bank-row:last-child { border-bottom:none; }
+.quiz-bank-row b { display:block; font-size:.9rem; }
+.quiz-bank-row small { display:block; color:var(--text-2); font-size:.7rem; margin-top:3px; }
+.quiz-bank-row > span { color:var(--text-2); font-size:.76rem; font-weight:700; white-space:nowrap; }
+.quiz-practice-head { display:flex; align-items:center; gap:10px; margin-bottom:12px; }
+.quiz-practice-head > div:first-child { flex:1; min-width:0; }
+.quiz-practice-title { font-weight:800; font-size:1rem; }
+.quiz-practice-meta { color:var(--text-2); font-size:.74rem; margin-top:3px; }
+.quiz-favorite-btn { background:var(--fill-2); color:var(--text-2); border-radius:999px; padding:8px 11px; font-size:.76rem; font-weight:800; white-space:nowrap; }
+.quiz-favorite-btn.active { background:rgba(255,149,0,.14); color:#C93400; }
+.quiz-progress { height:6px; border-radius:4px; background:var(--fill-2); overflow:hidden; margin-bottom:18px; }
+.quiz-progress > div { height:100%; width:0; border-radius:4px; background:linear-gradient(90deg,#5AC8FA,#3478F6,#AF52DE); transition:width .3s ease; }
+.quiz-stem { font-size:1.08rem; line-height:1.6; font-weight:750; white-space:pre-wrap; margin-bottom:16px; }
+.quiz-options { display:flex; flex-direction:column; gap:9px; }
+.quiz-option { display:flex; align-items:flex-start; gap:10px; background:var(--fill-2); border:2px solid transparent; border-radius:15px; padding:13px 14px; cursor:pointer; }
+.quiz-option.selected { border-color:rgba(52,120,246,.55); background:rgba(52,120,246,.09); }
+.quiz-option input { position:absolute; opacity:0; pointer-events:none; }
+.quiz-option-key { width:26px; height:26px; flex:0 0 26px; display:flex; align-items:center; justify-content:center; border-radius:50%; background:var(--card); color:var(--text-2); font-size:.76rem; font-weight:800; }
+.quiz-option.selected .quiz-option-key { background:var(--blue); color:#fff; }
+.quiz-option-text { flex:1; min-width:0; font-size:.9rem; line-height:1.5; }
+.quiz-result { margin-top:14px; border-radius:14px; padding:13px 14px; line-height:1.55; font-size:.82rem; }
+.quiz-result.correct { background:rgba(52,199,89,.12); color:#248A3D; }
+.quiz-result.wrong { background:rgba(255,59,48,.1); color:#B42318; }
+.quiz-result b,.quiz-result span { display:block; }
+.quiz-result p { margin-top:8px; color:var(--text); }
+.quiz-nav { display:flex; gap:8px; margin-top:14px; }
+.quiz-nav .btn { flex:1; padding:13px 10px; font-size:.86rem; }
+.quiz-message { min-height:22px; margin-top:8px; color:var(--text-2); font-size:.76rem; font-weight:600; }
+.quiz-message.good { color:#248A3D; }
+.quiz-message.bad { color:#B42318; }
+.quiz-screen { display:none; }
+.quiz-screen.active { display:block; }
+.quiz-home-actions { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.quiz-home-actions .btn { width:100%; padding:13px 10px; }
+.quiz-category-list { display:flex; flex-direction:column; }
+.quiz-category-row { display:flex; align-items:center; gap:10px; padding:13px 2px; border-bottom:1px solid var(--fill); }
+.quiz-category-row:last-child { border-bottom:0; }
+.quiz-category-main { flex:1; min-width:0; }
+.quiz-category-main b,.quiz-category-main small { display:block; }
+.quiz-category-main small { color:var(--text-2); font-size:.72rem; margin-top:3px; }
+.quiz-category-rate { color:var(--text-2); font-size:.75rem; white-space:nowrap; }
+.quiz-category-row .btn { padding:8px 10px; font-size:.74rem; }
+.quiz-screen-head { display:flex; align-items:center; gap:10px; margin-bottom:14px; }
+.quiz-screen-head > div { flex:1; min-width:0; }
+.quiz-screen-title { font-size:1.05rem; font-weight:800; }
+.quiz-screen-subtitle { color:var(--text-2); font-size:.74rem; margin-top:3px; }
+.quiz-form-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.quiz-form-grid .field { margin:0; }
+.quiz-form-grid .field.full { grid-column:1 / -1; }
+.quiz-form-grid select,.quiz-form-grid input { width:100%; background:var(--fill-2); color:var(--text); border-radius:12px; padding:11px 12px; font:inherit; }
+.quiz-form-actions { display:flex; gap:8px; margin-top:14px; }
+.quiz-form-actions .btn { flex:1; padding:12px 8px; }
+.quiz-exam-toolbar { display:flex; align-items:center; gap:8px; margin-bottom:12px; }
+.quiz-exam-toolbar > div { flex:1; min-width:0; }
+.quiz-exam-toolbar b,.quiz-exam-toolbar small { display:block; }
+.quiz-exam-toolbar small { color:var(--text-2); font-size:.7rem; margin-top:3px; }
+.quiz-exam-time { color:var(--blue); font-weight:800; font-variant-numeric:tabular-nums; white-space:nowrap; }
+.quiz-exam-time.danger { color:var(--red); }
+.quiz-exam-stem { font-size:1.08rem; line-height:1.6; font-weight:750; white-space:pre-wrap; margin:12px 0 16px; }
+.quiz-exam-options { display:flex; flex-direction:column; gap:9px; }
+.quiz-exam-nav { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin-top:14px; }
+.quiz-exam-nav .btn { padding:12px 6px; font-size:.78rem; }
+.quiz-exam-question-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:7px; margin-top:12px; }
+.quiz-exam-question-grid button { aspect-ratio:1; border-radius:10px; background:var(--fill-2); color:var(--text-2); font-weight:800; }
+.quiz-exam-question-grid button.answered { background:rgba(52,120,246,.12); color:var(--blue); }
+.quiz-exam-question-grid button.marked { outline:2px solid var(--orange); outline-offset:1px; }
+.quiz-exam-question-grid button.current { box-shadow: inset 0 0 0 2px var(--blue); }
+.quiz-result-score { text-align:center; padding:8px 0 16px; }
+.quiz-result-score .value { display:block; font-size:2.2rem; font-weight:900; color:var(--blue); }
+.quiz-result-score .label { color:var(--text-2); font-size:.76rem; }
+.quiz-result-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
+.quiz-result-item { background:var(--fill-2); border-radius:12px; padding:10px 5px; text-align:center; }
+.quiz-result-item b,.quiz-result-item small { display:block; }
+.quiz-result-item small { color:var(--text-2); font-size:.68rem; margin-top:3px; }
+.quiz-result-category { display:flex; justify-content:space-between; gap:8px; padding:10px 2px; border-bottom:1px solid var(--fill); font-size:.8rem; }
+.quiz-result-category:last-child { border-bottom:0; }
+.quiz-result-category span:last-child { color:var(--text-2); white-space:nowrap; }
+@media (max-width:380px) { .quiz-form-grid { grid-template-columns:1fr; } .quiz-form-grid .field.full { grid-column:auto; } .quiz-exam-question-grid { grid-template-columns:repeat(5,1fr); gap:5px; } }
+@media (max-width:380px) { .quiz-stats { gap:5px; } .quiz-stat { padding-left:5px; padding-right:5px; } .quiz-stat .v { font-size:1rem; } }
 @keyframes speedMatchPop { 50% { transform:scale(1.06); } }
 @keyframes speedMatchMatch { 50% { transform:scale(1.08); } }
 @keyframes speedMatchFade { to { opacity:0; transform:scale(.72); } }
@@ -986,6 +1088,146 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     </div>
   </div>
 
+  <!-- 视图：个人刷题 -->
+  <div class="view" id="view-quiz">
+    <div class="section-title">✍️ 个人刷题 <span class="hint">本地记录 · 手动同步</span></div>
+    <div class="card quiz-home-block">
+      <div class="quiz-stats">
+        <div class="quiz-stat"><div class="v" id="quizTodayAttempts">0</div><div class="k">今日答题</div></div>
+        <div class="quiz-stat"><div class="v" id="quizTodayAccuracy">0%</div><div class="k">今日正确率</div></div>
+        <div class="quiz-stat"><div class="v" id="quizTodayTime">0秒</div><div class="k">今日学习</div></div>
+      </div>
+      <div class="quiz-stats">
+        <div class="quiz-stat"><div class="v" id="quizWrongCount">0</div><div class="k">当前错题</div></div>
+        <div class="quiz-stat"><div class="v" id="quizAllAttempts">0</div><div class="k">累计答题</div></div>
+        <div class="quiz-stat"><div class="v" id="quizAllAccuracy">0%</div><div class="k">累计正确率</div></div>
+      </div>
+    </div>
+    <div class="card quiz-home-block">
+      <div class="section-title" style="margin:0 0 12px">开始练习 <span class="hint">题库 <b id="quizBankCount">0</b> · 题目 <b id="quizQuestionCount">0</b></span></div>
+      <div class="quiz-actions">
+        <button class="btn grad" data-quiz-action="start" data-mode="sequential"><span class="label">顺序练习</span></button>
+        <button class="btn blue" data-quiz-action="start" data-mode="random"><span class="label">随机练习</span></button>
+        <button class="btn orange" data-quiz-action="start" data-mode="wrong"><span class="label">错题练习</span></button>
+        <button class="btn green" data-quiz-action="start" data-mode="favorite"><span class="label">收藏练习</span></button>
+      </div>
+      <div class="quiz-home-actions" style="margin-top:10px">
+        <button class="btn blue" data-quiz-action="category-open"><span class="label">▦ 分板块练习</span></button>
+        <button class="btn gray" data-quiz-action="exam-open"><span class="label">▤ 整卷考试</span></button>
+      </div>
+      <div id="quizResumeExam" style="display:none;margin-top:10px"></div>
+      <button class="btn gray" data-quiz-action="import" style="width:100%;margin-top:10px"><span class="label">📥 导入标准题库 JSON</span></button>
+      <input type="file" id="quizImportFile" accept=".json,application/json" style="display:none">
+      <div class="quiz-import-report" id="quizImportReport" style="display:none"></div>
+      <button class="btn blue" id="quizImportConfirm" style="width:100%;margin-top:10px;display:none"><span class="label">确认导入</span></button>
+      <div class="quiz-remote-panel">
+        <div class="quiz-remote-head"><strong>远程题库</strong><span class="hint">GitHub Gist · 先预览后合并</span></div>
+        <select class="quiz-remote-select" id="quizRemoteSource" aria-label="选择远程题库"></select>
+        <div class="quiz-remote-meta" id="quizRemoteSourceMeta"></div>
+        <div class="quiz-remote-actions">
+          <button class="btn blue" data-quiz-action="remote-fetch" id="quizRemoteFetch"><span class="label">↓ 抓取题库</span></button>
+          <button class="btn gray" data-quiz-action="remote-publish" id="quizRemotePublish"><span class="label">↑ 发布/更新</span></button>
+        </div>
+        <div class="quiz-remote-report" id="quizRemoteReport" style="display:none"></div>
+        <div class="quiz-remote-confirm-row">
+          <button class="btn green" data-quiz-action="remote-confirm" id="quizRemoteConfirm" style="display:none"><span class="label">确认合并</span></button>
+          <button class="btn gray" data-quiz-action="remote-cancel" id="quizRemoteCancel" style="display:none"><span class="label">取消</span></button>
+        </div>
+      </div>
+    </div>
+    <div class="quiz-screen" id="quizScreenCategory">
+      <div class="card">
+        <div class="quiz-screen-head">
+          <div><div class="quiz-screen-title">分板块练习</div><div class="quiz-screen-subtitle">按题库中的一级分类开始练习</div></div>
+          <button class="btn gray" data-quiz-action="home">返回</button>
+        </div>
+        <div class="quiz-category-list" id="quizCategoryList"></div>
+      </div>
+    </div>
+    <div class="quiz-screen" id="quizScreenExamSetup">
+      <div class="card">
+        <div class="quiz-screen-head">
+          <div><div class="quiz-screen-title">整卷考试</div><div class="quiz-screen-subtitle">开始前可不填写试卷信息</div></div>
+          <button class="btn gray" data-quiz-action="home">返回</button>
+        </div>
+        <div class="quiz-form-grid">
+          <div class="field full"><label>题库</label><select id="quizExamBank"></select></div>
+          <div class="field"><label>考试范围</label><select id="quizExamCategory"><option value="">全部板块</option></select></div>
+          <div class="field"><label>题目数量</label><select id="quizExamCount"><option value="10">10 题</option><option value="20" selected>20 题</option><option value="50">50 题</option><option value="99999">全部</option></select></div>
+          <div class="field"><label>考试时长</label><select id="quizExamDuration"><option value="0" selected>不限时</option><option value="900">15 分钟</option><option value="1800">30 分钟</option><option value="3600">60 分钟</option></select></div>
+          <div class="field"><label>试卷名称（可选）</label><input id="quizExamTitle" type="text" placeholder="综合练习"></div>
+          <div class="field"><label>来源（可选）</label><input id="quizExamSource" type="text" placeholder="个人题库"></div>
+          <div class="field"><label>年份（可选）</label><input id="quizExamYear" type="number" placeholder="当前年份"></div>
+          <div class="field"><label>备注（可选）</label><input id="quizExamNote" type="text" placeholder="可不填写"></div>
+        </div>
+        <div class="quiz-form-actions">
+          <button class="btn gray" data-quiz-action="home">取消</button>
+          <button class="btn blue" data-quiz-action="exam-start">开始考试</button>
+        </div>
+      </div>
+    </div>
+    <div class="quiz-screen" id="quizScreenExam">
+      <div class="card">
+        <div class="quiz-exam-toolbar">
+          <button class="btn gray" data-quiz-action="exam-exit">退出</button>
+          <div><b id="quizExamLiveTitle"></b><small id="quizExamLiveMeta"></small></div>
+          <span class="quiz-exam-time" id="quizExamTime">不限时</span>
+          <button class="btn blue" data-quiz-action="exam-submit">交卷</button>
+        </div>
+        <div class="quiz-progress"><div id="quizExamProgress"></div></div>
+        <div class="quiz-practice-meta" id="quizExamQuestionMeta"></div>
+        <div class="quiz-exam-stem" id="quizExamStem"></div>
+        <div class="quiz-exam-options" id="quizExamOptions"></div>
+        <div class="quiz-exam-nav">
+          <button class="btn gray" data-quiz-action="exam-prev">上一题</button>
+          <button class="btn gray" id="quizExamMarkBtn" data-quiz-action="exam-mark">☆ 标记本题</button>
+          <button class="btn blue" data-quiz-action="exam-next">下一题</button>
+        </div>
+        <div class="section-title" style="margin:16px 0 6px">题目导航 <span class="hint" id="quizExamProgressText"></span></div>
+        <div class="quiz-exam-question-grid" id="quizExamQuestionGrid"></div>
+      </div>
+    </div>
+    <div class="quiz-screen" id="quizScreenExamResult">
+      <div class="card">
+        <div class="quiz-screen-head">
+          <div><div class="quiz-screen-title" id="quizExamResultTitle">考试结果</div><div class="quiz-screen-subtitle" id="quizExamResultMeta"></div></div>
+          <button class="btn gray" data-quiz-action="home">返回</button>
+        </div>
+        <div class="quiz-result-score"><span class="value" id="quizExamScore">0</span><span class="label">本次得分</span></div>
+        <div class="quiz-result-grid">
+          <div class="quiz-result-item"><b id="quizExamCorrect">0</b><small>答对</small></div>
+          <div class="quiz-result-item"><b id="quizExamWrong">0</b><small>答错</small></div>
+          <div class="quiz-result-item"><b id="quizExamUnanswered">0</b><small>未答</small></div>
+        </div>
+        <div class="section-title" style="margin:18px 0 4px">板块表现</div>
+        <div id="quizExamCategoryResult"></div>
+        <div class="quiz-form-actions">
+          <button class="btn orange" data-quiz-action="exam-wrong-practice">练本次错题</button>
+          <button class="btn blue" data-quiz-action="exam-retry">再考一次</button>
+        </div>
+      </div>
+    </div>
+    <div class="card quiz-home-block" id="quizEmptyState"><div class="empty"><span class="emoji">📝</span>导入标准题库后开始刷题</div></div>
+    <div class="card" id="quizPractice" style="display:none">
+      <div class="quiz-practice-head">
+        <div><div class="quiz-practice-title" id="quizPracticeTitle">第 1 题</div><div class="quiz-practice-meta" id="quizPracticeMeta"></div></div>
+        <button class="quiz-favorite-btn" id="quizFavoriteBtn" data-quiz-action="favorite">☆ 收藏</button>
+      </div>
+      <div class="quiz-progress"><div id="quizProgress"></div></div>
+      <div class="quiz-stem" id="quizQuestionStem"></div>
+      <div class="quiz-options" id="quizOptions"></div>
+      <div class="quiz-result" id="quizResult" style="display:none"></div>
+      <div class="quiz-message" id="quizMessage"></div>
+      <div class="quiz-nav">
+        <button class="btn gray" id="quizPrevBtn" data-quiz-action="prev"><span class="label">‹ 上一题</span></button>
+        <button class="btn blue" id="quizSubmitBtn" data-quiz-action="submit"><span class="label">提交答案</span></button>
+        <button class="btn green" id="quizNextBtn" data-quiz-action="next"><span class="label">下一题 ›</span></button>
+      </div>
+      <div class="quiz-nav" style="margin-top:8px"><button class="btn gray" data-quiz-action="stop"><span class="label">结束本次练习</span></button></div>
+    </div>
+    <div class="card quiz-home-block"><div class="section-title" style="margin:0 0 4px">题库概览</div><div id="quizBankList"></div></div>
+  </div>
+
   <!-- 视图：课程进度 -->
   <div class="view" id="view-courses">
     <button class="btn grad" id="courseAddBtn" style="width:100%;margin-bottom:14px"><span class="label">＋ 新建课程</span></button>
@@ -1232,6 +1474,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
   </div>
   <button class="drawer-item active" data-view="home"><span class="d-icon">📊</span>工作台</button>
   <button class="drawer-item" data-view="speed-match"><span class="d-icon">🧮</span>速算消消乐</button>
+  <button class="drawer-item" data-view="quiz"><span class="d-icon">✍️</span>刷题</button>
   <button class="drawer-item" data-view="courses"><span class="d-icon">📚</span>课程进度</button>
   <button class="drawer-item" data-view="goals"><span class="d-icon">🎯</span>目标管理</button>
   <button class="drawer-item" data-view="review"><span class="d-icon">📈</span>总结复盘</button>
@@ -1364,6 +1607,13 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
 <script src="sleep-schedule.js"></script>
 <script src="learning-timeline.js"></script>
 <script src="speed-match-game.js"></script>
+<script src="quiz-data.js"></script>
+<script src="quiz-engine.js"></script>
+<script src="quiz-import.js"></script>
+<script src="quiz-remote.js"></script>
+<script src="quiz-stats.js"></script>
+<script src="quiz-exam.js"></script>
+<script src="quiz-ui.js"></script>
 <script>
 /* ============================================================
    个人工作台 前端 App（Kimi K3）
@@ -2552,7 +2802,10 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
       '全部删除', true,
       function () {
         var current = loadData();
-        ['focus_sessions', 'tasks', 'courses', 'notes', 'checkins', 'reviews', 'goals', 'workspace_states', 'knowledge_items'].forEach(function (key) {
+        ['focus_sessions', 'tasks', 'courses', 'notes', 'checkins', 'reviews', 'goals', 'workspace_states', 'knowledge_items',
+          'quiz_banks', 'quiz_questions', 'quiz_question_versions', 'quiz_sessions', 'quiz_attempts',
+          'quiz_question_states', 'quiz_import_batches', 'quiz_exam_sessions', 'quiz_exam_answers',
+          'quiz_exam_results'].forEach(function (key) {
           current[key] = [];
         });
         saveData(current);
@@ -2565,10 +2818,11 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
   // ---------- 关于（已移至「设置」视图） ----------
 
   // ==================== v2.1 导航与视图切换 ====================
-  var VIEW_NAMES = { home: '工作台', 'speed-match': '速算消消乐', courses: '课程进度', goals: '目标管理', review: '总结复盘', notes: '学习笔记', knowledge: '项目知识库', settings: '设置' };
+  var VIEW_NAMES = { home: '工作台', 'speed-match': '速算消消乐', quiz: '个人刷题', courses: '课程进度', goals: '目标管理', review: '总结复盘', notes: '学习笔记', knowledge: '项目知识库', settings: '设置' };
   var currentView = 'home';
   function switchView(name) {
     if (!VIEW_NAMES[name]) name = 'home';
+    if (currentView === 'quiz' && name !== 'quiz' && window.QuizUI) QuizUI.onViewHidden();
     currentView = name;
     document.body.classList.toggle('on-home', name === 'home');
     Array.from(document.querySelectorAll('.view')).forEach(function (v) { v.classList.remove('active'); });
@@ -2582,6 +2836,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     closeDrawer();
     window.scrollTo({ top: 0 });
     if (name === 'speed-match') { if (window.SpeedMatchGame) window.SpeedMatchGame.mount(); }
+    else if (name === 'quiz') { if (window.QuizUI) { QuizUI.onViewShown(); QuizUI.render(); } }
     else if (name === 'courses') renderCourses();
     else if (name === 'goals') renderGoalsView();
     else if (name === 'review') renderReview();
@@ -3515,7 +3770,10 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
       if (!imported || typeof imported !== 'object') { toast('文件格式不正确', 'error'); return; }
       confirmModal('导入并合并数据？', file.name, '将按 client_id 去重合并到本地（最新优先），不会删除现有数据。', '导入', false, function () {
         var local = window.WorkbenchStore ? WorkbenchStore.loadFull() : loadData();
-        var keys = ['focus_sessions', 'tasks', 'courses', 'notes', 'checkins', 'reviews', 'goals', 'workspace_states', 'knowledge_items', 'workspaces'];
+        var keys = ['focus_sessions', 'tasks', 'courses', 'notes', 'checkins', 'reviews', 'goals', 'workspace_states', 'knowledge_items', 'workspaces',
+          'quiz_banks', 'quiz_questions', 'quiz_question_versions', 'quiz_sessions', 'quiz_attempts',
+          'quiz_question_states', 'quiz_import_batches', 'quiz_exam_sessions', 'quiz_exam_answers',
+          'quiz_exam_results'];
         var added = 0;
         keys.forEach(function (k) {
           var inc = Array.isArray(imported[k]) ? imported[k] : [];
@@ -3547,6 +3805,36 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
   $('gistIdInput').value = localStorage.getItem(LS_GIST) || '';
 
   initSync();
+
+  if (window.QuizUI) {
+    QuizUI.configure({
+      root: $('view-quiz'),
+      loadData: loadData,
+      saveData: saveData,
+      learningDateStr: learningDateStr,
+      toast: toast,
+      confirmModal: confirmModal,
+      getRemoteToken: function () { return localStorage.getItem(LS_TOKEN) || ''; }
+    });
+    // 题库为空时，从仓库内已发布标准库自动导入一次（仅本地文件，不触发云端同步）
+    (function seedPublishedQuizBankIfEmpty() {
+      var scoped = loadData();
+      var hasBank = (scoped.quiz_banks || []).some(function (bank) { return !bank.is_deleted; });
+      if (hasBank) return;
+      var url = './published-quiz-banks/工作台导入_新清洗主库_20260919.json';
+      fetch(url).then(function (res) { return res.ok ? res.json() : null; }).then(function (doc) {
+        if (!doc || !window.QuizData || !window.QuizImport) return;
+        var current = QuizData.ensure(loadData());
+        var stillEmpty = !(current.quiz_banks || []).some(function (bank) { return !bank.is_deleted; });
+        if (!stillEmpty) return;
+        var analysis = QuizImport.analyze(doc, current);
+        if (!analysis.valid || !analysis.summary.add) return;
+        var applied = QuizImport.apply(doc, current, { analysis: analysis, fileName: '工作台导入_新清洗主库_20260919.json' });
+        saveData(applied.data);
+        if (window.QuizUI && QuizUI.render) QuizUI.render();
+      }).catch(function () { /* file:// 或缺文件时忽略 */ });
+    })();
+  }
 
   migrateLearningTimelineData();
   splitDailyGoalIntoTasks(true);
