@@ -1142,8 +1142,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
         <button class="btn green" data-quiz-action="start" data-mode="favorite"><span class="label">收藏练习</span></button>
       </div>
       <div class="quiz-home-actions" style="margin-top:10px">
-        <button class="btn blue" data-quiz-action="category-open"><span class="label">▦ 分板块练习</span></button>
-        <button class="btn gray" data-quiz-action="exam-open"><span class="label">▤ 整卷考试</span></button>
+        <button class="btn gray" data-quiz-action="exam-open" style="width:100%"><span class="label">▤ 整卷考试</span></button>
       </div>
       <div id="quizResumeExam" style="display:none;margin-top:10px"></div>
       <button class="btn gray" data-quiz-action="import" style="width:100%;margin-top:10px"><span class="label">📥 导入标准题库 JSON</span></button>
@@ -1163,15 +1162,6 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
           <button class="btn green" data-quiz-action="remote-confirm" id="quizRemoteConfirm" style="display:none"><span class="label">确认合并</span></button>
           <button class="btn gray" data-quiz-action="remote-cancel" id="quizRemoteCancel" style="display:none"><span class="label">取消</span></button>
         </div>
-      </div>
-    </div>
-    <div class="quiz-screen" id="quizScreenCategory">
-      <div class="card">
-        <div class="quiz-screen-head">
-          <div><div class="quiz-screen-title">分板块练习</div><div class="quiz-screen-subtitle">按题库中的一级分类开始练习</div></div>
-          <button class="btn gray" data-quiz-action="home">返回</button>
-        </div>
-        <div class="quiz-category-list" id="quizCategoryList"></div>
       </div>
     </div>
     <div class="quiz-screen" id="quizScreenExamSetup">
@@ -3839,41 +3829,48 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
       toast: toast,
       getRemoteToken: function () { return localStorage.getItem(LS_TOKEN) || ''; }
     });
-    // 缺少「新清洗主库」时自动合并导入（旧设备可能已有其他题库，不能只在空库时导入）
-    (function seedPublishedQuizBankIfMissing() {
-      var TARGET_BANK_ID = 'sinopec-sixiang-suzhi-20260919';
-      function hasTarget(data) {
-        return (data.quiz_banks || []).some(function (bank) {
-          return !bank.is_deleted && bank.bank_id === TARGET_BANK_ID;
+    // 用户反馈：2026-09-19 新清洗库质量不佳，暂不使用；打开时从本地移除该库及其题目
+    (function removeFailedCleanedQuizBank() {
+      var DROP_BANK_ID = 'sinopec-sixiang-suzhi-20260919';
+      function softDeleteBank() {
+        if (!window.QuizData) return;
+        var data = QuizData.ensure(loadData());
+        var banks = data.quiz_banks || [];
+        var bank = banks.find(function (item) { return item.bank_id === DROP_BANK_ID && !item.is_deleted; });
+        var questions = (data.quiz_questions || []).filter(function (q) { return q.bank_id === DROP_BANK_ID && !q.is_deleted; });
+        if (!bank && !questions.length) return;
+        var now = new Date().toISOString();
+        if (bank) {
+          bank.is_deleted = true;
+          bank.updated_at = now;
+        }
+        questions.forEach(function (q) {
+          q.is_deleted = true;
+          q.status = 'inactive';
+          q.updated_at = now;
         });
-      }
-      var scoped0 = loadData();
-      if (hasTarget(QuizData.ensure(scoped0))) return;
-      var candidates = [
-        encodeURI('./published-quiz-banks/工作台导入_新清洗主库_20260919.json'),
-        './published-quiz-banks/' + encodeURIComponent('工作台导入_新清洗主库_20260919.json'),
-        'https://raw.githubusercontent.com/delancy827/personal-workbench/main/quiz_bank.json',
-        'https://gist.githubusercontent.com/delancy827/ef846efff3c2b97464647791295f3231/raw/quiz_bank.json'
-      ];
-      function tryFetch(index) {
-        if (index >= candidates.length) return Promise.resolve(null);
-        return fetch(candidates[index], { cache: 'no-store' }).then(function (res) {
-          return res.ok ? res.json() : null;
-        }).catch(function () { return null; }).then(function (doc) {
-          return doc && doc.questions && doc.bank ? doc : tryFetch(index + 1);
+        (data.quiz_question_versions || []).forEach(function (v) {
+          if (v.bank_id === DROP_BANK_ID || questions.some(function (q) { return q.question_id === v.question_id; })) {
+            v.is_deleted = true;
+            v.updated_at = now;
+          }
         });
-      }
-      tryFetch(0).then(function (doc) {
-        if (!doc || !window.QuizData || !window.QuizImport) return;
-        if (doc.bank && doc.bank.bank_id && doc.bank.bank_id !== TARGET_BANK_ID) return;
-        var current = QuizData.ensure(loadData());
-        if (hasTarget(current)) return;
-        var analysis = QuizImport.analyze(doc, current);
-        if (!analysis.valid || !(analysis.summary.add + analysis.summary.update)) return;
-        var applied = QuizImport.apply(doc, current, { analysis: analysis, fileName: '工作台导入_新清洗主库_20260919.json' });
-        saveData(applied.data);
+        (data.quiz_question_states || []).forEach(function (s) {
+          if (s.bank_id === DROP_BANK_ID || questions.some(function (q) { return q.question_id === s.question_id; })) {
+            s.is_deleted = true;
+            s.updated_at = now;
+          }
+        });
+        if (data.settings && Array.isArray(data.settings.quiz_remote_sources)) {
+          data.settings.quiz_remote_sources = data.settings.quiz_remote_sources.filter(function (s) {
+            return s && s.bank_id !== DROP_BANK_ID;
+          });
+          data.settings.updated_at = now;
+        }
+        saveData(data);
         if (window.QuizUI && QuizUI.render) QuizUI.render();
-      }).catch(function () { });
+      }
+      try { softDeleteBank(); } catch (e) { /* ignore */ }
     })();
 
   }
