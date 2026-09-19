@@ -10,6 +10,7 @@
 <meta name="apple-mobile-web-app-title" content="个人工作台">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" sizes="180x180" href="icons/icon-180.png">
+<link rel="icon" href="icons/icon-180.png">
 <title>个人工作台</title>
 <style>
 /* ============================================================
@@ -41,7 +42,7 @@ body {
   color: var(--text);
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
-  padding-bottom: calc(120px + env(safe-area-inset-bottom));
+  padding-bottom: calc(88px + env(safe-area-inset-bottom));
   overflow-x: hidden;
 }
 button { font-family: inherit; border: none; cursor: pointer; user-select: none; }
@@ -151,9 +152,12 @@ input { font-family: inherit; border: none; outline: none; }
 .chart { padding-bottom: 12px; }
 .bars {
   display: flex; align-items: flex-end; gap: 5px;
-  height: 120px; padding-top: 8px;
+  height: 142px; padding-top: 8px;
 }
-.bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; height: 100%; justify-content: flex-end; }
+.bars.is-empty { align-items: center; justify-content: center; padding: 0 12px; }
+.chart-empty { max-width: 260px; color: var(--text-2); font-size: .78rem; font-weight: 600; line-height: 1.5; text-align: center; }
+.bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; height: 100%; justify-content: flex-end; min-width: 0; }
+.bar-value { min-height: 12px; color: var(--text-2); font-size: 0.55rem; font-weight: 700; white-space: nowrap; font-variant-numeric: tabular-nums; }
 .bar {
   width: 100%; max-width: 22px; border-radius: 6px;
   background: #E3E3E8;
@@ -170,7 +174,7 @@ input { font-family: inherit; border: none; outline: none; }
   from { transform: scaleY(0); }
   to   { transform: scaleY(1); }
 }
-.bar-label { font-size: 0.6rem; color: var(--text-2); font-weight: 600; white-space: nowrap; }
+.bar-label { font-size: 0.58rem; color: var(--text-2); font-weight: 600; white-space: nowrap; }
 .bar-label.today { color: var(--blue); font-weight: 800; }
 .chart-legend { display: flex; gap: 14px; margin-top: 12px; padding: 0 2px; }
 .chart-legend span { display: flex; align-items: center; gap: 5px; font-size: 0.7rem; color: var(--text-2); font-weight: 600; }
@@ -197,6 +201,10 @@ input { font-family: inherit; border: none; outline: none; }
   animation: rowIn 0.4s var(--ease-spring) both;
 }
 .task-item + .task-item { border-top: 0.5px solid var(--fill); }
+.task-item.segment { background: rgba(52,120,246,0.04); border-radius: 12px; padding-left: 8px; padding-right: 8px; }
+.task-item.segment + .task-item.segment { border-top: 0.5px solid rgba(52,120,246,0.12); }
+.task-item.segment .task-title { font-weight: 700; }
+.task-segment-meta { color: var(--blue); font-size: 0.72rem; font-weight: 700; white-space: nowrap; }
 @keyframes rowIn { from { opacity: 0; transform: translateX(-8px); } to { opacity: 1; transform: none; } }
 .task-check {
   width: 26px; height: 26px; border-radius: 50%; flex-shrink: 0;
@@ -217,7 +225,7 @@ input { font-family: inherit; border: none; outline: none; }
 .empty .emoji { font-size: 1.8rem; display: block; margin-bottom: 6px; }
 
 /* ---------- 专注记录 ---------- */
-.session-item { display: flex; align-items: center; gap: 12px; padding: 11px 2px; animation: rowIn 0.4s var(--ease-spring) both; }
+.session-item { display: flex; align-items: center; gap: 12px; padding: 11px 2px; animation: rowIn 0.4s var(--ease-spring) both; cursor: pointer; }
 .session-item + .session-item { border-top: 0.5px solid var(--fill); }
 .session-icon {
   width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0;
@@ -228,6 +236,7 @@ input { font-family: inherit; border: none; outline: none; }
 .session-main .s { font-size: 0.72rem; color: var(--text-2); font-weight: 500; margin-top: 1px; }
 .session-power { font-weight: 800; font-size: 0.98rem; font-variant-numeric: tabular-nums; color: var(--green); }
 .session-power small { font-size: 0.65rem; color: var(--text-2); font-weight: 600; display: block; text-align: right; }
+.session-edit { color: var(--blue); font-size: 0.72rem; font-weight: 700; padding: 5px 0 5px 6px; background: none; }
 
 /* ---------- 大按钮 ---------- */
 .btn {
@@ -259,7 +268,7 @@ input { font-family: inherit; border: none; outline: none; }
 /* ---------- 底部同步栏（手机端拇指区） ---------- */
 .bottom-bar {
   position: fixed; left: 0; right: 0; bottom: 0; z-index: 40;
-  padding: 12px 16px calc(14px + env(safe-area-inset-bottom));
+  padding: 8px 12px calc(8px + env(safe-area-inset-bottom));
   background: rgba(237, 238, 243, 0.82);
   backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
   border-top: 0.5px solid rgba(0,0,0,0.06);
@@ -267,9 +276,10 @@ input { font-family: inherit; border: none; outline: none; }
 }
 @keyframes barUp { from { transform: translateY(100%); } to { transform: none; } }
 .bottom-bar .inner { max-width: 560px; margin: 0 auto; display: flex; gap: 10px; }
-.bottom-bar .btn { flex: 1; border-radius: 20px; padding: 15px 12px; }
+.bottom-bar .btn { flex: 1; border-radius: 16px; padding: 11px 10px; font-size: .92rem; }
 .bottom-bar .btn.primary { flex: 1.35; }
 @media (min-width: 900px) { .bottom-bar { display: none; } }
+body:not(.on-home) { padding-bottom: 0; }
 .desktop-sync-btns { display: none; gap: 10px; margin-top: 14px; }
 @media (min-width: 900px) {
   .desktop-sync-btns { display: flex; }
@@ -291,6 +301,15 @@ input { font-family: inherit; border: none; outline: none; }
   font-variant-numeric: tabular-nums;
 }
 .field input:focus { box-shadow: 0 0 0 2px rgba(52,120,246,0.35); }
+.field select, .ai-config-area {
+  width: 100%; background: var(--fill-2); border-radius: 14px;
+  padding: 13px 16px; font-size: 0.9rem; color: var(--text); border: none; outline: none;
+}
+.field select:focus, .ai-config-area:focus { box-shadow: 0 0 0 2px rgba(52,120,246,0.35); }
+.ai-config-area { min-height: 86px; resize: vertical; line-height: 1.5; font-family: inherit; }
+.ai-review-result { margin-top: 12px; white-space: pre-line; }
+.ai-review-actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.ai-attachment-name { flex: 1; min-width: 120px; color: var(--text-2); font-size: 0.78rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .eye-btn {
   position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
   background: none; color: var(--text-2); font-size: 0.95rem; padding: 8px;
@@ -302,6 +321,23 @@ input { font-family: inherit; border: none; outline: none; }
 .sync-meta .k { font-size: 0.75rem; color: var(--text-2); font-weight: 600; }
 .sync-meta .v { font-size: 0.78rem; font-weight: 700; font-variant-numeric: tabular-nums; }
 .link { color: var(--blue); font-size: 0.78rem; font-weight: 600; text-decoration: none; }
+
+/* ---------- 当前学习日提示 ---------- */
+.learning-day-banner {
+  display: flex; align-items: center; gap: 10px;
+  margin: -2px 0 14px; padding: 11px 13px;
+  border: 1px solid rgba(52,120,246,.14); border-radius: 16px;
+  background: rgba(52,120,246,.06);
+}
+.learning-day-icon {
+  width: 32px; height: 32px; flex: 0 0 auto; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(52,120,246,.12); color: var(--blue); font-size: .95rem;
+}
+.learning-day-copy { min-width: 0; flex: 1; }
+.learning-day-title { font-size: .82rem; font-weight: 800; }
+.learning-day-detail { margin-top: 2px; color: var(--text-2); font-size: .7rem; font-weight: 600; line-height: 1.4; }
+.learning-day-banner .link-btn { flex: 0 0 auto; font-size: .72rem; }
 
 /* ---------- 数据管理 ---------- */
 .manage-row { display: flex; gap: 10px; }
@@ -490,6 +526,9 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
 }
 .tabs .tab.active { background: var(--card); color: var(--text); box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
 .tabs .tab.active.grad { background: linear-gradient(90deg, #A55BFF, #5E5CE6); color: #fff; }
+#taskTabs { overflow-x: auto; scrollbar-width: none; }
+#taskTabs::-webkit-scrollbar { display: none; }
+#taskTabs .tab { min-width: 64px; }
 
 /* ---------- 周期导航 ---------- */
 .period-nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
@@ -580,6 +619,11 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
   flex: 1; background: var(--fill-2); border-radius: 14px;
   padding: 12px 16px; font-size: 0.9rem; color: var(--text);
 }
+.auto-upload-row { justify-content: space-between; cursor: pointer; background: var(--fill-2); border-radius: 14px; padding: 12px 14px; }
+.auto-upload-row input { appearance: none; width: 46px; height: 28px; flex: 0 0 auto; border-radius: 999px; background: #d1d1d6; position: relative; transition: background .2s ease; }
+.auto-upload-row input::after { content: ''; position: absolute; width: 24px; height: 24px; top: 2px; left: 2px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,.2); transition: transform .2s ease; }
+.auto-upload-row input:checked { background: var(--green); }
+.auto-upload-row input:checked::after { transform: translateX(18px); }
 .set-row .btn { padding: 12px 18px; border-radius: 14px; }
 .set-desc { font-size: 0.75rem; color: var(--text-2); font-weight: 500; margin: 8px 2px 0; line-height: 1.5; }
 .subject-settings-list { display: flex; flex-direction: column; gap: 8px; }
@@ -590,11 +634,46 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
   display: flex; align-items: center; justify-content: center; font-size: 1rem; font-weight: 800;
   box-shadow: 0 1px 4px rgba(0,0,0,0.06);
 }
+.set-row .unit { color: var(--text-2); font-size: 0.85rem; font-weight: 600; margin-left: -4px; }
 .subject-order-btn:disabled { opacity: 0.35; }
 .subject-remove-btn { color: var(--red); }
 .subject-add-row { display: flex; gap: 10px; margin-top: 12px; }
 .subject-add-row input { flex: 1; background: var(--fill-2); border-radius: 14px; padding: 12px 16px; font-size: 0.9rem; color: var(--text); }
 .subject-add-row .btn { padding: 12px 18px; border-radius: 14px; }
+.workspace-bar { display:flex; align-items:center; gap:10px; padding:0 6px 12px; }
+.workspace-bar .workspace-mark { width:32px; height:32px; border-radius:10px; background:rgba(52,120,246,.12); color:var(--blue); display:flex; align-items:center; justify-content:center; font-size:1rem; flex:0 0 auto; }
+.workspace-bar .workspace-main { flex:1; min-width:0; }
+.workspace-bar .workspace-label { font-size:.68rem; color:var(--text-2); font-weight:700; }
+.workspace-picker { position:relative; }
+.workspace-trigger { width:100%; display:flex; align-items:center; justify-content:space-between; gap:8px; background:transparent; color:var(--text); padding:2px 0; font-size:.9rem; font-weight:800; text-align:left; }
+.workspace-trigger:active { opacity:.65; }
+.workspace-trigger-name { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.workspace-chevron { color:var(--text-2); font-size:.95rem; transition:transform .2s var(--ease-spring); }
+.workspace-picker.open .workspace-chevron { transform:rotate(180deg); }
+.workspace-menu { position:absolute; left:-2px; right:-2px; top:calc(100% + 8px); z-index:70; padding:6px; background:var(--card); border-radius:18px; box-shadow:0 14px 34px rgba(28,28,30,.16), 0 2px 8px rgba(28,28,30,.08); opacity:0; pointer-events:none; transform:translateY(-6px) scale(.98); transform-origin:top center; transition:opacity .2s ease, transform .2s var(--ease-spring); }
+.workspace-picker.open .workspace-menu { opacity:1; pointer-events:auto; transform:translateY(0) scale(1); }
+.workspace-option { width:100%; display:flex; align-items:center; gap:10px; padding:10px 11px; border-radius:13px; background:transparent; color:var(--text); text-align:left; }
+.workspace-option:hover, .workspace-option.selected { background:var(--fill-2); }
+.workspace-option.selected { color:var(--blue); }
+.workspace-option .option-icon { width:25px; height:25px; border-radius:8px; background:var(--fill); display:flex; align-items:center; justify-content:center; color:var(--text-2); font-size:.75rem; flex:0 0 auto; }
+.workspace-option.selected .option-icon { background:rgba(52,120,246,.12); color:var(--blue); }
+.workspace-option .option-copy { min-width:0; flex:1; }
+.workspace-option .option-name { display:block; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:.83rem; font-weight:800; }
+.workspace-option .option-meta { display:block; margin-top:2px; color:var(--text-2); font-size:.66rem; font-weight:600; }
+.workspace-option .option-check { color:var(--blue); font-size:.85rem; font-weight:900; }
+.workspace-bar .workspace-actions { display:flex; gap:6px; }
+.workspace-bar .workspace-actions button { width:34px; height:34px; border-radius:10px; background:var(--card); color:var(--text-2); box-shadow:var(--shadow); font-size:1rem; }
+.workspace-bar .workspace-actions button:disabled { opacity:.35; cursor:not-allowed; }
+.knowledge-toolbar { display:flex; gap:8px; margin-bottom:12px; }
+.knowledge-toolbar input { flex:1; min-width:0; background:var(--fill-2); border-radius:14px; padding:12px 14px; color:var(--text); font-size:.9rem; }
+.knowledge-filter { width:118px; background:var(--fill-2); border-radius:14px; padding:0 10px; color:var(--text); font-size:.82rem; }
+.knowledge-item { background:var(--fill-2); border-radius:16px; padding:14px; margin-bottom:10px; }
+.knowledge-item .top { display:flex; align-items:flex-start; gap:8px; justify-content:space-between; }
+.knowledge-item .title { font-size:.92rem; font-weight:800; line-height:1.35; }
+.knowledge-item .meta { color:var(--text-2); font-size:.7rem; font-weight:700; white-space:nowrap; }
+.knowledge-item .content { margin-top:8px; font-size:.82rem; line-height:1.55; color:var(--text-2); white-space:pre-line; }
+.knowledge-item .tags { margin-top:8px; color:var(--blue); font-size:.7rem; font-weight:700; }
+.workspace-state-note { font-size:.76rem; color:var(--text-2); line-height:1.5; margin-top:8px; }
 .date-chip { min-width: 96px; display: flex; flex-direction: column; gap: 2px; line-height: 1.15; }
 .date-chip .date-sub { color: var(--text-2); font-size: 0.68rem; font-weight: 600; }
 .date-chip.selected .date-sub { color: var(--blue); }
@@ -613,6 +692,48 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
 .custom-goal-row input.name { flex: 1; }
 .custom-goal-row input.hours { width: 74px; text-align: center; }
 .link-btn { background: none; color: var(--blue); font-size: 0.82rem; font-weight: 700; padding: 4px 2px; }
+
+/* ---------- 公考速算消消乐 ---------- */
+.speed-match-header { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; margin-bottom:12px; }
+.speed-match-header .section-title { margin:4px 0 0; }
+.speed-match-header .btn { flex:0 0 auto; padding:10px 13px; border-radius:12px; font-size:.78rem; }
+.speed-match-panel { padding:14px; }
+.speed-match-stats { display:grid; grid-template-columns:repeat(4, minmax(0, 1fr)); gap:8px; margin-bottom:12px; }
+.speed-match-stat { min-width:0; background:var(--fill-2); border-radius:14px; padding:10px 8px; text-align:center; }
+.speed-match-stat .value { display:block; color:#5E5CE6; font-size:1.05rem; font-weight:800; font-variant-numeric:tabular-nums; white-space:nowrap; }
+.speed-match-stat .label { display:block; color:var(--text-2); font-size:.64rem; font-weight:700; margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.speed-match-feedback { min-height:28px; display:flex; align-items:center; justify-content:center; color:var(--text-2); font-size:.78rem; font-weight:700; text-align:center; transition:color .2s ease, transform .2s var(--ease-spring); }
+.speed-match-feedback.success { color:#248A3D; transform:scale(1.03); }
+.speed-match-feedback.error { color:#C93400; transform:scale(1.03); }
+.speed-match-grid { display:grid; grid-template-columns:repeat(4, minmax(0, 1fr)); gap:10px; max-width:520px; margin:4px auto 0; }
+.speed-match-card { position:relative; width:100%; aspect-ratio:1 / 1; min-width:0; padding:0; border-radius:16px; background:var(--card); border:1px solid rgba(94,92,230,.18); color:var(--text); box-shadow:0 4px 12px rgba(28,28,30,.08); transition:transform .2s var(--ease-spring), background .2s ease, border-color .2s ease, opacity .28s ease; }
+.speed-match-card-front { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; padding:8px; border-radius:16px; overflow:hidden; text-align:center; color:inherit; font-size:1rem; font-weight:800; line-height:1.05; letter-spacing:0; overflow-wrap:anywhere; }
+.speed-match-card.long .speed-match-card-front { font-size:.76rem; }
+.speed-match-card.selected { background:rgba(52,120,246,.12); border-color:var(--blue); transform:translateY(-3px) scale(1.02); box-shadow:0 7px 16px rgba(52,120,246,.2); }
+.speed-match-card.just-selected { animation:speedMatchPop .26s var(--ease-spring); }
+.speed-match-card.matched { background:rgba(52,199,89,.16); border-color:rgba(52,199,89,.55); color:#248A3D; animation:speedMatchMatch .42s var(--ease-spring) both; pointer-events:none; }
+.speed-match-card.matched .speed-match-card-front { animation:speedMatchFade .36s ease .28s both; }
+.speed-match-card.mismatch { animation:speedMatchShake .42s ease both; }
+.speed-match-errors { margin-top:16px; padding-top:14px; border-top:1px solid var(--fill); }
+.speed-match-errors-title { display:flex; align-items:center; justify-content:space-between; gap:8px; font-size:.86rem; font-weight:800; margin-bottom:8px; }
+.speed-match-errors-title .hint { color:var(--text-2); font-size:.68rem; font-weight:600; }
+.speed-match-error-row { display:flex; align-items:center; gap:8px; min-height:34px; padding:7px 0; border-top:1px solid var(--fill-2); }
+.speed-match-error-row .rank { width:20px; height:20px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:rgba(255,149,0,.14); color:#C93400; font-size:.68rem; font-weight:800; flex:0 0 auto; }
+.speed-match-error-row .error-pair { display:flex; align-items:center; gap:5px; min-width:0; flex:1; font-size:.76rem; }
+.speed-match-error-row .error-pair b { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.speed-match-error-row .error-pair span { color:var(--text-3); }
+.speed-match-error-row .error-count { color:#C93400; font-size:.7rem; font-weight:700; white-space:nowrap; }
+.speed-match-errors-empty { color:var(--text-2); font-size:.74rem; padding:4px 0; }
+@keyframes speedMatchPop { 50% { transform:scale(1.06); } }
+@keyframes speedMatchMatch { 50% { transform:scale(1.08); } }
+@keyframes speedMatchFade { to { opacity:0; transform:scale(.72); } }
+@keyframes speedMatchShake { 20%, 60% { transform:translateX(-5px); } 40%, 80% { transform:translateX(5px); } }
+@media (max-width:400px) {
+  .speed-match-grid { grid-template-columns:repeat(3, minmax(0, 1fr)); gap:9px; }
+  .speed-match-stats { gap:6px; }
+  .speed-match-stat { padding-left:4px; padding-right:4px; }
+  .speed-match-stat .value { font-size:.95rem; }
+}
 </style>
 </head>
 <body>
@@ -629,6 +750,25 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
       <div class="top-title" id="topTitle" style="display:none">工作台</div>
     </div>
     <button class="checkin-btn" id="checkinBtn">打卡</button>
+  </div>
+
+  <div class="workspace-bar" id="workspaceBar">
+    <div class="workspace-mark">⌂</div>
+    <div class="workspace-main">
+      <div class="workspace-label">当前工作空间</div>
+      <div class="workspace-picker" id="workspacePicker">
+        <button class="workspace-trigger" id="workspaceTrigger" aria-label="选择工作空间" aria-haspopup="listbox" aria-expanded="false">
+          <span class="workspace-trigger-name" id="workspaceTriggerName">个人工作台</span>
+          <span class="workspace-chevron">⌄</span>
+        </button>
+        <div class="workspace-menu" id="workspaceMenu" role="listbox"></div>
+      </div>
+    </div>
+    <div class="workspace-actions">
+      <button id="workspaceKnowledgeBtn" aria-label="打开知识库" title="打开知识库">▤</button>
+      <button id="workspaceNewBtn" aria-label="新建工作空间" title="新建工作空间">＋</button>
+      <button id="workspaceArchiveBtn" aria-label="归档当前工作空间" title="归档当前工作空间">□</button>
+    </div>
   </div>
 
   <!-- 主视图：工作台 -->
@@ -664,6 +804,15 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
         <div class="stat"><div class="v" id="statStreak">0</div><div class="k">连续达标</div></div>
       </div>
     </div>
+  </div>
+
+  <div class="learning-day-banner" id="learningDayBanner" role="status">
+    <div class="learning-day-icon">◷</div>
+    <div class="learning-day-copy">
+      <div class="learning-day-title" id="learningDayTitle">当前学习日</div>
+      <div class="learning-day-detail" id="learningDayDetail">统计区间按作息边界计算</div>
+    </div>
+    <button class="link-btn" data-goto="settings">调整</button>
   </div>
 
   <!-- 记录学习时长（渐变主按钮） -->
@@ -715,10 +864,10 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
   <div class="grid-2">
     <!-- 趋势图 -->
     <div>
-      <div class="section-title" style="--i:3"><span id="chartTitle">近两周战力</span> <span class="hint" id="chartHint">绿色 = 达标</span></div>
+      <div class="section-title" style="--i:3"><span id="chartTitle">近两周学习时长</span> <span class="hint" id="chartHint">按学习日 · 作息起点起算</span></div>
       <div class="card chart" style="--i:3">
         <div class="bars" id="bars"></div>
-        <div class="chart-legend">
+        <div class="chart-legend" id="chartLegend">
           <span><span class="dot" style="background:var(--green)"></span>达标</span>
           <span><span class="dot" style="background:#E3E3E8"></span>未达标</span>
           <span><span class="dot" style="background:transparent;outline:2px solid rgba(52,120,246,0.5)"></span>今天</span>
@@ -731,9 +880,11 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
       <div class="section-title" style="--i:4">待办任务 <span class="hint" id="taskHint"></span></div>
       <div class="card" style="--i:4">
         <div class="tabs" id="taskTabs">
-          <button class="tab active" data-f="all">全部</button>
-          <button class="tab" data-f="today">今日</button>
-          <button class="tab" data-f="todo">未完成</button>
+          <button class="tab" data-f="segments">45分钟</button>
+          <button class="tab" data-f="all">全部</button>
+          <button class="tab active" data-f="today">今天</button>
+          <button class="tab" data-f="tomorrow">明天</button>
+          <button class="tab" data-f="yesterdayTodo">昨天未完成</button>
           <button class="tab" data-f="done">已完成</button>
         </div>
         <div class="task-add">
@@ -756,7 +907,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
   </div>
 
   <!-- 云同步 -->
-  <div class="section-title" style="--i:6">云同步 <span class="hint">GitHub Gist · 手动触发</span></div>
+  <div class="section-title" style="--i:6">云同步 <span class="hint">GitHub Gist · 上传可按设置自动执行</span></div>
   <div class="card" style="--i:6">
     <div class="sync-badge" style="margin-bottom:14px">
       <span class="sync-dot" id="syncDot"></span>
@@ -808,6 +959,32 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
   </div>
 
   </div><!-- /view-home -->
+
+  <!-- 视图：公考速算消消乐 -->
+  <div class="view" id="view-speed-match">
+    <div class="speed-match-header">
+      <div>
+        <div class="section-title"><span>🧮 公考速算消消乐</span><span class="hint" id="speedMatchRound">第 1 轮</span></div>
+        <div class="set-desc" style="margin:0 2px">直接点选两张卡片，找出数值相等的表达式。全部配对后自动进入下一轮。</div>
+      </div>
+      <button class="btn gray" id="speedMatchReset" type="button" title="重新开始">↻ 新一轮</button>
+    </div>
+    <div class="card speed-match-panel">
+      <div class="speed-match-stats" aria-live="polite">
+        <div class="speed-match-stat"><span class="value" id="speedMatchPairs">0/0</span><span class="label">本轮配对</span></div>
+        <div class="speed-match-stat"><span class="value" id="speedMatchTime">00:00</span><span class="label">累计用时</span></div>
+        <div class="speed-match-stat"><span class="value" id="speedMatchStreak">0</span><span class="label">连续正确</span></div>
+        <div class="speed-match-stat"><span class="value" id="speedMatchFlips">0</span><span class="label">本轮选择</span></div>
+      </div>
+      <div class="speed-match-feedback" id="speedMatchFeedback" role="status">找到数值相等的两张卡片</div>
+      <div class="speed-match-grid" id="speedMatchGrid" aria-label="速算配对卡片"></div>
+      <div class="speed-match-errors">
+        <div class="speed-match-errors-title"><span>错题排行榜</span><span class="hint">累计记录 · 前 5 名</span></div>
+        <div id="speedMatchErrors"></div>
+        <div class="speed-match-errors-empty" id="speedMatchErrorsEmpty">还没有错题记录，先开始一轮吧。</div>
+      </div>
+    </div>
+  </div>
 
   <!-- 视图：课程进度 -->
   <div class="view" id="view-courses">
@@ -868,6 +1045,17 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
       <div id="reviewTableWrap"></div>
       <div id="reviewDistWrap"></div>
       <div class="auto-summary" id="reviewSummary"></div>
+      <div class="section-title" style="margin:16px 0 10px">🤖 AI 复盘 <span class="hint" id="aiAutoReviewStatus"></span></div>
+      <div class="ai-review-actions">
+        <button class="btn blue" id="reviewAttachmentBtn"><span class="label">选择附件（可选）</span></button>
+        <input type="file" id="reviewAttachmentInput" accept="image/*,video/*,audio/*,.pdf,.txt" style="display:none">
+        <span class="ai-attachment-name" id="reviewAttachmentName">未选择附件</span>
+        <button class="btn blue" id="aiReviewBtn"><span class="label">生成 AI 复盘</span></button>
+      </div>
+      <div class="set-desc">纯文字自动使用 GLM-4.7-Flash；图片或视频会自动切换到 GLM-4.6V-Flash。音频和其他文件暂不直接发送。</div>
+      <div class="auto-summary ai-review-result" id="aiReviewResult" style="display:none"></div>
+      <div class="set-desc" id="aiReviewSaveHint" style="display:none">这份 AI 分析目前只临时显示，未保存到云端。想保留时，再点击下面的保存按钮。</div>
+      <button class="btn green" id="aiReviewSaveBtn" style="width:100%;display:none"><span class="label">保存这份 AI 复盘</span></button>
       <div class="sheet-label">手动复盘记录（随云同步）</div>
       <textarea class="review-area" id="reviewText" placeholder="本周学得怎么样？有什么要改进的？"></textarea>
       <button class="btn grad" id="reviewSaveBtn" style="width:100%"><span class="label">保存复盘</span></button>
@@ -878,6 +1066,37 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
   <div class="view" id="view-notes">
     <button class="btn grad" id="noteAddBtn" style="width:100%;margin-bottom:14px"><span class="label">＋ 新建笔记</span></button>
     <div class="card"><div id="noteList"></div></div>
+  </div>
+
+  <!-- 视图：项目知识库 -->
+  <div class="view" id="view-knowledge">
+    <div class="card">
+      <div class="section-title" style="margin:0 0 8px">项目知识库 <span class="hint" id="knowledgeCount"></span></div>
+      <div class="workspace-state-note" id="workspaceDescription"></div>
+      <div class="knowledge-toolbar" style="margin-top:12px">
+        <input id="knowledgeSearchInput" type="search" placeholder="搜索知识点、来源或标签…" maxlength="80">
+        <select class="knowledge-filter" id="knowledgeTruthFilter" aria-label="筛选知识来源">
+          <option value="">全部来源</option>
+          <option value="OFFICIAL_FACT">官方事实</option>
+          <option value="HISTORICAL_FACT">历史数据</option>
+          <option value="RESEARCH_SUMMARY">研究整理</option>
+          <option value="CONFLICTED_FACT">存在冲突</option>
+          <option value="SYSTEM_RULE">系统规则</option>
+        </select>
+      </div>
+      <div id="knowledgeList"></div>
+    </div>
+    <div class="card">
+      <div class="section-title" style="margin:0 0 8px">这段时间学了什么？</div>
+      <div class="set-desc" style="margin:0 0 10px">这条内容会保存到当前工作空间，作为学习记录和项目 AI 上下文的一部分。</div>
+      <textarea class="review-area" id="learningLogInput" placeholder="例如：今天完成了数量关系的工程问题，错了2题，原因是单位换算…" style="min-height:120px"></textarea>
+      <button class="btn grad" id="learningLogSaveBtn" style="width:100%;margin-top:10px"><span class="label">保存学习内容</span></button>
+    </div>
+    <div class="card">
+      <div class="section-title" style="margin:0 0 8px">空间状态</div>
+      <div class="workspace-state-note" id="workspaceStatusText"></div>
+      <button class="btn blue" id="workspaceRestoreBtn" style="width:100%;display:none;margin-top:12px"><span class="label">恢复这个工作空间</span></button>
+    </div>
   </div>
 
   <!-- 视图：设置 -->
@@ -899,6 +1118,79 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
       <div class="set-desc">设置后首页显示「距考试还有 X 天」。</div>
     </div>
     <div class="card">
+      <div class="section-title" style="margin:0 0 12px">🌙 作息与学习日</div>
+      <div class="set-row">
+        <label class="field" style="flex:1"><span>入睡</span><input type="time" id="sleepTimeInput"></label>
+        <label class="field" style="flex:1"><span>起床</span><input type="time" id="wakeTimeInput"></label>
+      </div>
+      <div class="set-row" style="margin-top:10px">
+        <label class="field" style="flex:1"><span>学习日从</span><input type="time" id="dayStartInput"></label>
+        <button class="btn blue" id="sleepScheduleSave"><span class="label">保存</span></button>
+      </div>
+      <div class="set-desc">凌晨学习会归到前一天；例如学习日从 15:00 开始，04:00 的记录仍算作昨天。</div>
+      <div class="set-desc" id="sleepScheduleSummary"></div>
+    </div>
+    <div class="card">
+      <div class="section-title" style="margin:0 0 12px">⏱️ 每日目标学习时间</div>
+      <div class="set-row">
+        <input type="number" id="dailyGoalHoursInput" min="0.25" max="12" step="0.25">
+        <span class="unit">小时</span>
+        <button class="btn blue" id="dailyGoalSave"><span class="label">保存</span></button>
+      </div>
+      <button class="btn grad" id="splitGoalBtn" style="width:100%;margin-top:12px"><span class="label">手动检查并生成今日分段</span></button>
+      <div class="set-desc">每天首次打开 App 会自动生成目标分段，无需手动点击；例如设置 6 小时，会生成 8 个 45 分钟待办任务，可在待办任务的“45分钟”栏查看。</div>
+    </div>
+    <div class="card">
+      <div class="section-title" style="margin:0 0 12px">☁️ 每日自动上传</div>
+      <label class="set-row auto-upload-row" for="autoUploadToggle">
+        <span style="font-size:.9rem;font-weight:700">每天首次打开 App 时上传一次</span>
+        <input type="checkbox" id="autoUploadToggle">
+      </label>
+      <div class="set-desc">只上传本地数据，不会自动下载或覆盖本地数据。</div>
+    </div>
+    <div class="card">
+      <div class="section-title" style="margin:0 0 12px">🤖 AI 复盘（GLM）</div>
+      <div class="field">
+        <label>智谱 API Key（仅保存在本设备）</label>
+        <div class="input-wrap">
+          <input id="glmApiKeyInput" type="password" placeholder="输入 API Key" autocomplete="off">
+          <button class="eye-btn" id="glmApiEye" aria-label="显示">👁</button>
+        </div>
+      </div>
+      <div class="field">
+        <label>连接测试模型（仅允许两个免费型号）</label>
+        <select id="glmModelInput">
+          <option value="glm-4.7-flash">GLM-4.7-Flash（文字复盘）</option>
+          <option value="glm-4.6v-flash">GLM-4.6V-Flash（图片/视频）</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>管理提示词 / 人物设定</label>
+        <textarea class="ai-config-area" id="glmSystemPromptInput" placeholder="例如：你是一名严格但温和的学习教练……"></textarea>
+      </div>
+      <div class="field">
+        <label>学习方法论</label>
+        <textarea class="ai-config-area" id="glmLearningMethodInput" placeholder="把你的学习方法、检查标准、复习原则写在这里……"></textarea>
+      </div>
+      <div class="field">
+        <label>考试内容背景</label>
+        <textarea class="ai-config-area" id="glmExamContextInput" placeholder="告诉 AI 你正在准备什么考试、有哪些板块……"></textarea>
+      </div>
+      <div class="field">
+        <label>我的薄弱点 / 督促偏好</label>
+        <textarea class="ai-config-area" id="glmWeaknessesInput" placeholder="例如：资料分析速度慢；发现薄弱板块时请直接提醒我，并给出下一步练习建议……"></textarea>
+      </div>
+      <div class="set-row">
+        <button class="btn blue" id="glmSaveBtn"><span class="label">保存 AI 配置</span></button>
+        <button class="btn green" id="glmTestBtn"><span class="label">测试连接</span></button>
+      </div>
+      <label class="set-row auto-upload-row" for="aiAutoReviewToggle" style="margin-top:12px">
+        <span style="font-size:.9rem;font-weight:700">数据变化后自动 AI 复盘</span>
+        <input type="checkbox" id="aiAutoReviewToggle">
+      </label>
+      <div class="set-desc">学习记录变化后会延迟几秒自动分析，每天最多 3 次；你也可以随时手动生成。人物设定、学习方法、考试背景和薄弱点会随 Gist 保存，换设备后可继续使用；只有 API Key 只保存在本设备。<br><a class="link" href="https://docs.bigmodel.cn/cn/api/introduction" target="_blank" rel="noopener">查看智谱 API 文档 ›</a></div>
+    </div>
+    <div class="card">
       <div class="section-title" style="margin:0 0 12px">📚 科目</div>
       <div class="subject-settings-list" id="subjectSettingsList"></div>
       <div class="subject-add-row">
@@ -918,15 +1210,15 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
       <div class="set-desc" style="margin-top:0">
         个人工作台 v2.1 · Gist 无服务器同步方案<br>
         · 本地数据存于浏览器 localStorage<br>
-        · 手机端仅保留近 14 天专注/任务，电脑端全量<br>
-        · 同步完全手动：立即上传 / 立即下载（在工作台页）<br>
+        · 手机端与电脑端都保留完整历史记录<br>
+        · 云端下载完全手动；上传可在设置中开启每日自动上传<br>
         · 冲突按 updated_at 最新优先合并<br>
         · Token 生成：github.com/settings/tokens（只需 gist 权限）
       </div>
     </div>
   </div>
 
-  <div class="footer-note">个人工作台 · Gist 同步版 v2.1 · 所有同步均为手动触发</div>
+  <div class="footer-note">个人工作台 · Gist 同步版 v2.1 · 云端下载手动，上传可按设置自动执行</div>
 </div>
 
 <!-- 抽屉导航 -->
@@ -939,10 +1231,12 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     </div>
   </div>
   <button class="drawer-item active" data-view="home"><span class="d-icon">📊</span>工作台</button>
+  <button class="drawer-item" data-view="speed-match"><span class="d-icon">🧮</span>速算消消乐</button>
   <button class="drawer-item" data-view="courses"><span class="d-icon">📚</span>课程进度</button>
   <button class="drawer-item" data-view="goals"><span class="d-icon">🎯</span>目标管理</button>
   <button class="drawer-item" data-view="review"><span class="d-icon">📈</span>总结复盘</button>
   <button class="drawer-item" data-view="notes"><span class="d-icon">📝</span>学习笔记</button>
+  <button class="drawer-item" data-view="knowledge"><span class="d-icon">▤</span>项目知识库</button>
   <button class="drawer-item" data-view="settings"><span class="d-icon">⚙️</span>设置</button>
 </div>
 
@@ -972,7 +1266,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
 <!-- 记一笔弹窗 -->
 <div class="sheet" id="sessionSheet">
   <div class="sheet-grabber"></div>
-  <h3>记一笔专注</h3>
+  <h3 id="sessionSheetTitle">记一笔专注</h3>
   <div class="sheet-sub">有效战力 = 时长 × 效率系数</div>
 
   <div class="sheet-label">时长</div>
@@ -989,10 +1283,13 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
   <div class="chip-row" id="subjectChips"></div>
   <input class="text-input" id="subjectInput" type="text" placeholder="自定义科目（可留空）" maxlength="20">
 
+  <div class="sheet-label">这次学了什么？</div>
+  <textarea class="review-area" id="sessionContentInput" placeholder="可记录知识点、题量、错题原因或下一步…" style="min-height:92px"></textarea>
+
   <div class="sheet-label">这次状态怎么样？</div>
   <div class="eff-grid" id="effGrid"></div>
 
-  <button class="btn green" id="sessionSaveBtn"><span class="label">保存记录</span></button>
+  <button class="btn green" id="sessionSaveBtn"><span class="label" id="sessionSaveLabel">保存记录</span></button>
 </div>
 
 <!-- 通用确认弹窗 -->
@@ -1060,10 +1357,17 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
 <script src="gist-api.js"></script>
 <script src="data-filter.js"></script>
 <script src="sync-engine.js"></script>
+<script src="glm-client.js"></script>
+<script src="sinopec-knowledge.js"></script>
+<script src="knowledge-base.js"></script>
+<script src="workspace-store.js"></script>
+<script src="sleep-schedule.js"></script>
+<script src="learning-timeline.js"></script>
+<script src="speed-match-game.js"></script>
 <script>
 /* ============================================================
    个人工作台 前端 App（Kimi K3）
-   规则：禁止自动同步 / 后台同步 / 轮询，一切同步由按钮触发
+   规则：禁止自动下载 / 轮询；AI 复盘只在数据变化后按频控触发
    ============================================================ */
 (function () {
   'use strict';
@@ -1073,6 +1377,30 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
   var LS_TOKEN = 'gist_token';
   var LS_GIST = 'gist_id';
   var LS_GOAL = 'daily_goal_minutes';
+  var LS_AUTO_UPLOAD = 'auto_upload_enabled';
+  var LS_AUTO_UPLOAD_LAST = 'auto_upload_last_success_date';
+  var LS_GLM_API_KEY = 'glm_api_key';
+  var LS_GLM_MODEL = 'glm_model';
+  var LS_GLM_SYSTEM_PROMPT = 'glm_system_prompt';
+  var LS_GLM_LEARNING_METHOD = 'glm_learning_method';
+  var LS_GLM_EXAM_CONTEXT = 'glm_exam_context';
+  var LS_GLM_WEAKNESSES = 'glm_weaknesses';
+  var LS_AI_AUTO_ENABLED = 'ai_auto_review_enabled';
+  var LS_AI_DATA_HASH = 'ai_auto_review_data_hash';
+  var LS_AI_LAST_HASH = 'ai_auto_review_last_hash';
+  var LS_AI_RUN_DATE = 'ai_auto_review_run_date';
+  var LS_AI_RUN_COUNT = 'ai_auto_review_run_count';
+  var LS_AI_LAST_RUN_AT = 'ai_auto_review_last_run_at';
+  var AI_AUTO_REVIEW_MAX_PER_DAY = 3;
+  var AI_AUTO_REVIEW_MIN_INTERVAL = 20 * 60 * 1000;
+  var AI_AUTO_REVIEW_DELAY = 8000;
+  var GLM_TEXT_MODEL = 'glm-4.7-flash';
+  var GLM_VISION_MODEL = 'glm-4.6v-flash';
+  var DEFAULT_GLM_EXAM_CONTEXT = '目前我还没有把学习内容细分，学习记录统一称为“学习”。我正在准备一场考试，包含两个板块：\n1. 思想素质：价值观、责任感、意志品质、时事政治、中国石化企业知识、其他学科知识。\n2. 思维能力：言语理解与表达、数量关系、判断推理、资料分析、常识判断以及其他学科知识。后期会逐步细分为言语理解与表达、判断推理、数量关系、资料分析、常识判断。';
+
+  function normalizeGlmModel(model) {
+    return model === GLM_VISION_MODEL ? GLM_VISION_MODEL : GLM_TEXT_MODEL;
+  }
 
   var EFFICIENCY_OPTIONS = [
     { key: 'flow',   label: '心流', value: 1.00, emoji: '🔥', desc: '巅峰状态 ×1.00', color: '#FF9500' },
@@ -1112,8 +1440,8 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     if (!iso) return '从未同步';
     var d = new Date(iso);
     if (isNaN(d)) return '从未同步';
-    var today = localDateStr();
-    var ds = localDateStr(d);
+    var today = todayWorkdayStr();
+    var ds = learningDateStr(d);
     var hm = pad2(d.getHours()) + ':' + pad2(d.getMinutes());
     if (ds === today) return '今天 ' + hm;
     return (d.getMonth() + 1) + '月' + d.getDate() + '日 ' + hm;
@@ -1121,6 +1449,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
 
   // ---------- 数据层 ----------
   function loadData() {
+    if (window.WorkbenchStore) return WorkbenchStore.loadScoped();
     try {
       var raw = localStorage.getItem(LS_DATA);
       if (!raw) return { focus_sessions: [], tasks: [], meta: {} };
@@ -1129,21 +1458,132 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
       d.tasks = d.tasks || [];
       d.meta = d.meta || {};
       return d;
-    } catch (e) {
-      return { focus_sessions: [], tasks: [], meta: {} };
+    } catch (e) { return { focus_sessions: [], tasks: [], meta: {} }; }
+  }
+  function learningDataSignature(d) {
+    function part(list) {
+      list = Array.isArray(list) ? list : [];
+      var latest = '';
+      var completed = 0;
+      list.forEach(function (item) {
+        if (item.is_completed) completed++;
+        if ((item.updated_at || '') > latest) latest = item.updated_at || '';
+      });
+      return list.length + '|' + completed + '|' + latest;
     }
+    return (d.active_workspace_id || 'personal') + '::' + part(d.focus_sessions) + '::' + part(d.tasks) + '::' + part(d.notes);
   }
-  function saveData(d) { localStorage.setItem(LS_DATA, JSON.stringify(d)); }
+  function isAiAutoReviewEnabled() {
+    var value = localStorage.getItem(LS_AI_AUTO_ENABLED);
+    return value === null ? true : value === 'true';
+  }
+  function setAiAutoReviewEnabled(enabled) {
+    localStorage.setItem(LS_AI_AUTO_ENABLED, String(!!enabled));
+  }
+  function saveData(d) {
+    var previousHash = localStorage.getItem(LS_AI_DATA_HASH);
+    if (window.WorkbenchStore) WorkbenchStore.saveScoped(d);
+    else localStorage.setItem(LS_DATA, JSON.stringify(d));
+    var nextHash = learningDataSignature(d);
+    localStorage.setItem(LS_AI_DATA_HASH, nextHash);
+    if (previousHash !== null && previousHash !== nextHash) scheduleAutoAiReview();
+  }
   function getGoal() {
-    var g = parseInt(localStorage.getItem(LS_GOAL), 10);
-    return (isNaN(g) || g <= 0) ? 120 : g;
+    var configured = parseInt(getSettings().daily_goal_minutes, 10);
+    if (!isNaN(configured) && configured > 0) return configured;
+    var legacy = parseInt(localStorage.getItem(LS_GOAL), 10);
+    return (!isNaN(legacy) && legacy > 0) ? legacy : 300;
   }
-  function setGoal(v) { localStorage.setItem(LS_GOAL, String(v)); }
+  function setGoal(v) {
+    localStorage.setItem(LS_GOAL, String(v));
+    saveSettings({ daily_goal_minutes: v });
+  }
+  function isAutoUploadEnabled() {
+    var value = localStorage.getItem(LS_AUTO_UPLOAD);
+    return value === null ? true : value === 'true';
+  }
+  function setAutoUploadEnabled(enabled) {
+    localStorage.setItem(LS_AUTO_UPLOAD, String(!!enabled));
+  }
+  function getGlmConfig() {
+    var settings = getSettings();
+    var model = localStorage.getItem(LS_GLM_MODEL) || GLM_TEXT_MODEL;
+    if (settings.glm_model) model = settings.glm_model;
+    model = normalizeGlmModel(model);
+    return {
+      apiKey: localStorage.getItem(LS_GLM_API_KEY) || '',
+      model: model,
+      systemPrompt: settings.glm_system_prompt || localStorage.getItem(LS_GLM_SYSTEM_PROMPT) || '',
+      learningMethod: settings.glm_learning_method || localStorage.getItem(LS_GLM_LEARNING_METHOD) || '',
+      examContext: settings.glm_exam_context || localStorage.getItem(LS_GLM_EXAM_CONTEXT) || DEFAULT_GLM_EXAM_CONTEXT,
+      weaknesses: settings.glm_weaknesses || localStorage.getItem(LS_GLM_WEAKNESSES) || ''
+    };
+  }
+  function saveGlmConfig(config) {
+    localStorage.setItem(LS_GLM_API_KEY, (config.apiKey || '').trim());
+    saveSettings({
+      glm_model: normalizeGlmModel(config.model),
+      glm_system_prompt: (config.systemPrompt || '').trim(),
+      glm_learning_method: (config.learningMethod || '').trim(),
+      glm_exam_context: (config.examContext || '').trim(),
+      glm_weaknesses: (config.weaknesses || '').trim()
+    });
+  }
 
   // ---------- v2.1 扩展数据：settings / goals / courses / notes / checkins / reviews ----------
   function getSettings() {
     var d = loadData();
     return d.settings || {};
+  }
+  function getSleepSchedule() {
+    return SleepSchedule.normalizeSleepSchedule(getSettings().sleep_schedule);
+  }
+  function learningDateStr(d) {
+    return SleepSchedule.learningDateString(d || new Date(), getSleepSchedule());
+  }
+  function workdayDateOffset(days, baseDate) {
+    return SleepSchedule.learningDateOffset(baseDate || new Date(), getSleepSchedule(), days || 0);
+  }
+  function todayWorkdayStr() { return workdayDateOffset(0); }
+  function yesterdayWorkdayStr() { return workdayDateOffset(-1); }
+  function tomorrowWorkdayStr() { return workdayDateOffset(1); }
+  function sessionLearningDate(session) {
+    return LearningTimeline.sessionLearningDate(session, getSleepSchedule());
+  }
+  function sessionMinutesOnLearningDate(session, dateStr) {
+    return LearningTimeline.sessionMinutesOnLearningDate(session, dateStr, getSleepSchedule());
+  }
+  function sessionMinutesInLearningRange(session, startStr, endStr) {
+    return LearningTimeline.sessionMinutesInLearningRange(session, startStr, endStr, getSleepSchedule());
+  }
+  function sessionSortTime(session) {
+    return LearningTimeline.sessionSortTime(session, getSleepSchedule());
+  }
+  function taskLearningDate(task) {
+    return LearningTimeline.learningDateForTask(task, getSleepSchedule());
+  }
+  function checkinLearningDate(checkin) {
+    return LearningTimeline.learningDateForCheckin(checkin, getSleepSchedule());
+  }
+  function migrateLearningTimelineData() {
+    var data = window.WorkbenchStore ? WorkbenchStore.loadFull() : loadData();
+    var schedule = SleepSchedule.normalizeSleepSchedule((data.settings || {}).sleep_schedule);
+    var now = new Date().toISOString();
+    var migrated = { sessions: 0, tasks: 0, checkins: 0 };
+    (data.focus_sessions || []).forEach(function (session) {
+      if (LearningTimeline.migrateFocusSession(session, schedule, now)) migrated.sessions++;
+    });
+    (data.tasks || []).forEach(function (task) {
+      if (LearningTimeline.migrateTask(task, schedule, now)) migrated.tasks++;
+    });
+    (data.checkins || []).forEach(function (checkin) {
+      if (LearningTimeline.migrateCheckin(checkin, schedule, now)) migrated.checkins++;
+    });
+    if (migrated.sessions || migrated.tasks || migrated.checkins) {
+      if (window.WorkbenchStore) WorkbenchStore.saveFull(data);
+      else saveData(data);
+    }
+    return migrated;
   }
   function saveSettings(patch) {
     var d = loadData();
@@ -1180,22 +1620,22 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
   }
   // 周范围（周一为起点）
   function weekRange(offset) {
-    var now = new Date();
-    var day = (now.getDay() + 6) % 7; // 周一=0
-    var mon = new Date(now); mon.setDate(now.getDate() - day + (offset || 0) * 7); mon.setHours(0, 0, 0, 0);
+    var anchor = new Date(todayWorkdayStr() + 'T12:00:00');
+    var day = (anchor.getDay() + 6) % 7; // 周一=0
+    var mon = new Date(anchor); mon.setDate(anchor.getDate() - day + (offset || 0) * 7); mon.setHours(0, 0, 0, 0);
     var sun = new Date(mon); sun.setDate(mon.getDate() + 6);
     return { start: mon, end: sun, startStr: localDateStr(mon), endStr: localDateStr(sun) };
   }
   function monthRange(offset) {
-    var now = new Date();
-    var first = new Date(now.getFullYear(), now.getMonth() + (offset || 0), 1);
-    var last = new Date(now.getFullYear(), now.getMonth() + (offset || 0) + 1, 0);
+    var anchor = new Date(todayWorkdayStr() + 'T12:00:00');
+    var first = new Date(anchor.getFullYear(), anchor.getMonth() + (offset || 0), 1);
+    var last = new Date(anchor.getFullYear(), anchor.getMonth() + (offset || 0) + 1, 0);
     return { start: first, end: last, startStr: localDateStr(first), endStr: localDateStr(last) };
   }
   function hoursInRange(data, startStr, endStr) {
     var mins = data.focus_sessions.reduce(function (sum, s) {
-      if (s.is_deleted || !s.date || s.date < startStr || s.date > endStr) return sum;
-      return sum + (parseFloat(s.duration_minutes) || 0);
+      if (s.is_deleted) return sum;
+      return sum + sessionMinutesInLearningRange(s, startStr, endStr);
     }, 0);
     return Math.round(mins / 6) / 10; // 小时，1位小数
   }
@@ -1205,7 +1645,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     saveData({
       focus_sessions: [], tasks: [], notes: [], checkins: [], reviews: [],
       courses: [], goals: [],
-      settings: null,
+      settings: { sleep_schedule: SleepSchedule.DEFAULT_SLEEP_SCHEDULE },
       meta: {}
     });
   }
@@ -1219,15 +1659,15 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
   }
   function dayPower(data, dateStr) {
     return data.focus_sessions.reduce(function (sum, s) {
-      if (s.is_deleted || s.date !== dateStr) return sum;
-      return sum + powerOf(s);
+      if (s.is_deleted) return sum;
+      return sum + sessionMinutesOnLearningDate(s, dateStr) * effOf(s);
     }, 0);
   }
   function dayMinutes(data, dateStr) {
-    return data.focus_sessions.reduce(function (sum, s) {
-      if (s.is_deleted || s.date !== dateStr) return sum;
-      return sum + (parseFloat(s.duration_minutes) || 0);
+    var minutes = data.focus_sessions.reduce(function (sum, s) {
+      return s.is_deleted ? sum : sum + sessionMinutesOnLearningDate(s, dateStr);
     }, 0);
+    return Math.round(minutes);
   }
   function effMeta(value) {
     for (var i = 0; i < EFFICIENCY_OPTIONS.length; i++) {
@@ -1261,6 +1701,135 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     var data = loadData();
     $('lastSyncAt').textContent = fmtTime(data.meta && data.meta.last_sync_at);
   }
+
+  // ---------- 工作空间 / 项目知识库 ----------
+  var knowledgeSearchTerm = '';
+  function activeWorkspace() {
+    return window.WorkbenchStore ? WorkbenchStore.getActiveWorkspace() : { client_id: 'personal', name: '个人工作台', status: 'active', description: '' };
+  }
+  function workspaceTruthLabel(value) {
+    return {
+      OFFICIAL_FACT: '官方事实', HISTORICAL_FACT: '历史数据', RESEARCH_SUMMARY: '研究整理',
+      CONFLICTED_FACT: '存在冲突', SYSTEM_RULE: '系统规则', PERSONAL_NOTE: '个人记录'
+    }[value] || value || '未分类';
+  }
+  function renderWorkspaceBar() {
+    if (!window.WorkbenchStore) return;
+    var full = WorkbenchStore.loadFull();
+    var current = activeWorkspace();
+    $('workspaceTriggerName').textContent = current.name;
+    $('workspaceMenu').innerHTML = full.workspaces.map(function (workspace) {
+      var archived = workspace.status === 'archived';
+      var selected = workspace.client_id === current.client_id;
+      return '<button class="workspace-option' + (selected ? ' selected' : '') + '" type="button" role="option" aria-selected="' + selected + '" data-workspace-id="' + esc(workspace.client_id) + '">'
+        + '<span class="option-icon">' + (workspace.type === 'personal' ? '⌂' : '◆') + '</span>'
+        + '<span class="option-copy"><span class="option-name">' + esc(workspace.name) + '</span><span class="option-meta">' + (archived ? '已归档 · 历史保留' : (workspace.description || '独立项目空间')) + '</span></span>'
+        + (selected ? '<span class="option-check">✓</span>' : '')
+        + '</button>';
+    }).join('');
+    $('workspaceArchiveBtn').disabled = current.client_id === 'personal' || current.status === 'archived';
+    $('workspaceArchiveBtn').textContent = current.status === 'archived' ? '↗' : '□';
+    $('workspaceArchiveBtn').title = current.status === 'archived' ? '恢复当前工作空间' : '归档当前工作空间';
+    $('workspaceDescription').textContent = current.description || '这个工作空间拥有独立的学习记录、知识库、目标和 AI 上下文。';
+    $('workspaceStatusText').textContent = current.status === 'archived'
+      ? '当前空间已归档。历史数据仍然保留，默认不会进入日常 AI 上下文。'
+      : '当前空间处于使用中。切换空间后，任务、课程、复盘和知识库会随之切换。';
+    $('workspaceRestoreBtn').style.display = current.status === 'archived' ? '' : 'none';
+  }
+  function renderKnowledgeView() {
+    var data = loadData();
+    var workspace = activeWorkspace();
+    var list = KnowledgeBase.query(data.knowledge_items || [], {
+      query: knowledgeSearchTerm,
+      truthClass: $('knowledgeTruthFilter').value,
+      limit: 50
+    });
+    $('knowledgeCount').textContent = list.length + ' 条';
+    $('workspaceDescription').textContent = workspace.description || '这个工作空间拥有独立的学习记录、知识库、目标和 AI 上下文。';
+    $('workspaceStatusText').textContent = workspace.status === 'archived'
+      ? '当前空间已归档。历史数据仍然保留，默认不会进入日常 AI 上下文。'
+      : '当前空间处于使用中。切换空间后，任务、课程、复盘和知识库会随之切换。';
+    $('workspaceRestoreBtn').style.display = workspace.status === 'archived' ? '' : 'none';
+    $('knowledgeList').innerHTML = list.length ? list.map(function (item) {
+      return '<div class="knowledge-item">'
+        + '<div class="top"><div class="title">' + esc(item.title) + '</div><div class="meta">' + esc(workspaceTruthLabel(item.truth_class)) + '</div></div>'
+        + '<div class="content">' + esc(item.content) + '</div>'
+        + '<div class="tags">' + esc((item.tags || []).join(' · ')) + ' · 来源：' + esc(item.source || '未注明') + '</div>'
+        + '</div>';
+    }).join('') : '<div class="empty"><span class="emoji">▤</span>当前空间还没有匹配的知识条目</div>';
+  }
+  function refreshWorkspaceView() {
+    renderWorkspaceBar();
+    if (currentView === 'knowledge') renderKnowledgeView();
+  }
+  function closeWorkspaceMenu() {
+    $('workspacePicker').classList.remove('open');
+    $('workspaceTrigger').setAttribute('aria-expanded', 'false');
+  }
+  $('workspaceTrigger').addEventListener('click', function (event) {
+    event.stopPropagation();
+    var picker = $('workspacePicker');
+    var open = picker.classList.toggle('open');
+    this.setAttribute('aria-expanded', String(open));
+  });
+  $('workspaceMenu').addEventListener('click', function (event) {
+    var option = event.target.closest('[data-workspace-id]');
+    if (!option) return;
+    if (!WorkbenchStore.setActiveWorkspace(option.dataset.workspaceId)) return;
+    closeWorkspaceMenu();
+    renderWorkspaceBar();
+    renderAll();
+    if (currentView === 'knowledge') renderKnowledgeView();
+    toast('已切换到「' + activeWorkspace().name + '」', 'info');
+  });
+  document.addEventListener('click', function (event) {
+    if (!event.target.closest('#workspacePicker')) closeWorkspaceMenu();
+  });
+  $('workspaceKnowledgeBtn').addEventListener('click', function () { switchView('knowledge'); });
+  $('workspaceNewBtn').addEventListener('click', function () {
+    var name = window.prompt('新工作空间名称');
+    if (!name || !name.trim()) return;
+    var workspace = WorkbenchStore.createWorkspace(name.trim(), 'project');
+    if (workspace) {
+      renderWorkspaceBar(); renderAll(); switchView('knowledge');
+      toast('已创建「' + workspace.name + '」');
+    }
+  });
+  function toggleWorkspaceArchive() {
+    var workspace = activeWorkspace();
+    if (workspace.client_id === 'personal') return;
+    var archived = workspace.status === 'archived';
+    confirmModal(archived ? '恢复工作空间？' : '归档工作空间？', workspace.name,
+      archived ? '恢复后，它会重新出现在日常工作流中。' : '数据不会删除；归档后默认不再进入日常 AI 上下文。',
+      archived ? '恢复' : '归档', false, function () {
+        WorkbenchStore.setWorkspaceStatus(workspace.client_id, archived ? 'active' : 'archived');
+        if (!archived) WorkbenchStore.setActiveWorkspace('personal');
+        renderWorkspaceBar(); renderAll();
+        if (currentView === 'knowledge') renderKnowledgeView();
+        toast(archived ? '工作空间已恢复' : '工作空间已归档', 'info');
+      });
+  }
+  $('workspaceArchiveBtn').addEventListener('click', toggleWorkspaceArchive);
+  $('workspaceRestoreBtn').addEventListener('click', function () {
+    var workspace = activeWorkspace();
+    if (workspace.status !== 'archived') return;
+    WorkbenchStore.setWorkspaceStatus(workspace.client_id, 'active');
+    renderWorkspaceBar(); renderKnowledgeView();
+    toast('工作空间已恢复');
+  });
+  $('knowledgeSearchInput').addEventListener('input', function () { knowledgeSearchTerm = this.value; renderKnowledgeView(); });
+  $('knowledgeTruthFilter').addEventListener('change', renderKnowledgeView);
+  $('learningLogSaveBtn').addEventListener('click', function () {
+    var content = $('learningLogInput').value.trim();
+    if (!content) { toast('先写下这段时间学了什么', 'error'); return; }
+    var data = loadData();
+    data.notes = data.notes || [];
+    var now = new Date().toISOString();
+    data.notes.push({ client_id: uuid(), kind: 'learning_log', title: '学习记录 · ' + todayWorkdayStr(), content: content, visibility: 'private', updated_at: now, is_deleted: false });
+    saveData(data);
+    $('learningLogInput').value = '';
+    toast('学习内容已保存');
+  });
 
   // ---------- Toast ----------
   var toastTimer = null;
@@ -1347,7 +1916,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
   // ---------- 渲染 ----------
   function renderHero() {
     var data = loadData();
-    var today = localDateStr();
+    var today = todayWorkdayStr();
     var goal = getGoal();
     var power = dayPower(data, today);
     var mins = dayMinutes(data, today);
@@ -1373,22 +1942,39 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     else { pill.className = 'pill gray'; pill.textContent = '尚未开始'; }
 
     // 统计
-    var sessions = data.focus_sessions.filter(function (s) { return !s.is_deleted && s.date === today; });
+    var sessions = data.focus_sessions.filter(function (s) {
+      return !s.is_deleted && sessionMinutesOnLearningDate(s, today) > 0;
+    });
     $('statSessions').textContent = sessions.length;
-    var todayTasks = data.tasks.filter(function (t) { return !t.is_deleted && t.date === today; });
+    var todayTasks = data.tasks.filter(function (t) {
+      return !t.is_deleted && !t.goal_split_key && taskLearningDate(t) === today;
+    });
     var doneTasks = todayTasks.filter(function (t) { return t.is_completed; });
     $('statTasks').textContent = doneTasks.length + '/' + todayTasks.length;
 
     // 连续达标天数
     var streak = 0;
-    var d = new Date();
-    if (dayPower(data, today) < goal) d.setDate(d.getDate() - 1); // 今天未达标从今天不算
+    var dayOffset = dayPower(data, today) >= goal && goal > 0 ? 0 : -1;
     while (streak < 365) {
-      var ds = localDateStr(d);
-      if (dayPower(data, ds) >= goal && goal > 0) { streak++; d.setDate(d.getDate() - 1); }
+      var ds = workdayDateOffset(dayOffset);
+      if (dayPower(data, ds) >= goal && goal > 0) { streak++; dayOffset--; }
       else break;
     }
     $('statStreak').textContent = streak;
+  }
+
+  function renderLearningDayContext() {
+    var schedule = getSleepSchedule();
+    var today = todayWorkdayStr();
+    var start = SleepSchedule.learningDayStart(today, schedule);
+    var end = SleepSchedule.learningDayStart(SleepSchedule.shiftDateString(today, 1), schedule);
+    var weekdays = '日一二三四五六';
+    var titleDate = start ? ((start.getMonth() + 1) + '月' + start.getDate() + '日 周' + weekdays[start.getDay()]) : today;
+    var range = start && end
+      ? ((start.getMonth() + 1) + '月' + start.getDate() + '日 ' + schedule.day_start + '–' + (end.getMonth() + 1) + '月' + end.getDate() + '日 ' + schedule.day_start)
+      : ('从 ' + schedule.day_start + ' 起算');
+    $('learningDayTitle').textContent = '当前学习日 · ' + titleDate;
+    $('learningDayDetail').textContent = '统计区间 ' + range + ' · 凌晨记录仍归入前一天';
   }
 
   function renderGoal() {
@@ -1398,59 +1984,94 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
   function renderChart() {
     var data = loadData();
     var goal = getGoal();
-    var days = isMobile() ? 14 : 30;
+    var days = 14;
     var list = [];
     var max = goal;
+    var today = todayWorkdayStr();
     for (var i = days - 1; i >= 0; i--) {
-      var d = new Date(); d.setDate(d.getDate() - i);
-      var ds = localDateStr(d);
-      var p = dayPower(data, ds);
-      list.push({ date: ds, power: p, hit: p >= goal && goal > 0, today: i === 0, weekday: '日一二三四五六'[d.getDay()], ago: i });
-      if (p > max) max = p;
+      var ds = workdayDateOffset(-i);
+      var d = new Date(ds + 'T12:00:00');
+      var minutes = dayMinutes(data, ds);
+      list.push({ date: ds, minutes: minutes, hours: Math.round(minutes / 6) / 10, hit: minutes >= goal && goal > 0, today: ds === today, month: d.getMonth() + 1, day: d.getDate() });
+      if (minutes > max) max = minutes;
     }
-    // 30 天模式下稀疏显示标签，避免拥挤
-    var labelEvery = days > 14 ? 5 : 1;
+    var hasData = list.some(function (it) { return it.minutes > 0; });
     var html = '';
-    list.forEach(function (it, idx) {
-      var h = max > 0 ? Math.max(3, Math.round(it.power / max * 88)) : 3;
-      var label = it.today ? '今天' : ((days - 1 - it.ago) % labelEvery === 0 ? it.weekday : '');
-      html += '<div class="bar-col" title="' + it.date + ' · 战力 ' + fmtPower(it.power) + '">'
-        + '<div class="bar' + (it.hit ? ' hit' : '') + (it.today ? ' today' : '') + '" style="height:' + h + 'px;--i:' + idx + '"></div>'
-        + '<div class="bar-label' + (it.today ? ' today' : '') + '">' + label + '</div>'
-        + '</div>';
-    });
+    if (hasData) {
+      list.forEach(function (it, idx) {
+        var h = max > 0 ? Math.max(4, Math.round(it.minutes / max * 88)) : 4;
+        var label = it.today ? '今天' : (it.month + '/' + it.day);
+        var hours = it.hours === 0 ? '&nbsp;' : it.hours + 'h';
+        html += '<div class="bar-col" title="' + it.date + ' · 学习 ' + it.hours + ' 小时（' + it.minutes + ' 分钟）">'
+          + '<div class="bar-value">' + hours + '</div>'
+          + '<div class="bar' + (it.hit ? ' hit' : '') + (it.today ? ' today' : '') + '" style="height:' + h + 'px;--i:' + idx + '"></div>'
+          + '<div class="bar-label' + (it.today ? ' today' : '') + '">' + label + '</div>'
+          + '</div>';
+      });
+    } else {
+      html = '<div class="chart-empty">完成第一条专注记录后，这里会按学习日边界绘制近两周趋势。</div>';
+    }
+    $('bars').classList.toggle('is-empty', !hasData);
     $('bars').innerHTML = html;
-    $('chartTitle').textContent = days > 14 ? '近 30 天战力' : '近两周战力';
-    $('chartHint').textContent = isMobile() ? '近14天 · 绿=达标' : '近30天 · 绿=达标';
+    $('chartLegend').style.display = hasData ? '' : 'none';
+    $('chartTitle').textContent = '近两周学习时长';
+    $('chartHint').textContent = '按学习日 · ' + getSleepSchedule().day_start + ' 起算';
   }
 
-  var taskFilter = 'all';
+  var taskFilter = 'today';
   function renderTasks() {
     var data = loadData();
-    var today = localDateStr();
-    var all = data.tasks.filter(function (t) { return !t.is_deleted; });
-    var list = all.filter(function (t) {
-      if (taskFilter === 'today') return t.date === today;
-      if (taskFilter === 'todo') return !t.is_completed;
+    var today = todayWorkdayStr();
+    var yesterdayDate = yesterdayWorkdayStr();
+    var tomorrowDate = tomorrowWorkdayStr();
+    var all = data.tasks.filter(function (t) { return !t.is_deleted && !t.goal_split_key; });
+    var segments = data.tasks.filter(function (t) {
+      return !t.is_deleted && t.goal_split_key && taskLearningDate(t) === today;
+    });
+    var list = (taskFilter === 'segments' ? segments : all).filter(function (t) {
+      var learningDate = taskLearningDate(t);
+      if (taskFilter === 'today') return learningDate === today;
+      if (taskFilter === 'tomorrow') return learningDate === tomorrowDate;
+      if (taskFilter === 'yesterdayTodo') return learningDate === yesterdayDate && !t.is_completed;
       if (taskFilter === 'done') return t.is_completed;
       return true;
     }).sort(function (a, b) {
-      return (a.is_completed ? 1 : 0) - (b.is_completed ? 1 : 0) || (a.priority || 1) - (b.priority || 1) || (b.date || '').localeCompare(a.date || '');
+      if (taskFilter === 'segments') {
+        return (a.goal_split_index || 0) - (b.goal_split_index || 0);
+      }
+      return (a.is_completed ? 1 : 0) - (b.is_completed ? 1 : 0)
+        || (a.priority || 1) - (b.priority || 1)
+        || taskLearningDate(b).localeCompare(taskLearningDate(a))
+        || (b.created_at || b.updated_at || '').localeCompare(a.created_at || a.updated_at || '');
     });
-    var todayAll = all.filter(function (t) { return t.date === today; });
+    var todayAll = all.filter(function (t) { return taskLearningDate(t) === today; });
     var done = todayAll.filter(function (t) { return t.is_completed; }).length;
-    $('taskHint').textContent = todayAll.length ? ('今日 ' + done + '/' + todayAll.length) : '';
+    var segmentDone = segments.filter(function (t) { return t.is_completed; }).length;
+    var todaySegments = segments.length;
+    $('taskHint').textContent = taskFilter === 'segments'
+      ? (todaySegments ? ('今日 ' + segmentDone + '/' + todaySegments) : '')
+      : (todayAll.length ? ('今日 ' + done + '/' + todayAll.length) : '');
     if (!list.length) {
-      var emptyText = { all: '还没有任务，加一个吧', today: '今天还没有任务，加一个吧', todo: '没有未完成的任务 🎉', done: '还没有已完成的任务' };
+      var emptyText = {
+        segments: '还没有45分钟分段，请先在设置里拆分今日目标',
+        all: '还没有任务，加一个吧',
+        today: '今天还没有任务，加一个吧',
+        tomorrow: '明天还没有任务',
+        yesterdayTodo: '昨天没有未完成的任务 🎉',
+        done: '还没有已完成的任务'
+      };
       $('taskList').innerHTML = '<div class="empty"><span class="emoji">📝</span>' + emptyText[taskFilter] + '</div>';
       return;
     }
     $('taskList').innerHTML = list.map(function (t, i) {
-      var dateTag = (taskFilter === 'all' && t.date !== today) ? '<span style="font-size:0.68rem;color:var(--text-3);font-weight:600;margin-right:4px">' + esc(t.date || '') + '</span>' : '';
-      return '<div class="task-item' + (t.is_completed ? ' done' : '') + '" style="animation-delay:' + (i * 40) + 'ms">'
+      var taskDate = taskLearningDate(t);
+      var dateTag = ((taskFilter === 'segments' || taskFilter === 'all') && taskDate !== today) ? '<span style="font-size:0.68rem;color:var(--text-3);font-weight:600;margin-right:4px">' + esc(taskDate) + '</span>' : '';
+      var segmentMeta = t.goal_split_key ? '<span class="task-segment-meta">' + (t.goal_split_minutes || 45) + ' 分钟</span>' : '';
+      var delButton = t.goal_split_key ? '' : '<button class="task-del" data-id="' + t.client_id + '" aria-label="删除">✕</button>';
+      return '<div class="task-item' + (t.goal_split_key ? ' segment' : '') + (t.is_completed ? ' done' : '') + '" style="animation-delay:' + (i * 40) + 'ms">'
         + '<button class="task-check" data-id="' + t.client_id + '" aria-label="完成">' + (t.is_completed ? '✓' : '') + '</button>'
         + '<span class="task-title">' + dateTag + esc(t.title) + '</span>'
-        + '<button class="task-del" data-id="' + t.client_id + '" aria-label="删除">✕</button>'
+        + segmentMeta + delButton
         + '</div>';
     }).join('');
   }
@@ -1467,7 +2088,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     var list = data.focus_sessions
       .filter(function (s) { return !s.is_deleted; })
       .sort(function (a, b) {
-        return (b.date + (b.start_time || '')).localeCompare(a.date + (a.start_time || ''));
+        return sessionSortTime(b) - sessionSortTime(a);
       })
       .slice(0, isMobile() ? 15 : 30);
     if (!list.length) {
@@ -1477,19 +2098,35 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     $('sessionList').innerHTML = list.map(function (s, i) {
       var m = effMeta(effOf(s));
       var sub = s.subject ? ' · ' + esc(s.subject) : '';
-      return '<div class="session-item" style="animation-delay:' + (i * 35) + 'ms">'
+      var interval = LearningTimeline.sessionInterval(s, getSleepSchedule());
+      var learningDate = sessionLearningDate(s);
+      var startDate = localDateStr(interval.start);
+      var endDate = localDateStr(interval.end);
+      var timeText = startDate === endDate
+        ? (startDate !== learningDate ? startDate + ' ' : '') + timeStr(interval.start) + '–' + timeStr(interval.end)
+        : startDate + ' ' + timeStr(interval.start) + '–' + endDate + ' ' + timeStr(interval.end);
+      var dateText = '学习日 ' + learningDate + ' · ' + timeText;
+      return '<div class="session-item" data-id="' + esc(s.client_id) + '" style="animation-delay:' + (i * 35) + 'ms">'
         + '<div class="session-icon" style="background:' + m.color + '1F">' + m.emoji + '</div>'
         + '<div class="session-main">'
         + '<div class="t">' + (s.duration_minutes || 0) + ' 分钟' + sub + '</div>'
-        + '<div class="s">' + esc(s.date) + ' ' + esc(s.start_time || '') + ' · ' + m.label + '</div>'
+        + '<div class="s">' + esc(dateText) + ' · ' + m.label + '</div>'
         + '</div>'
         + '<div class="session-power">+' + fmtPower(powerOf(s)) + '<small>战力</small></div>'
+        + '<button class="session-edit" aria-label="编辑记录">编辑</button>'
         + '</div>';
     }).join('');
   }
+  $('sessionList').addEventListener('click', function (e) {
+    var item = e.target.closest('.session-item');
+    if (!item) return;
+    openSessionSheet(item.dataset.id);
+  });
 
   function renderAll() {
+    renderWorkspaceBar();
     renderHero();
+    renderLearningDayContext();
     renderGoal();
     renderChart();
     renderTasks();
@@ -1521,7 +2158,8 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     data.tasks.push({
       client_id: uuid(),
       title: title,
-      date: localDateStr(now),
+      date: learningDateStr(now),
+      created_at: now.toISOString(),
       is_completed: false,
       completed_at: null,
       priority: 1,
@@ -1560,24 +2198,38 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
   });
 
   // ---------- 记一笔专注 ----------
-  var selDuration = 25, selSubject = '', selEff = 0.75;
-  var selDate = localDateStr(), sessionDateMore = false;
+  var selDuration = 25, selSubject = '', selEff = 0.75, editingSessionId = null;
+  var selDate = todayWorkdayStr(), sessionDateMore = false;
 
   function dateLabel(dateStr) {
     var d = new Date(dateStr + 'T00:00:00');
     return (d.getMonth() + 1) + '月' + d.getDate() + '日';
   }
   function yesterdayStr() {
-    var d = new Date();
-    d.setDate(d.getDate() - 1);
-    return localDateStr(d);
+    return yesterdayWorkdayStr();
+  }
+
+  function sessionEditSchedule(session, fallback) {
+    var schedule = SleepSchedule.normalizeSleepSchedule(fallback);
+    if (session && SleepSchedule.validTime(session.learning_day_start)) {
+      schedule.day_start = session.learning_day_start;
+    }
+    return schedule;
+  }
+
+  function validSessionDate(value) {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(String(value || ''))) return false;
+    var date = new Date(String(value) + 'T12:00:00');
+    return !isNaN(date.getTime()) && date.getFullYear() === parseInt(String(value).slice(0, 4), 10)
+      && date.getMonth() + 1 === parseInt(String(value).slice(5, 7), 10)
+      && date.getDate() === parseInt(String(value).slice(8, 10), 10);
   }
 
   function buildSheetOptions() {
     $('durationChips').innerHTML = DURATIONS.map(function (d) {
       return '<button class="chip' + (d === selDuration ? ' selected' : '') + '" data-v="' + d + '">' + d + ' 分钟</button>';
     }).join('');
-    var today = localDateStr();
+    var today = todayWorkdayStr();
     var yesterday = yesterdayStr();
     $('dateChips').innerHTML = [
       { key: today, name: '今天', date: dateLabel(today) },
@@ -1633,9 +2285,34 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     var btn = e.target.closest('.eff-opt');
     if (btn) { selEff = parseFloat(btn.dataset.v); buildSheetOptions(); }
   });
-  function openSessionSheet() {
-    selDate = localDateStr();
-    sessionDateMore = false;
+  function openSessionSheet(sessionId) {
+    editingSessionId = sessionId || null;
+    var data = loadData();
+    var existing = editingSessionId && data.focus_sessions.find(function (s) { return s.client_id === editingSessionId && !s.is_deleted; });
+    if (existing) {
+      var existingDuration = parseInt(existing.duration_minutes, 10) || 25;
+      selDuration = DURATIONS.indexOf(existingDuration) >= 0 ? existingDuration : 25;
+      selSubject = existing.subject || '';
+      selEff = effOf(existing);
+      selDate = sessionLearningDate(existing) || existing.date || todayWorkdayStr();
+      sessionDateMore = selDate !== todayWorkdayStr() && selDate !== yesterdayStr();
+      $('customDuration').value = DURATIONS.indexOf(existingDuration) >= 0 ? '' : existingDuration;
+      $('subjectInput').value = getSubjects().indexOf(selSubject) >= 0 ? '' : selSubject;
+      $('sessionContentInput').value = existing.content || existing.note || '';
+      $('sessionSheetTitle').textContent = '编辑专注记录';
+      $('sessionSaveLabel').textContent = '保存修改';
+    } else {
+      selDuration = 25;
+      selSubject = '';
+      selEff = 0.75;
+      selDate = todayWorkdayStr();
+      sessionDateMore = false;
+      $('customDuration').value = '';
+      $('subjectInput').value = '';
+      $('sessionContentInput').value = '';
+      $('sessionSheetTitle').textContent = '记一笔专注';
+      $('sessionSaveLabel').textContent = '保存记录';
+    }
     buildSheetOptions();
     openSheet('sessionSheet');
   }
@@ -1644,31 +2321,71 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
   $('sessionSaveBtn').addEventListener('click', function () {
     var customSub = $('subjectInput').value.trim();
     var subject = customSub || selSubject || null;
+    var content = $('sessionContentInput').value.trim();
     var customDur = parseInt($('customDuration').value, 10);
     var dur = (customDur > 0) ? Math.min(customDur, 600) : selDuration;
     var sessionDate = sessionDateMore ? ($('sessionDateInput').value || selDate) : selDate;
+    if (!validSessionDate(sessionDate)) sessionDate = todayWorkdayStr();
     var now = new Date();
-    var start = new Date(now.getTime() - dur * 60000);
+    var schedule = getSleepSchedule();
     var data = loadData();
-    data.focus_sessions.push({
-      client_id: uuid(),
-      date: sessionDate,
-      start_time: timeStr(start),
-      end_time: timeStr(now),
-      duration_minutes: dur,
-      efficiency: selEff,
-      effective_power: Math.round(dur * selEff * 100) / 100,
-      source: 'manual',
-      subject: subject,
-      note: null,
-      updated_at: now.toISOString(),
-      is_deleted: false
-    });
+    var existing = editingSessionId && data.focus_sessions.find(function (s) { return s.client_id === editingSessionId && !s.is_deleted; });
+    if (existing) {
+      var existingSchedule = sessionEditSchedule(existing, schedule);
+      var existingInterval = LearningTimeline.sessionInterval(existing, existingSchedule);
+      var existingLearningDate = LearningTimeline.sessionLearningDate(existing, existingSchedule);
+      var endDate = sessionDate === existingLearningDate
+        ? existingInterval.end
+        : SleepSchedule.dateTimeForLearningDate(sessionDate, timeStr(existingInterval.end), existingSchedule);
+      if (!endDate) endDate = existingInterval.end;
+      var start = new Date(endDate.getTime() - dur * 60000);
+      // The selected learning date is explicit user input. Keep it stable even
+      // when the natural calendar date of the timestamp is the next day.
+      existing.date = sessionDate;
+      if (!SleepSchedule.validTime(existing.learning_day_start)) {
+        existing.learning_day_start = existingSchedule.day_start;
+      }
+      existing.start_time = timeStr(start);
+      existing.end_time = timeStr(endDate);
+      existing.started_at = start.toISOString();
+      existing.ended_at = endDate.toISOString();
+      existing.duration_minutes = dur;
+      existing.efficiency = selEff;
+      existing.effective_power = Math.round(dur * selEff * 100) / 100;
+      existing.subject = subject;
+      existing.content = content;
+      existing.updated_at = now.toISOString();
+    } else {
+      var endDate = SleepSchedule.dateTimeForLearningDate(sessionDate, timeStr(now), schedule) || now;
+      var start = new Date(endDate.getTime() - dur * 60000);
+      data.focus_sessions.push({
+        client_id: uuid(),
+        date: sessionDate,
+        learning_day_start: schedule.day_start,
+        start_time: timeStr(start),
+        end_time: timeStr(endDate),
+        started_at: start.toISOString(),
+        ended_at: endDate.toISOString(),
+        duration_minutes: dur,
+        efficiency: selEff,
+        effective_power: Math.round(dur * selEff * 100) / 100,
+        source: 'manual',
+        subject: subject,
+        note: null,
+        content: content,
+        analysis_status: content ? 'pending' : 'not_started',
+        visibility: 'private',
+        updated_at: now.toISOString(),
+        is_deleted: false
+      });
+    }
     saveData(data);
-    $('subjectInput').value = ''; selSubject = ''; $('customDuration').value = '';
+    var wasEditing = !!editingSessionId;
+    editingSessionId = null;
+    $('subjectInput').value = ''; selSubject = ''; $('customDuration').value = ''; $('sessionContentInput').value = '';
     closeSheet();
     renderAll();
-    toast('已记录 +' + fmtPower(dur * selEff) + ' 战力 ⚡');
+    toast((wasEditing ? '记录已更新 ' : '已记录 ') + '+' + fmtPower(dur * selEff) + ' 战力 ⚡');
   });
 
   // ---------- 云同步：保存配置 ----------
@@ -1765,12 +2482,27 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     try {
       var go = await checkConflictBefore('上传');
       if (!go) return;
+      migrateLearningTimelineData();
       var result = await syncEngine.pushToCloud();
       toast(result.message, result.success ? 'success' : 'error');
       flashBtn(btn, result.success ? 'success' : 'error');
-      if (result.success) { renderAll(); }
+      if (result.success) { renderAll(); scheduleAutoAiReview(); }
     } finally {
       setBtnLoading(btn, false);
+    }
+  }
+
+  async function runDailyAutoUpload() {
+    if (!isAutoUploadEnabled() || !isConfigured() || !syncEngine) return;
+    var today = todayWorkdayStr();
+    if (localStorage.getItem(LS_AUTO_UPLOAD_LAST) === today) return;
+    migrateLearningTimelineData();
+    var result = await syncEngine.pushToCloud();
+    if (result.success) {
+      localStorage.setItem(LS_AUTO_UPLOAD_LAST, today);
+      toast('已自动上传本地学习数据', 'info');
+    } else {
+      console.warn('Daily auto upload failed:', result.message);
     }
   }
 
@@ -1780,10 +2512,10 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     try {
       var go = await checkConflictBefore('下载');
       if (!go) return;
-      var result = await syncEngine.pullFromCloud({ trimTo14Days: isMobile() });
+      var result = await syncEngine.pullFromCloud({ trimTo14Days: false });
       toast(result.message, result.success ? 'success' : 'error');
       flashBtn(btn, result.success ? 'success' : 'error');
-      if (result.success) { renderAll(); }
+      if (result.success) { migrateLearningTimelineData(); renderAll(); scheduleAutoAiReview(); }
     } finally {
       setBtnLoading(btn, false);
     }
@@ -1796,18 +2528,13 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
 
   // ---------- 数据管理 ----------
   $('exportBtn').addEventListener('click', function () {
-    var data = loadData();
-    var payload = {
-      version: 1,
-      exported_at: new Date().toISOString(),
-      daily_goal_minutes: getGoal(),
-      focus_sessions: data.focus_sessions,
-      tasks: data.tasks
-    };
+    var payload = window.WorkbenchStore ? WorkbenchStore.loadFull() : loadData();
+    payload.exported_at = new Date().toISOString();
+    payload.export_scope = 'full_workbench';
     var blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
     var a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
-    a.download = 'workbench-data-' + localDateStr() + '.json';
+    a.download = 'workbench-full-data-' + localDateStr() + '.json';
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -1824,9 +2551,13 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
       '将删除本地 ' + data.focus_sessions.length + ' 条专注记录和 ' + data.tasks.length + ' 条任务。\n云端 Gist 数据不受影响，Token 配置保留。',
       '全部删除', true,
       function () {
-        localStorage.removeItem(LS_DATA);
+        var current = loadData();
+        ['focus_sessions', 'tasks', 'courses', 'notes', 'checkins', 'reviews', 'goals', 'workspace_states', 'knowledge_items'].forEach(function (key) {
+          current[key] = [];
+        });
+        saveData(current);
         renderAll();
-        toast('本地数据已清空', 'info');
+        toast('当前工作空间的数据已清空', 'info');
       }
     );
   });
@@ -1834,7 +2565,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
   // ---------- 关于（已移至「设置」视图） ----------
 
   // ==================== v2.1 导航与视图切换 ====================
-  var VIEW_NAMES = { home: '工作台', courses: '课程进度', goals: '目标管理', review: '总结复盘', notes: '学习笔记', settings: '设置' };
+  var VIEW_NAMES = { home: '工作台', 'speed-match': '速算消消乐', courses: '课程进度', goals: '目标管理', review: '总结复盘', notes: '学习笔记', knowledge: '项目知识库', settings: '设置' };
   var currentView = 'home';
   function switchView(name) {
     if (!VIEW_NAMES[name]) name = 'home';
@@ -1850,12 +2581,15 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     $('checkinBtn').style.display = isHome ? '' : 'none';
     closeDrawer();
     window.scrollTo({ top: 0 });
-    if (name === 'courses') renderCourses();
+    if (name === 'speed-match') { if (window.SpeedMatchGame) window.SpeedMatchGame.mount(); }
+    else if (name === 'courses') renderCourses();
     else if (name === 'goals') renderGoalsView();
     else if (name === 'review') renderReview();
     else if (name === 'notes') renderNotes();
+    else if (name === 'knowledge') renderKnowledgeView();
     else if (name === 'settings') renderSettingsView();
     else renderAll();
+    if (name !== 'speed-match' && window.SpeedMatchGame) window.SpeedMatchGame.deactivate();
   }
   function openDrawer() { $('drawer').classList.add('show'); $('backdrop').classList.add('show'); }
   function closeDrawer() { $('drawer').classList.remove('show'); if (!activeSheet) $('backdrop').classList.remove('show'); }
@@ -1877,7 +2611,9 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     var greet = h < 5 ? '夜深了' : h < 11 ? '早上好' : h < 13 ? '中午好' : h < 18 ? '下午好' : '晚上好';
     $('greetText').innerHTML = greet + '，<span class="nick">' + esc(nick) + '</span>';
     var d = new Date();
-    var dateLine = '今天 ' + (d.getMonth() + 1) + '月' + d.getDate() + '日 周' + '日一二三四五六'[d.getDay()];
+    var learningToday = learningDateStr(d);
+    var learningDate = new Date(learningToday + 'T00:00:00');
+    var dateLine = '学习日 ' + (learningDate.getMonth() + 1) + '月' + learningDate.getDate() + '日 周' + '日一二三四五六'[learningDate.getDay()];
     var cd = '';
     if (s.exam_date) {
       var diff = Math.round((new Date(s.exam_date + 'T00:00:00') - new Date(localDateStr() + 'T00:00:00')) / 86400000);
@@ -1891,17 +2627,18 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
 
   // ==================== v2.1 打卡 ====================
   function isCheckedToday() {
-    var d = loadData(); var today = localDateStr();
-    return (d.checkins || []).some(function (c) { return !c.is_deleted && c.date === today; });
+    var d = loadData(); var today = todayWorkdayStr();
+    return (d.checkins || []).some(function (c) { return !c.is_deleted && checkinLearningDate(c) === today; });
   }
   function checkinStreakDays() {
     var d = loadData();
     var set = {};
-    (d.checkins || []).forEach(function (c) { if (!c.is_deleted && c.date) set[c.date] = 1; });
+    (d.checkins || []).forEach(function (c) {
+      if (!c.is_deleted) set[checkinLearningDate(c)] = 1;
+    });
     var streak = 0;
-    var dt = new Date();
-    if (!set[localDateStr(dt)]) dt.setDate(dt.getDate() - 1);
-    while (set[localDateStr(dt)] && streak < 3650) { streak++; dt.setDate(dt.getDate() - 1); }
+    var offset = 0;
+    while (set[workdayDateOffset(offset)] && streak < 3650) { streak++; offset--; }
     return streak;
   }
   function renderCheckin() {
@@ -1914,7 +2651,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     if (isCheckedToday()) { toast('今天已经打过卡了', 'info'); return; }
     var d = loadData(); d.checkins = d.checkins || [];
     var now = new Date();
-    d.checkins.push({ client_id: uuid(), date: localDateStr(now), updated_at: now.toISOString(), is_deleted: false });
+    d.checkins.push({ client_id: uuid(), date: learningDateStr(now), checkin_at: now.toISOString(), updated_at: now.toISOString(), is_deleted: false });
     saveData(d);
     renderCheckin();
     toast('打卡成功 🔥 已连续 ' + checkinStreakDays() + ' 天');
@@ -1931,7 +2668,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     $('weekHours').textContent = weekH + ' / ' + weekGoal + 'h';
     $('weekBar').style.width = pct + '%';
     var goalMin = getGoal();
-    var todayMin = dayMinutes(data, localDateStr());
+    var todayMin = dayMinutes(data, todayWorkdayStr());
     var tpct = goalMin > 0 ? Math.min(100, Math.round(todayMin / goalMin * 100)) : 0;
     $('todayPct').textContent = tpct + '%';
     $('todayMin').textContent = todayMin + ' / ' + goalMin + 'min';
@@ -2098,7 +2835,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
       return { start: m.start, end: m.end, startStr: m.startStr, endStr: m.endStr, label: m.start.getFullYear() + '年' + (m.start.getMonth() + 1) + '月', key: 'month-' + m.startStr.slice(0, 7), name: '月' };
     }
     if (reviewPeriod === 'quarter') {
-      var now = new Date();
+      var now = new Date(todayWorkdayStr() + 'T12:00:00');
       var q = Math.floor(now.getMonth() / 3) + reviewOffset;
       var year = now.getFullYear() + Math.floor(q / 4);
       var qq = ((q % 4) + 4) % 4;
@@ -2106,7 +2843,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
       var last = new Date(year, qq * 3 + 3, 0);
       return { start: first, end: last, startStr: localDateStr(first), endStr: localDateStr(last), label: year + '年 Q' + (qq + 1), key: 'quarter-' + year + '-Q' + (qq + 1), name: '季' };
     }
-    var now2 = new Date();
+    var now2 = new Date(todayWorkdayStr() + 'T12:00:00');
     var hIdx = (now2.getMonth() < 6 ? 0 : 1) + reviewOffset * 2;
     var hy = now2.getFullYear() + Math.floor(hIdx / 2);
     var hh = ((hIdx % 2) + 2) % 2;
@@ -2114,18 +2851,219 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     var l2 = new Date(hy, hh * 6 + 6, 0);
     return { start: f2, end: l2, startStr: localDateStr(f2), endStr: localDateStr(l2), label: hy + '年' + (hh === 0 ? '上半年' : '下半年'), key: 'half-' + hy + '-H' + (hh + 1), name: '半年' };
   }
+  function buildGlmSystemPrompt(config) {
+    var parts = [];
+    var workspace = activeWorkspace();
+    parts.push('【当前工作空间】\n' + workspace.name + '。只使用当前工作空间的项目知识、学习记录和复盘；不要把其他工作空间或已归档空间的内容带入本次分析。');
+    if (config.systemPrompt) parts.push('【人物设定与管理提示词】\n' + config.systemPrompt);
+    if (config.learningMethod) parts.push('【学习方法论】\n' + config.learningMethod);
+    if (config.examContext) parts.push('【考试内容背景】\n' + config.examContext);
+    if (config.weaknesses) parts.push('【我的薄弱点与督促偏好】\n' + config.weaknesses);
+    parts.push('【复盘要求】\n你是我的学习复盘教练。请只依据我提供的记录、近期复盘轨迹和图片内容进行判断，不要编造事实。明确指出方法论是否被执行、哪些证据支持你的判断、学习是否有效、最重要的一个改进动作，以及下一周期的可执行计划。弱点不是永久标签：如果最新记录或用户自述显示某板块正在进步，就降低它的优先级，停止机械重复追问，转向巩固或寻找新的问题；只有当前证据支持时才追问薄弱点，并在结尾提出一个具体、简短的督促问题。输出使用清晰的小标题和简洁条目。');
+    return parts.join('\n\n');
+  }
+  function recentReviewHistory(data) {
+    return (data.reviews || [])
+      .filter(function (r) { return !r.is_deleted && (r.content || r.ai_content); })
+      .sort(function (a, b) { return (b.updated_at || '').localeCompare(a.updated_at || ''); })
+      .slice(0, 6)
+      .map(function (r) {
+        return {
+          updated_at: r.updated_at || '',
+          manual: String(r.content || '').slice(0, 800),
+          ai: String(r.ai_content || '').slice(0, 1200)
+        };
+      });
+  }
+  function buildGlmReviewPrompt(pr, data) {
+    var sessions = data.focus_sessions.filter(function (s) {
+      return !s.is_deleted && sessionMinutesInLearningRange(s, pr.startStr, pr.endStr) > 0;
+    });
+    var tasks = data.tasks.filter(function (t) {
+      var date = taskLearningDate(t);
+      return !t.is_deleted && date >= pr.startStr && date <= pr.endStr;
+    });
+    var savedReview = (data.reviews || []).find(function (r) { return r.client_id === pr.key && !r.is_deleted; });
+    var currentReview = $('reviewText') ? $('reviewText').value.trim() : '';
+    var workspace = activeWorkspace();
+    var payload = {
+      workspace: { id: workspace.client_id, name: workspace.name, status: workspace.status },
+      period: { name: pr.name, start: pr.startStr, end: pr.endStr },
+      daily_goal_minutes: getGoal(),
+      current_subjects: getSubjects(),
+      focus_sessions: sessions.map(function (s) {
+        return {
+          date: sessionLearningDate(s),
+          minutes: Math.round(sessionMinutesInLearningRange(s, pr.startStr, pr.endStr)),
+          subject: s.subject || '未分类',
+          efficiency: parseFloat(s.efficiency) || 0.5
+        };
+      }),
+      tasks: tasks.map(function (t) {
+        return { date: taskLearningDate(t), title: t.title, completed: !!t.is_completed, is_goal_segment: !!t.goal_split_key };
+      }),
+      project_knowledge: window.KnowledgeBase ? KnowledgeBase.forPrompt(data.knowledge_items || [], { limit: 12 }) : [],
+      learning_notes: (data.notes || []).filter(function (n) { return !n.is_deleted && (n.kind === 'learning_log' || n.visibility === 'private'); }).slice(0, 12).map(function (n) {
+        return { title: n.title, content: String(n.content || '').slice(0, 900), updated_at: n.updated_at || '' };
+      }),
+      manual_reflection: currentReview || (savedReview && savedReview.content) || '',
+      recent_coaching_history: recentReviewHistory(data)
+    };
+    return '请复盘以下学习数据。先给出结论，再给出证据、方法论执行情况、问题和下一周期计划。\n\n' + JSON.stringify(payload, null, 2);
+  }
+  function readFileAsDataUrl(file) {
+    return new Promise(function (resolve, reject) {
+      var reader = new FileReader();
+      reader.onload = function () { resolve(reader.result); };
+      reader.onerror = function () { reject(new Error('附件读取失败')); };
+      reader.readAsDataURL(file);
+    });
+  }
+  function readFileAsText(file) {
+    return new Promise(function (resolve, reject) {
+      var reader = new FileReader();
+      reader.onload = function () { resolve(String(reader.result || '')); };
+      reader.onerror = function () { reject(new Error('文字附件读取失败')); };
+      reader.readAsText(file);
+    });
+  }
+  function modelForReviewAttachment(attachment) {
+    return attachment && (attachment.kind === 'image' || attachment.kind === 'video')
+      ? GLM_VISION_MODEL
+      : GLM_TEXT_MODEL;
+  }
+  async function readReviewAttachment(file) {
+    if (!file) return null;
+    if (file.size > 12 * 1024 * 1024) throw new Error('附件请控制在 12MB 以内');
+    if (file.type.indexOf('image/') === 0) return { kind: 'image', dataUrl: await readFileAsDataUrl(file), name: file.name };
+    if (file.type.indexOf('video/') === 0) return { kind: 'video', dataUrl: await readFileAsDataUrl(file), name: file.name };
+    if (file.type.indexOf('audio/') === 0) return { kind: 'audio', name: file.name };
+    if (file.type === 'text/plain' || /\.txt$/i.test(file.name)) {
+      return { kind: 'text', text: await readFileAsText(file), name: file.name };
+    }
+    return { kind: 'file', name: file.name };
+  }
+  function saveAiReview(pr, content, model) {
+    var data = loadData();
+    data.reviews = data.reviews || [];
+    var rv = data.reviews.find(function (r) { return r.client_id === pr.key && !r.is_deleted; });
+    var now = new Date().toISOString();
+    if (!rv) {
+      rv = { client_id: pr.key, content: '', updated_at: now, is_deleted: false };
+      data.reviews.push(rv);
+    }
+    rv.ai_content = content;
+    rv.ai_model = model;
+    rv.ai_updated_at = now;
+    rv.updated_at = now;
+    saveData(data);
+  }
+  var autoAiReviewTimer = null;
+  var transientAiReviews = {};
+  function aiAutoRunCount() {
+    var today = todayWorkdayStr();
+    if (localStorage.getItem(LS_AI_RUN_DATE) !== today) {
+      localStorage.setItem(LS_AI_RUN_DATE, today);
+      localStorage.setItem(LS_AI_RUN_COUNT, '0');
+    }
+    return parseInt(localStorage.getItem(LS_AI_RUN_COUNT) || '0', 10) || 0;
+  }
+  function updateAiAutoReviewStatus() {
+    var el = $('aiAutoReviewStatus');
+    if (!el) return;
+    if (!isAiAutoReviewEnabled()) { el.textContent = '自动分析已关闭'; return; }
+    el.textContent = '今日自动 ' + aiAutoRunCount() + '/' + AI_AUTO_REVIEW_MAX_PER_DAY;
+  }
+  function canRunAutoAiReview(hash) {
+    if (!isAiAutoReviewEnabled() || !getGlmConfig().apiKey) return false;
+    var data = loadData();
+    if (!(data.focus_sessions.length || data.tasks.length)) return false;
+    if (localStorage.getItem(LS_AI_LAST_HASH) === hash) return false;
+    if (aiAutoRunCount() >= AI_AUTO_REVIEW_MAX_PER_DAY) return false;
+    var lastAt = parseInt(localStorage.getItem(LS_AI_LAST_RUN_AT) || '0', 10) || 0;
+    return !lastAt || Date.now() - lastAt >= AI_AUTO_REVIEW_MIN_INTERVAL;
+  }
+  function scheduleAutoAiReview() {
+    if (autoAiReviewTimer) clearTimeout(autoAiReviewTimer);
+    autoAiReviewTimer = setTimeout(function () {
+      autoAiReviewTimer = null;
+      var hash = learningDataSignature(loadData());
+      if (!canRunAutoAiReview(hash)) return;
+      generateAiReview({ silent: true, autoHash: hash });
+    }, AI_AUTO_REVIEW_DELAY);
+  }
+  async function generateAiReview(options) {
+    options = options || {};
+    var silent = !!options.silent;
+    var btn = $('aiReviewBtn');
+    var config = getGlmConfig();
+    if (!config.apiKey) {
+      if (!silent) toast('请先在设置里填写智谱 API Key', 'error');
+      return;
+    }
+    if (!silent) setBtnLoading(btn, true, '分析中…');
+    try {
+      var pr = periodRange();
+      var data = loadData();
+      var attachment = silent ? null : await readReviewAttachment($('reviewAttachmentInput').files[0]);
+      var model = modelForReviewAttachment(attachment);
+      var prompt = buildGlmReviewPrompt(pr, data);
+      var userContent = prompt;
+      if (attachment && attachment.kind === 'text') userContent += '\n\n【附件文字：' + attachment.name + '】\n' + attachment.text;
+      if (attachment && (attachment.kind === 'image' || attachment.kind === 'video')) {
+        userContent = [
+          { type: 'text', text: prompt + '\n\n请同时分析附件中的视觉信息，并区分“图片/视频中看到的事实”和“基于学习记录的推断”。' },
+          attachment.kind === 'image'
+            ? { type: 'image_url', image_url: { url: attachment.dataUrl } }
+            : { type: 'video_url', video_url: { url: attachment.dataUrl } }
+        ];
+      }
+      if (attachment && attachment.kind === 'audio') throw new Error('当前 GLM-4.6V-Flash 接口不直接接收音频，请先转成文字再复盘');
+      if (attachment && attachment.kind === 'file') throw new Error('当前版本先支持图片、视频和 TXT；PDF 等文件请先复制文字或截图');
+      var answer = await new GlmClient(config.apiKey, model).chat([
+        { role: 'system', content: buildGlmSystemPrompt(config) },
+        { role: 'user', content: userContent }
+      ]);
+      if (!answer) throw new Error('模型没有返回内容');
+      transientAiReviews[pr.key] = { content: answer, model: model, generated_at: new Date().toISOString(), automatic: silent };
+      localStorage.setItem(LS_AI_LAST_HASH, options.autoHash || learningDataSignature(loadData()));
+      if (silent) {
+        localStorage.setItem(LS_AI_RUN_COUNT, String(aiAutoRunCount() + 1));
+        localStorage.setItem(LS_AI_LAST_RUN_AT, String(Date.now()));
+      }
+      updateAiAutoReviewStatus();
+      if (typeof currentView !== 'undefined' && currentView === 'review') renderReview();
+      if (!silent) toast('AI 复盘已生成 · ' + model, 'success');
+    } catch (err) {
+      if (silent) console.warn('Automatic AI review failed:', err.message);
+      else toast('AI 复盘失败：' + err.message, 'error');
+    } finally {
+      if (!silent) setBtnLoading(btn, false);
+    }
+  }
   function renderReview() {
     var data = loadData();
     var pr = periodRange();
     $('periodLabel').textContent = pr.label;
-    var sessions = data.focus_sessions.filter(function (s) { return !s.is_deleted && s.date >= pr.startStr && s.date <= pr.endStr; });
-    var totalMin = sessions.reduce(function (s, x) { return s + (parseFloat(x.duration_minutes) || 0); }, 0);
+    var sessions = data.focus_sessions.filter(function (s) {
+      return !s.is_deleted && sessionMinutesInLearningRange(s, pr.startStr, pr.endStr) > 0;
+    });
+    var totalMin = sessions.reduce(function (sum, session) {
+      return sum + sessionMinutesInLearningRange(session, pr.startStr, pr.endStr);
+    }, 0);
     var totalH = Math.round(totalMin / 6) / 10;
     var days = {}, subjects = {};
     sessions.forEach(function (s) {
-      days[s.date] = 1;
       var sub = s.subject || '未分类';
-      subjects[sub] = (subjects[sub] || 0) + (parseFloat(s.duration_minutes) || 0);
+      var cursor = pr.startStr;
+      while (cursor <= pr.endStr) {
+        var minutes = sessionMinutesOnLearningDate(s, cursor);
+        if (minutes > 0) {
+          days[cursor] = 1;
+          subjects[sub] = (subjects[sub] || 0) + minutes;
+        }
+        cursor = SleepSchedule.shiftDateString(cursor, 1);
+      }
     });
     var dayCount = Object.keys(days).length;
     var subCount = Object.keys(subjects).length;
@@ -2143,7 +3081,9 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
       Object.keys(subjects).forEach(function (sub) {
         var rowTotal = 0;
         html += '<tr><td>' + esc(sub) + '</td>' + cols.map(function (c) {
-          var v = sessions.reduce(function (s, x) { return (x.date === c && (x.subject || '未分类') === sub) ? s + (parseFloat(x.duration_minutes) || 0) : s; }, 0);
+          var v = sessions.reduce(function (sum, x) {
+            return (x.subject || '未分类') === sub ? sum + sessionMinutesOnLearningDate(x, c) : sum;
+          }, 0);
           rowTotal += v;
           return '<td>' + (v > 0 ? (Math.round(v / 6) / 10) : '') + '</td>';
         }).join('') + '<td class="total">' + (Math.round(rowTotal / 6) / 10) + '</td></tr>';
@@ -2173,6 +3113,13 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     // 手动复盘
     var rv = (data.reviews || []).find(function (r) { return r.client_id === pr.key && !r.is_deleted; });
     $('reviewText').value = rv ? (rv.content || '') : '';
+    var transientAi = transientAiReviews[pr.key];
+    var aiContent = transientAi ? transientAi.content : (rv && rv.ai_content ? rv.ai_content : '');
+    $('aiReviewResult').textContent = aiContent;
+    $('aiReviewResult').style.display = aiContent ? '' : 'none';
+    $('aiReviewSaveBtn').style.display = transientAi ? '' : 'none';
+    $('aiReviewSaveHint').style.display = transientAi ? '' : 'none';
+    updateAiAutoReviewStatus();
   }
   $('reviewTabs').addEventListener('click', function (e) {
     var btn = e.target.closest('.tab');
@@ -2184,6 +3131,15 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
   });
   $('periodPrev').addEventListener('click', function () { reviewOffset--; renderReview(); });
   $('periodNext').addEventListener('click', function () { if (reviewOffset < 0) { reviewOffset++; renderReview(); } });
+  $('aiReviewSaveBtn').addEventListener('click', function () {
+    var pr = periodRange();
+    var transientAi = transientAiReviews[pr.key];
+    if (!transientAi) { toast('当前没有可保存的 AI 复盘', 'info'); return; }
+    saveAiReview(pr, transientAi.content, transientAi.model);
+    delete transientAiReviews[pr.key];
+    renderReview();
+    toast('AI 复盘已保存 📌');
+  });
   $('reviewSaveBtn').addEventListener('click', function () {
     var pr = periodRange();
     var content = $('reviewText').value.trim();
@@ -2193,6 +3149,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     if (rv) { rv.content = content; rv.updated_at = now; }
     else { data.reviews.push({ client_id: pr.key, content: content, updated_at: now, is_deleted: false }); }
     saveData(data);
+    scheduleAutoAiReview();
     toast('复盘已保存 📈');
   });
 
@@ -2281,8 +3238,8 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
       toast('专注完成 🎉 记录一下吧');
       setTimeout(function () {
         closeFocus();
-        $('customDuration').value = focusDur;
         openSessionSheet();
+        $('customDuration').value = focusDur;
       }, 600);
       return;
     }
@@ -2325,8 +3282,8 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     stopFocusTimer();
     closeFocus();
     if (elapsed >= 1) {
-      $('customDuration').value = elapsed;
       openSessionSheet();
+      $('customDuration').value = elapsed;
       toast('已专注 ' + elapsed + ' 分钟，记录一下状态');
     } else {
       toast('不足 1 分钟，未记录', 'info');
@@ -2336,10 +3293,135 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
   // ==================== v2.1 设置 / 导入 ====================
   function renderSettingsView() {
     var s = getSettings();
+    var glm = getGlmConfig();
+    var sleepSchedule = getSleepSchedule();
     $('nickInput').value = s.nickname || '';
     $('examDateInput').value = s.exam_date || '';
+    $('sleepTimeInput').value = sleepSchedule.sleep_time;
+    $('wakeTimeInput').value = sleepSchedule.wake_time;
+    $('dayStartInput').value = sleepSchedule.day_start;
+    $('sleepScheduleSummary').textContent = SleepSchedule.describeSleepSchedule(sleepSchedule);
+    var goalHours = getGoal() / 60;
+    $('dailyGoalHoursInput').value = Number.isInteger(goalHours) ? String(goalHours) : goalHours.toFixed(2).replace(/0+$/, '').replace(/\.$/, '');
+    $('autoUploadToggle').checked = isAutoUploadEnabled();
+    $('glmApiKeyInput').value = glm.apiKey;
+    $('glmModelInput').value = glm.model;
+    $('glmSystemPromptInput').value = glm.systemPrompt;
+    $('glmLearningMethodInput').value = glm.learningMethod;
+    $('glmExamContextInput').value = glm.examContext;
+    $('glmWeaknessesInput').value = glm.weaknesses;
+    $('aiAutoReviewToggle').checked = isAiAutoReviewEnabled();
     renderSubjectSettings();
   }
+  function splitDailyGoalIntoTasks(silent) {
+    var target = getGoal();
+    var today = todayWorkdayStr();
+    var key = today + '-' + target;
+    var data = loadData();
+    var existing = (data.tasks || []).some(function (task) {
+      return !task.is_deleted && task.goal_split_key && taskLearningDate(task) === today;
+    });
+    if (existing) {
+      if (!silent) toast('今天已经生成过这组任务', 'info');
+      return false;
+    }
+    var chunks = [];
+    var full = Math.floor(target / 45);
+    var remainder = target % 45;
+    for (var i = 0; i < full; i++) chunks.push(45);
+    if (remainder) chunks.push(remainder);
+    var now = new Date().toISOString();
+    chunks.forEach(function (minutes, index) {
+      data.tasks.push({
+        client_id: uuid(),
+        title: '学习第 ' + (index + 1) + '/' + chunks.length + ' 段 · ' + minutes + ' 分钟',
+        date: today,
+        created_at: now,
+        is_completed: false,
+        completed_at: null,
+        priority: 1,
+        subject: null,
+        goal_split_key: key,
+        goal_split_index: index + 1,
+        goal_split_total: chunks.length,
+        goal_split_minutes: minutes,
+        updated_at: now,
+        is_deleted: false
+      });
+    });
+    saveData(data);
+    if (!silent) {
+      renderAll();
+      toast('已拆分为 ' + chunks.length + ' 个待办任务');
+    }
+    return true;
+  }
+  function readGlmForm() {
+    return {
+      apiKey: $('glmApiKeyInput').value,
+      model: $('glmModelInput').value,
+      systemPrompt: $('glmSystemPromptInput').value,
+      learningMethod: $('glmLearningMethodInput').value,
+      examContext: $('glmExamContextInput').value,
+      weaknesses: $('glmWeaknessesInput').value
+    };
+  }
+  async function testGlmConnection() {
+    var btn = $('glmTestBtn');
+    var config = readGlmForm();
+    saveGlmConfig(config);
+    if (!config.apiKey.trim()) { toast('请先填写智谱 API Key', 'error'); return; }
+    setBtnLoading(btn, true, '测试中…');
+    try {
+      var answer = await new GlmClient(config.apiKey, normalizeGlmModel(config.model)).test();
+      toast('GLM 连接成功：' + answer, 'success');
+      flashBtn(btn, 'success');
+    } catch (err) {
+      toast('GLM 连接失败：' + err.message, 'error');
+      flashBtn(btn, 'error');
+    } finally {
+      setBtnLoading(btn, false);
+    }
+  }
+  $('dailyGoalSave').addEventListener('click', function () {
+    var hours = parseFloat($('dailyGoalHoursInput').value);
+    if (!(hours >= 0.25 && hours <= 12)) {
+      toast('目标时间请填写 0.25～12 小时', 'error');
+      return;
+    }
+    setGoal(Math.round(hours * 60));
+    splitDailyGoalIntoTasks(true);
+    renderAll();
+    renderSettingsView();
+    toast('每日目标已保存 🎯');
+  });
+  $('splitGoalBtn').addEventListener('click', function () { splitDailyGoalIntoTasks(false); });
+  $('autoUploadToggle').addEventListener('change', function () {
+    setAutoUploadEnabled(this.checked);
+    toast(this.checked ? '已开启每日自动上传' : '已关闭每日自动上传', 'info');
+  });
+  $('glmApiEye').addEventListener('click', function () {
+    var input = $('glmApiKeyInput');
+    input.type = input.type === 'password' ? 'text' : 'password';
+  });
+  $('glmSaveBtn').addEventListener('click', function () {
+    saveGlmConfig(readGlmForm());
+    scheduleAutoAiReview();
+    toast('AI 配置已保存 🤖', 'success');
+  });
+  $('glmTestBtn').addEventListener('click', testGlmConnection);
+  $('aiAutoReviewToggle').addEventListener('change', function () {
+    setAiAutoReviewEnabled(this.checked);
+    updateAiAutoReviewStatus();
+    if (this.checked) scheduleAutoAiReview();
+    toast(this.checked ? '已开启自动 AI 复盘' : '已关闭自动 AI 复盘', 'info');
+  });
+  $('reviewAttachmentBtn').addEventListener('click', function () { $('reviewAttachmentInput').click(); });
+  $('reviewAttachmentInput').addEventListener('change', function () {
+    var file = this.files && this.files[0];
+    $('reviewAttachmentName').textContent = file ? file.name : '未选择附件';
+  });
+  $('aiReviewBtn').addEventListener('click', generateAiReview);
   function renderSubjectSettings() {
     var subjects = getSubjects();
     $('subjectSettingsList').innerHTML = subjects.map(function (subject, index) {
@@ -2405,6 +3487,22 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     renderGreeting();
     toast('考试日期已保存 📅');
   });
+  $('sleepScheduleSave').addEventListener('click', function () {
+    var sleepTime = $('sleepTimeInput').value;
+    var wakeTime = $('wakeTimeInput').value;
+    var dayStart = $('dayStartInput').value;
+    if (!/^([01]\d|2[0-3]):[0-5]\d$/.test(sleepTime) ||
+        !/^([01]\d|2[0-3]):[0-5]\d$/.test(wakeTime) ||
+        !/^([01]\d|2[0-3]):[0-5]\d$/.test(dayStart)) {
+      toast('请填写完整的时间', 'error');
+      return;
+    }
+    saveSettings({ sleep_schedule: { sleep_time: sleepTime, wake_time: wakeTime, day_start: dayStart } });
+    migrateLearningTimelineData();
+    renderSettingsView();
+    renderAll();
+    toast('作息与学习日已保存 🌙');
+  });
   $('importBtn').addEventListener('click', function () { $('importFile').click(); });
   $('importFile').addEventListener('change', function () {
     var file = this.files && this.files[0];
@@ -2416,8 +3514,8 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
       catch (e) { toast('文件不是有效的 JSON', 'error'); return; }
       if (!imported || typeof imported !== 'object') { toast('文件格式不正确', 'error'); return; }
       confirmModal('导入并合并数据？', file.name, '将按 client_id 去重合并到本地（最新优先），不会删除现有数据。', '导入', false, function () {
-        var local = loadData();
-        var keys = ['focus_sessions', 'tasks', 'courses', 'notes', 'checkins', 'reviews', 'goals'];
+        var local = window.WorkbenchStore ? WorkbenchStore.loadFull() : loadData();
+        var keys = ['focus_sessions', 'tasks', 'courses', 'notes', 'checkins', 'reviews', 'goals', 'workspace_states', 'knowledge_items', 'workspaces'];
         var added = 0;
         keys.forEach(function (k) {
           var inc = Array.isArray(imported[k]) ? imported[k] : [];
@@ -2427,7 +3525,9 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
           local[k] = r.merged;
         });
         if (imported.settings) local.settings = syncEngine.mergeSettings(local.settings, imported.settings);
-        saveData(local);
+        if (window.WorkbenchStore) WorkbenchStore.saveFull(local); else saveData(local);
+        migrateLearningTimelineData();
+        renderWorkspaceBar();
         renderAll();
         if (currentView !== 'home') switchView(currentView);
         toast('导入完成，合并了 ' + added + ' 条新数据 📥');
@@ -2448,19 +3548,12 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
 
   initSync();
 
-  // 手机端：每次打开 App 执行 14 天安全清理（指南 3.1）
-  if (isMobile() && typeof safeCleanLocalData === 'function') {
-    try {
-      var clean = safeCleanLocalData();
-      if (clean.removedSessions > 0 || clean.removedTasks > 0) {
-        setTimeout(function () {
-          toast('已清理 ' + (clean.removedSessions + clean.removedTasks) + ' 条过期记录', 'info');
-        }, 800);
-      }
-    } catch (e) { /* 清理失败不影响使用 */ }
-  }
-
+  migrateLearningTimelineData();
+  splitDailyGoalIntoTasks(true);
   renderAll();
+  updateAiAutoReviewStatus();
+  scheduleAutoAiReview();
+  setTimeout(runDailyAutoUpload, 1200);
 })();
 </script>
 <script>
