@@ -4,7 +4,7 @@
  * ============================================================
  * 
  * 职责：封装所有与 GitHub Gist 的 HTTP 通信
- * 使用方式：由 sync-engine.js 调用，前端不直接调用本文件
+ * 使用方式：由 sync-engine.js / quiz-remote.js 调用，前端不直接调用本文件
  * 
  * 前置条件：
  *   1. 用户需生成 GitHub Personal Access Token (classic)
@@ -26,10 +26,12 @@ class GistClient {
   /**
    * @param {string} token - GitHub Personal Access Token
    * @param {string} gistId - Gist ID（可选，首次可为空，通过 create 获取）
+   * @param {string} filename - Gist 中的数据文件名
    */
-  constructor(token, gistId = null) {
+  constructor(token, gistId = null, filename = DATA_FILENAME) {
     this.token = token;
     this.gistId = gistId;
+    this.filename = filename || DATA_FILENAME;
   }
 
   /**
@@ -37,11 +39,11 @@ class GistClient {
    */
   async _request(url, options = {}) {
     const headers = {
-      Authorization: `Bearer ${this.token}`,
       Accept: "application/vnd.github.v3+json",
       "Content-Type": "application/json",
       "User-Agent": "PersonalWorkbench/1.0",
     };
+    if (this.token) headers.Authorization = `Bearer ${this.token}`;
 
     const response = await fetch(url, {
       ...options,
@@ -69,23 +71,22 @@ class GistClient {
    * 创建一个新的 Secret Gist（首次使用调用）
    * @returns {string} 新创建的 Gist ID
    */
-  async createGist() {
+  async createGist(options = {}) {
+    const content = options.content || JSON.stringify(
+      {
+        version: 1,
+        created_at: new Date().toISOString(),
+        focus_sessions: [],
+        tasks: [],
+      },
+      null,
+      2
+    );
     const payload = {
-      description: "Personal Workbench Data Store (Auto-created)",
+      description: options.description || "Personal Workbench Data Store (Auto-created)",
       public: false, // Secret Gist
       files: {
-        [DATA_FILENAME]: {
-          content: JSON.stringify(
-            {
-              version: 1,
-              created_at: new Date().toISOString(),
-              focus_sessions: [],
-              tasks: [],
-            },
-            null,
-            2
-          ),
-        },
+        [this.filename]: { content },
       },
     };
 
@@ -110,9 +111,9 @@ class GistClient {
     const result = await this._request(`${GIST_API_BASE}/${this.gistId}`);
 
     // 检查数据文件是否存在
-    const file = result.files[DATA_FILENAME];
+    const file = result.files[this.filename];
     if (!file) {
-      throw new Error(`Gist 中未找到数据文件 "${DATA_FILENAME}"`);
+      throw new Error(`Gist 中未找到数据文件 "${this.filename}"`);
     }
 
     // 如果文件被截断（大于 1MB），需要通过 raw_url 获取
@@ -131,6 +132,19 @@ class GistClient {
   }
 
   /**
+   * 通过已知 raw_url 读取 Gist 文件。Secret Gist 的 raw 地址可用于只读抓取。
+   */
+  async downloadRaw(rawUrl) {
+    if (!rawUrl) throw new Error("Gist raw 地址未设置，无法下载");
+    const response = await fetch(rawUrl, {
+      headers: { Accept: "application/json", "User-Agent": "PersonalWorkbench/1.0" },
+    });
+    if (!response.ok) throw new Error("Gist raw 下载失败 (" + response.status + ")");
+    const content = await response.text();
+    return { data: JSON.parse(content), gist_updated_at: null, gist_history_count: 0 };
+  }
+
+  /**
    * 写入数据到 Gist（上传）
    * @param {object} dataObj - 要上传的完整数据对象
    * @returns {object} 更新后的 Gist 元信息
@@ -142,7 +156,7 @@ class GistClient {
 
     const payload = {
       files: {
-        [DATA_FILENAME]: {
+        [this.filename]: {
           content: JSON.stringify(dataObj, null, 2),
         },
       },

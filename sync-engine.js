@@ -14,7 +14,12 @@
 
 // 参与同步的记录集合（均以 client_id 为键、updated_at 最新优先合并）
 // v2.1：在 focus_sessions / tasks 基础上扩展 courses / notes / checkins / reviews / goals
-const SYNC_COLLECTIONS = ["focus_sessions", "tasks", "courses", "notes", "checkins", "reviews", "goals", "workspace_states", "knowledge_items", "workspaces"];
+const SYNC_COLLECTIONS = [
+  "focus_sessions", "tasks", "courses", "notes", "checkins", "reviews", "goals",
+  "workspace_states", "knowledge_items", "workspaces",
+  "quiz_banks", "quiz_questions", "quiz_question_versions", "quiz_sessions",
+  "quiz_attempts", "quiz_question_states", "quiz_import_batches"
+];
 
 /**
  * SyncEngine - 同步引擎
@@ -41,6 +46,8 @@ class SyncEngine {
     const empty = {
       focus_sessions: [], tasks: [], courses: [], notes: [],
       checkins: [], reviews: [], goals: [], workspace_states: [], knowledge_items: [], workspaces: [],
+      quiz_banks: [], quiz_questions: [], quiz_question_versions: [], quiz_sessions: [],
+      quiz_attempts: [], quiz_question_states: [], quiz_import_batches: [],
       settings: null, meta: { last_sync_at: null },
     };
     const raw = localStorage.getItem("workbench_data");

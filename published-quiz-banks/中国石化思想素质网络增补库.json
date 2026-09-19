@@ -1,0 +1,2074 @@
+{
+  "schema_version": 1,
+  "exported_at": "2026-09-19T04:46:11.180Z",
+  "bank": {
+    "bank_id": "sinopec-sixiang-suzhi-web",
+    "name": "中国石化思想素质网络增补库",
+    "version": "2026.09.19",
+    "description": "中国石化企业知识、思想素质及时事类网络增补题，共 50 题。",
+    "source": "网络搜集·中国石化·来源与答案核验",
+    "language": "zh-CN"
+  },
+  "questions": [
+    {
+      "question_id": "web_2ab87f8205",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "在工作方面，你的观点是（　）。",
+      "options": [
+        {
+          "key": "A",
+          "text": "需要有规则，可以保持自我管理和对他人的要求"
+        },
+        {
+          "key": "B",
+          "text": "会主动突破某些规则，从而使工作变得轻松"
+        },
+        {
+          "key": "C",
+          "text": "希望可以通过自己的行为努力影响他人甚至改变他人"
+        },
+        {
+          "key": "D",
+          "text": "不希望去影响别人，做好自己的事，不愿意被别人约束或管理自己的行为"
+        }
+      ],
+      "correct_keys": [
+        "A"
+      ],
+      "explanation": "本题考查职业价值观。A项符合题意。B项\"规则\"有一定强制性且规则有好坏之分，容易产生歧义；C项\"影响他人\"可以，但\"改变他人\"有强迫意味；D项不愿被约束、不遵守公司规章制度的想法明显不合适。",
+      "category_l1": "价值观",
+      "category_l2": null,
+      "tags": [
+        "网络搜集"
+      ],
+      "difficulty": "unknown",
+      "importance": "normal",
+      "source": "中公教育网《2021中石化考试试题及答案(1)》 m.offcn.com/gqzp/2020/0902/101107.html",
+      "source_year": null,
+      "source_question_no": "7000",
+      "status": "active",
+      "created_at": "2026-09-19T00:00:00.000Z",
+      "updated_at": "2026-09-19T00:00:00.000Z"
+    },
+    {
+      "question_id": "web_7a08415848",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "个体的人生活动不仅具有满足自我需要的价值属性，还必然包含着满足社会需要的价值属性。个人的需要能不能从社会中得到满足，在多大程度上得到满足，取决于他的（　）。",
+      "options": [
+        {
+          "key": "A",
+          "text": "社会影响"
+        },
+        {
+          "key": "B",
+          "text": "社会价值"
+        },
+        {
+          "key": "C",
+          "text": "社会地位"
+        },
+        {
+          "key": "D",
+          "text": "社会理想"
+        }
+      ],
+      "correct_keys": [
+        "B"
+      ],
+      "explanation": "人生价值内在地包含自我价值和社会价值两方面。人生的社会价值是个体的人生活动对社会、他人所具有的价值。一个人的需要能不能从社会中得到满足、在多大程度上得到满足，取决于他的人生活动对社会和他人的贡献，即他的社会价值。故本题选 B。",
+      "category_l1": "价值观",
+      "category_l2": null,
+      "tags": [
+        "网络搜集"
+      ],
+      "difficulty": "unknown",
+      "importance": "normal",
+      "source": "中公国企招聘网《2018中石化校园招聘笔试题·思想素质模拟及解析》 sohu.com/a/207788954_100028972",
+      "source_year": null,
+      "source_question_no": "7001",
+      "status": "active",
+      "created_at": "2026-09-19T00:00:00.000Z",
+      "updated_at": "2026-09-19T00:00:00.000Z"
+    },
+    {
+      "question_id": "web_0f8b43a505",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "你协助领导负责一个老客户的项目谈判，对方想要私下给你好处，以便在项目中获利更多，而且给你的好处远远多于你的工资。此时，你会（　）。",
+      "options": [
+        {
+          "key": "A",
+          "text": "在不违反公司的前提下，可以接受对方的好处"
+        },
+        {
+          "key": "B",
+          "text": "答应对方，并保守秘密，尽快促成该项目的签约"
+        },
+        {
+          "key": "C",
+          "text": "运用自己的谈判能力，保证公司利益不受损害"
+        },
+        {
+          "key": "D",
+          "text": "犹豫不决，因为对方是自己的老客户而不好意思拒绝对方"
+        }
+      ],
+      "correct_keys": [
+        "C"
+      ],
+      "explanation": "A、B两项都违反了合规经营的工作原则：A项虽强调\"不违反公司规定\"，但会严重影响企业形象，也有违中国石化\"诚信\"的企业价值观；B项私下收取好处属违规。外出谈判时\"你\"代表公司，应将公司利益放在第一位。故本题选 C。",
+      "category_l1": "价值观",
+      "category_l2": null,
+      "tags": [
+        "网络搜集"
+      ],
+      "difficulty": "unknown",
+      "importance": "normal",
+      "source": "中公《中国石化招聘考试一本通》概念部分",
+      "source_year": null,
+      "source_question_no": "7002",
+      "status": "active",
+      "created_at": "2026-09-19T00:00:00.000Z",
+      "updated_at": "2026-09-19T00:00:00.000Z"
+    },
+    {
+      "question_id": "web_7c008000e7",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "有人说，责任是一种生命与生命传承的情感；也有人说，责任是一种本能的保护与成全的坚守；还有人说，责任是承担与付出后获得的一种快乐与幸福。我们认为，责任是一个人（　）。",
+      "options": [
+        {
+          "key": "A",
+          "text": "应当做的事情或者不应该做某些事情"
+        },
+        {
+          "key": "B",
+          "text": "一生中只扮演唯一的角色"
+        },
+        {
+          "key": "C",
+          "text": "想做什么就做什么"
+        },
+        {
+          "key": "D",
+          "text": "长大以后才能承担的义务"
+        }
+      ],
+      "correct_keys": [
+        "A"
+      ],
+      "explanation": "人处在一定的社会关系当中，必然会随之产生一定的责任。责任是对一个人做或不做某些事的要求，它产生于人们之间的相互关系。人一生中扮演着不同角色，责任涵盖生命历程的全部。故本题选 A。",
+      "category_l1": "责任感",
+      "category_l2": null,
+      "tags": [
+        "网络搜集"
+      ],
+      "difficulty": "unknown",
+      "importance": "normal",
+      "source": "中公国企招聘网《2018中石化校园招聘笔试题·思想素质模拟及解析》 sohu.com/a/207788954_100028972",
+      "source_year": null,
+      "source_question_no": "7003",
+      "status": "active",
+      "created_at": "2026-09-19T00:00:00.000Z",
+      "updated_at": "2026-09-19T00:00:00.000Z"
+    },
+    {
+      "question_id": "web_e48934fa65",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "作为工作团队的成员，为了团队目标的实现，有时需要牺牲家庭时间或者生活时间。你会（　）。",
+      "options": [
+        {
+          "key": "A",
+          "text": "尝试寻找一份合适的工作"
+        },
+        {
+          "key": "B",
+          "text": "以家庭为中心，合理分配工作的时间和精力"
+        },
+        {
+          "key": "C",
+          "text": "与公司领导沟通，尽量争取个人和家庭的生活空间"
+        },
+        {
+          "key": "D",
+          "text": "相对放弃一些个人和家庭的时间，尽量适应工作"
+        }
+      ],
+      "correct_keys": [
+        "D"
+      ],
+      "explanation": "团队工作中，工作责任心强的员工要能够赞同、支持和维护团队目标，并做出一定取舍，努力实现团队目标，所以 D 项合适。A 项不合适；B 项是对团队工作不负责任的表现，团队工作应以团队为中心；C 项争取个人和家庭生活空间应以不耽误团队完成工作和目标实现为前提。",
+      "category_l1": "责任感",
+      "category_l2": null,
+      "tags": [
+        "网络搜集"
+      ],
+      "difficulty": "unknown",
+      "importance": "normal",
+      "source": "中公教育网《2021中石化考试试题及答案(2)》 m.offcn.com/gqzp/2020/0902/101108.html",
+      "source_year": null,
+      "source_question_no": "7004",
+      "status": "active",
+      "created_at": "2026-09-19T00:00:00.000Z",
+      "updated_at": "2026-09-19T00:00:00.000Z"
+    },
+    {
+      "question_id": "web_772d36ae1f",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "假设领导想让你做一项十分困难且耗时较长的任务，但此时你手上还有两项非常重要且紧急的任务没有完成，你会如何处理？（　）",
+      "options": [
+        {
+          "key": "A",
+          "text": "接下任务，并设法完成"
+        },
+        {
+          "key": "B",
+          "text": "请领导安排同事提供协助"
+        },
+        {
+          "key": "C",
+          "text": "委婉拒绝，并向领导推荐他人"
+        },
+        {
+          "key": "D",
+          "text": "请领导给予一定的考虑时间，并进行相应的计划"
+        }
+      ],
+      "correct_keys": [
+        "D"
+      ],
+      "explanation": "面对任务冲突，既不能不顾手上紧急任务盲目承接，也不宜直接拒绝。D项先争取考虑时间、对任务做统筹计划，是最负责任且务实的处理方式，故本题选 D。",
+      "category_l1": "责任感",
+      "category_l2": null,
+      "tags": [
+        "网络搜集"
+      ],
+      "difficulty": "unknown",
+      "importance": "normal",
+      "source": "上岸鸭公考《中国石化思想素质类考试真题》 m.gwy.com/gqzp/211405.html",
+      "source_year": null,
+      "source_question_no": "7005",
+      "status": "active",
+      "created_at": "2026-09-19T00:00:00.000Z",
+      "updated_at": "2026-09-19T00:00:00.000Z"
+    },
+    {
+      "question_id": "web_931ba2e9e8",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "下面哪种情况与你更吻合？（　）",
+      "options": [
+        {
+          "key": "A",
+          "text": "守时是重要原则"
+        },
+        {
+          "key": "B",
+          "text": "容易和人争辩"
+        },
+        {
+          "key": "C",
+          "text": "喜欢激进的解决方案"
+        },
+        {
+          "key": "D",
+          "text": "有压力的环境让我无法有效工作"
+        }
+      ],
+      "correct_keys": [
+        "A"
+      ],
+      "explanation": "\"守时\"是有责任感的体现；B项说明宜人性较差；C项说明做事比较偏激；D项说明抗压能力较差。故本题选 A。",
+      "category_l1": "责任感",
+      "category_l2": null,
+      "tags": [
+        "网络搜集"
+      ],
+      "difficulty": "unknown",
+      "importance": "normal",
+      "source": "中公教育网《2021中国石化秋季招聘模拟卷18》 offcn.com/gqzp/2020/1020/105470.html",
+      "source_year": null,
+      "source_question_no": "7006",
+      "status": "active",
+      "created_at": "2026-09-19T00:00:00.000Z",
+      "updated_at": "2026-09-19T00:00:00.000Z"
+    },
+    {
+      "question_id": "web_6c5f4b0454",
+      "version": "1.0",
+      "question_type": "multiple_choice",
+      "stem": "（多选）工作中要保持激情与自律，下列哪些行为会有帮助？（　）",
+      "options": [
+        {
+          "key": "A",
+          "text": "只要感觉有困难的工作就交给更有能力的人，只做自己擅长的事"
+        },
+        {
+          "key": "B",
+          "text": "不断找机会历练自己以提升能力"
+        },
+        {
+          "key": "C",
+          "text": "远离抱怨"
+        },
+        {
+          "key": "D",
+          "text": "遇到问题要迎难而上，能力才会得到提高"
+        }
+      ],
+      "correct_keys": [
+        "B",
+        "C",
+        "D"
+      ],
+      "explanation": "工作中遇到困难要努力克服，这正是保持激情的做法，故 A 项错误、D 项正确；同时要远离抱怨、积极向上，主动寻求进步、找机会历练自己，故 B、C 正确。故本题选 BCD。",
+      "category_l1": "责任感",
+      "category_l2": null,
+      "tags": [
+        "网络搜集"
+      ],
+      "difficulty": "unknown",
+      "importance": "normal",
+      "source": "中公教育网《2021中国石化秋季招聘模拟卷15》 offcn.com/gqzp/2020/1020/105469.html",
+      "source_year": null,
+      "source_question_no": "7007",
+      "status": "active",
+      "created_at": "2026-09-19T00:00:00.000Z",
+      "updated_at": "2026-09-19T00:00:00.000Z"
+    },
+    {
+      "question_id": "web_ebca14e445",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "当今社会，\"90后\"频繁跳槽现象愈演愈烈，企业在招聘人才时，不仅看重学历、专业、经验等条件，更看重应聘者的职业道德品质。这表明（　）。",
+      "options": [
+        {
+          "key": "A",
+          "text": "这些企业原有员工的职业道德品质不高"
+        },
+        {
+          "key": "B",
+          "text": "职业道德品质与职业技能水平呈正相关关系"
+        },
+        {
+          "key": "C",
+          "text": "职业道德品质高的员工更有助于持久增强企业的竞争力"
+        },
+        {
+          "key": "D",
+          "text": "这些企业对员工职业技能水平并不关心"
+        }
+      ],
+      "correct_keys": [
+        "C"
+      ],
+      "explanation": "本题考查求职者的职业稳定性和职业价值观。企业更加看重职业品质，因为员工只有拥有好的道德品质，才能为企业长远发展做出贡献，故 C 项正确。A 项属主观推断；B 项本身不成立，道德水平与职业技能无必然联系；D 项属主观推断。",
+      "category_l1": "价值观",
+      "category_l2": null,
+      "tags": [
+        "网络搜集"
+      ],
+      "difficulty": "unknown",
+      "importance": "normal",
+      "source": "中公教育网《2021中国石化秋季招聘模拟卷15》 offcn.com/gqzp/2020/1020/105469.html",
+      "source_year": null,
+      "source_question_no": "7008",
+      "status": "active",
+      "created_at": "2026-09-19T00:00:00.000Z",
+      "updated_at": "2026-09-19T00:00:00.000Z"
+    },
+    {
+      "question_id": "web_89e595f934",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "一个人能深刻地认识行动的正确性和重要性，并且自觉主动地调节和支配自己的行动使之符合该目的，这种意志品质称为（　）。",
+      "options": [
+        {
+          "key": "A",
+          "text": "自觉性"
+        },
+        {
+          "key": "B",
+          "text": "果断性"
+        },
+        {
+          "key": "C",
+          "text": "坚韧性"
+        },
+        {
+          "key": "D",
+          "text": "自制性"
+        }
+      ],
+      "correct_keys": [
+        "A"
+      ],
+      "explanation": "意志的自觉性是指对行动的目的有深刻的认识，能自觉地支配自己的行动，使之服从于活动目的。与自觉性相反的是易受暗示性与独断性。故本题选 A。",
+      "category_l1": "意志品质",
+      "category_l2": null,
+      "tags": [
+        "网络搜集"
+      ],
+      "difficulty": "unknown",
+      "importance": "normal",
+      "source": "中公国企招聘网《2018中石化校园招聘笔试题·思想素质模拟及解析》 sohu.com/a/207788954_100028972 / 中公《中国石化招聘考试一本通》概念部分",
+      "source_year": null,
+      "source_question_no": "7009",
+      "status": "active",
+      "created_at": "2026-09-19T00:00:00.000Z",
+      "updated_at": "2026-09-19T00:00:00.000Z"
+    },
+    {
+      "question_id": "web_9c1e4c7ac4",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "中国石化集团公司的企业使命是（　）。",
+      "options": [
+        {
+          "key": "A",
+          "text": "为美好生活加油"
+        },
+        {
+          "key": "B",
+          "text": "为国家建设加油"
+        },
+        {
+          "key": "C",
+          "text": "为美好未来加油"
+        },
+        {
+          "key": "D",
+          "text": "为小康生活加油"
+        }
+      ],
+      "correct_keys": [
+        "A"
+      ],
+      "explanation": "中国石化以\"为美好生活加油\"作为企业使命，坚持把人民对美好生活的向往当作不懈追求，持续提供更为充足、更为优质、更为绿色的能源化工产品和服务。故本题选 A。",
+      "category_l1": "中国石化企业知识",
+      "category_l2": null,
+      "tags": [
+        "网络搜集"
+      ],
+      "difficulty": "unknown",
+      "importance": "normal",
+      "source": "中公教育网《2021中国石化秋季招聘模拟卷18》 offcn.com/gqzp/2020/1020/105470.html / 中国石化官网·企业文化（现行版） sinopec.com/listco/qywh/index.shtml",
+      "source_year": null,
+      "source_question_no": "7010",
+      "status": "active",
+      "created_at": "2026-09-19T00:00:00.000Z",
+      "updated_at": "2026-09-19T00:00:00.000Z"
+    },
+    {
+      "question_id": "web_bfec362868",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "中国石化集团公司的企业愿景是（　）。",
+      "options": [
+        {
+          "key": "A",
+          "text": "为美好生活加油"
+        },
+        {
+          "key": "B",
+          "text": "建设世界领先现代化能源与化工公司"
+        },
+        {
+          "key": "C",
+          "text": "爱我中华、振兴石化"
+        },
+        {
+          "key": "D",
+          "text": "人本、责任、诚信、精细、创新、共赢"
+        }
+      ],
+      "correct_keys": [
+        "B"
+      ],
+      "explanation": "中国石化现行企业愿景为\"建设世界领先现代化能源与化工公司\"，以二次创业推进高质量发展。【版本提示】早期官网与教材表述为\"打造世界领先洁净能源化工公司\"，两者为同一愿景在不同时期的表述，考试请以当年官方表述为准。A项是使命、C项是精神、D项是价值观。",
+      "category_l1": "中国石化企业知识",
+      "category_l2": null,
+      "tags": [
+        "网络搜集"
+      ],
+      "difficulty": "unknown",
+      "importance": "normal",
+      "source": "中国石化官网·企业文化（现行版） sinopec.com/listco/qywh/index.shtml / 中国石化官网·侯启军署名文章《扛稳核心职责 担当大国重器》 bypc.sinopec.com",
+      "source_year": null,
+      "source_question_no": "7011",
+      "status": "active",
+      "created_at": "2026-09-19T00:00:00.000Z",
+      "updated_at": "2026-09-19T00:00:00.000Z"
+    },
+    {
+      "question_id": "web_b98fb1c1e2",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "中国石化的企业精神是（　）。",
+      "options": [
+        {
+          "key": "A",
+          "text": "爱我中华、振兴石化"
+        },
+        {
+          "key": "B",
+          "text": "为美好生活加油"
+        },
+        {
+          "key": "C",
+          "text": "严、细、实"
+        },
+        {
+          "key": "D",
+          "text": "人本、责任、诚信、精细、创新、共赢"
+        }
+      ],
+      "correct_keys": [
+        "A"
+      ],
+      "explanation": "\"爱我中华、振兴石化\"是中国石化的企业精神，\"爱我中华\"是恒久不变的情怀，\"振兴石化\"是与时俱进的责任。B项是使命、C项是作风、D项是核心价值观。故本题选 A。",
+      "category_l1": "中国石化企业知识",
+      "category_l2": null,
+      "tags": [
+        "网络搜集"
+      ],
+      "difficulty": "unknown",
+      "importance": "normal",
+      "source": "中公《中国石化招聘考试一本通》概念部分 / 中国石化官网·企业文化（现行版） sinopec.com/listco/qywh/index.shtml",
+      "source_year": null,
+      "source_question_no": "7012",
+      "status": "active",
+      "created_at": "2026-09-19T00:00:00.000Z",
+      "updated_at": "2026-09-19T00:00:00.000Z"
+    },
+    {
+      "question_id": "web_37974edeff",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "中国石化的企业作风是（　）。",
+      "options": [
+        {
+          "key": "A",
+          "text": "严、细、实"
+        },
+        {
+          "key": "B",
+          "text": "求真、务实、创新"
+        },
+        {
+          "key": "C",
+          "text": "精细、严谨、务实"
+        },
+        {
+          "key": "D",
+          "text": "团结、奋进、创新"
+        }
+      ],
+      "correct_keys": [
+        "A"
+      ],
+      "explanation": "中国石化着力培育\"严、细、实\"的企业作风，并贯穿企业生产经营管理全过程。故本题选 A。",
+      "category_l1": "中国石化企业知识",
+      "category_l2": null,
+      "tags": [
+        "网络搜集"
+      ],
+      "difficulty": "unknown",
+      "importance": "normal",
+      "source": "中国石化官网·企业文化（现行版） sinopec.com/listco/qywh/index.shtml",
+      "source_year": null,
+      "source_question_no": "7013",
+      "status": "active",
+      "created_at": "2026-09-19T00:00:00.000Z",
+      "updated_at": "2026-09-19T00:00:00.000Z"
+    },
+    {
+      "question_id": "web_5dd58bce8d",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "中国石化集团公司完整的核心价值观是（　）。",
+      "options": [
+        {
+          "key": "A",
+          "text": "诚信、创新、精细、和谐、安全、责任"
+        },
+        {
+          "key": "B",
+          "text": "诚信、创新、精细、和谐、安全、共赢"
+        },
+        {
+          "key": "C",
+          "text": "人本、责任、诚信、精细、创新、安全"
+        },
+        {
+          "key": "D",
+          "text": "人本、责任、诚信、精细、创新、共赢"
+        }
+      ],
+      "correct_keys": [
+        "D"
+      ],
+      "explanation": "中国石化企业核心价值观为\"人本、责任、诚信、精细、创新、共赢\"。故本题选 D。",
+      "category_l1": "中国石化企业知识",
+      "category_l2": null,
+      "tags": [
+        "网络搜集"
+      ],
+      "difficulty": "unknown",
+      "importance": "normal",
+      "source": "中公《中国石化招聘考试一本通》试读页 bookmall.com.cn / 中国石化官网·企业文化（现行版） sinopec.com/listco/qywh/index.shtml",
+      "source_year": null,
+      "source_question_no": "7014",
+      "status": "active",
+      "created_at": "2026-09-19T00:00:00.000Z",
+      "updated_at": "2026-09-19T00:00:00.000Z"
+    },
+    {
+      "question_id": "web_f981a60729",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "下列不属于中国石化企业价值观内容的是（　）。",
+      "options": [
+        {
+          "key": "A",
+          "text": "人本"
+        },
+        {
+          "key": "B",
+          "text": "责任"
+        },
+        {
+          "key": "C",
+          "text": "高效"
+        },
+        {
+          "key": "D",
+          "text": "共赢"
+        }
+      ],
+      "correct_keys": [
+        "C"
+      ],
+      "explanation": "中国石化企业价值观为\"人本、责任、诚信、精细、创新、共赢\"，不含\"高效\"。故本题选 C。",
+      "category_l1": "中国石化企业知识",
+      "category_l2": null,
+      "tags": [
+        "网络搜集"
+      ],
+      "difficulty": "unknown",
+      "importance": "normal",
+      "source": "应届毕业生网《中石化笔试题目》 yjbys.com/qiuzhizinan/show-423507.html / 中国石化官网·企业文化（现行版） sinopec.com/listco/qywh/index.shtml",
+      "source_year": null,
+      "source_question_no": "7015",
+      "status": "active",
+      "created_at": "2026-09-19T00:00:00.000Z",
+      "updated_at": "2026-09-19T00:00:00.000Z"
+    },
+    {
+      "question_id": "web_cf212451ba",
+      "version": "1.0",
+      "question_type": "multiple_choice",
+      "stem": "（多选）中国石化企业价值观包含下列哪些要素？（　）",
+      "options": [
+        {
+          "key": "A",
+          "text": "精细"
+        },
+        {
+          "key": "B",
+          "text": "创新"
+        },
+        {
+          "key": "C",
+          "text": "高效"
+        },
+        {
+          "key": "D",
+          "text": "共赢"
+        }
+      ],
+      "correct_keys": [
+        "A",
+        "B",
+        "D"
+      ],
+      "explanation": "中国石化企业价值观六项为\"人本、责任、诚信、精细、创新、共赢\"，其中\"精细\"\"创新\"\"共赢\"均在其列，\"高效\"未列入。故本题选 ABD。",
+      "category_l1": "中国石化企业知识",
+      "category_l2": null,
+      "tags": [
+        "网络搜集"
+      ],
+      "difficulty": "unknown",
+      "importance": "normal",
+      "source": "应届毕业生网《中石化笔试题目》 yjbys.com/qiuzhizinan/show-423507.html / 中国石化官网·企业文化（现行版） sinopec.com/listco/qywh/index.shtml",
+      "source_year": null,
+      "source_question_no": "7016",
+      "status": "active",
+      "created_at": "2026-09-19T00:00:00.000Z",
+      "updated_at": "2026-09-19T00:00:00.000Z"
+    },
+    {
+      "question_id": "web_fce72063f3",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "中国石化企业价值观中\"人本\"的内涵是（　）。",
+      "options": [
+        {
+          "key": "A",
+          "text": "以人为本、发展企业"
+        },
+        {
+          "key": "B",
+          "text": "聚焦主责、产业报国"
+        },
+        {
+          "key": "C",
+          "text": "重信守诺、合规经营"
+        },
+        {
+          "key": "D",
+          "text": "精细严谨、止于至善"
+        }
+      ],
+      "correct_keys": [
+        "A"
+      ],
+      "explanation": "\"人本\"即坚持以人民为中心的发展思想，把员工作为企业发展的重要力量，实现员工与企业同成长共进步，可概括为\"以人为本、发展企业\"。B是责任、C是诚信、D是精细。故本题选 A。",
+      "category_l1": "中国石化企业知识",
+      "category_l2": null,
+      "tags": [
+        "网络搜集"
+      ],
+      "difficulty": "unknown",
+      "importance": "normal",
+      "source": "中国石化官网·企业文化（现行版） sinopec.com/listco/qywh/index.shtml / 中公《中国石化招聘考试一本通》概念部分",
+      "source_year": null,
+      "source_question_no": "7017",
+      "status": "active",
+      "created_at": "2026-09-19T00:00:00.000Z",
+      "updated_at": "2026-09-19T00:00:00.000Z"
+    },
+    {
+      "question_id": "web_c3a232ecb9",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "中国石化企业价值观中\"诚信\"的内涵是（　）。",
+      "options": [
+        {
+          "key": "A",
+          "text": "以人为本、发展企业"
+        },
+        {
+          "key": "B",
+          "text": "重信守诺、合规经营"
+        },
+        {
+          "key": "C",
+          "text": "自强不息、创新不止"
+        },
+        {
+          "key": "D",
+          "text": "互利合作、共同发展"
+        }
+      ],
+      "correct_keys": [
+        "B"
+      ],
+      "explanation": "\"诚信\"即注重信用立企，坚持依法经营、合规管理、规范运作，做到\"每一滴油都是承诺\"\"质量永远领先一步\"，可概括为\"重信守诺、合规经营\"。故本题选 B。",
+      "category_l1": "中国石化企业知识",
+      "category_l2": null,
+      "tags": [
+        "网络搜集"
+      ],
+      "difficulty": "unknown",
+      "importance": "normal",
+      "source": "中国石化官网·企业文化（现行版） sinopec.com/listco/qywh/index.shtml",
+      "source_year": null,
+      "source_question_no": "7018",
+      "status": "active",
+      "created_at": "2026-09-19T00:00:00.000Z",
+      "updated_at": "2026-09-19T00:00:00.000Z"
+    },
+    {
+      "question_id": "web_2b2b464356",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "中国石化企业价值观中\"精细\"的内涵是（　）。",
+      "options": [
+        {
+          "key": "A",
+          "text": "以人为本、发展企业"
+        },
+        {
+          "key": "B",
+          "text": "聚焦主责、产业报国"
+        },
+        {
+          "key": "C",
+          "text": "重信守诺、合规经营"
+        },
+        {
+          "key": "D",
+          "text": "精细严谨、止于至善"
+        }
+      ],
+      "correct_keys": [
+        "D"
+      ],
+      "explanation": "\"精细\"即追求生产上精耕细作、经营上精打细算、管理上精雕细刻、技术上精益求精，可概括为\"精细严谨、止于至善\"。故本题选 D。",
+      "category_l1": "中国石化企业知识",
+      "category_l2": null,
+      "tags": [
+        "网络搜集"
+      ],
+      "difficulty": "unknown",
+      "importance": "normal",
+      "source": "中国石化官网·企业文化（现行版） sinopec.com/listco/qywh/index.shtml / 中公《中国石化招聘考试一本通》概念部分",
+      "source_year": null,
+      "source_question_no": "7019",
+      "status": "active",
+      "created_at": "2026-09-19T00:00:00.000Z",
+      "updated_at": "2026-09-19T00:00:00.000Z"
+    },
+    {
+      "question_id": "web_faac9448cd",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "中国石化提出\"每一滴油都是承诺\"\"质量永远领先一步\"，集中体现的企业价值观是（　）。",
+      "options": [
+        {
+          "key": "A",
+          "text": "人本"
+        },
+        {
+          "key": "B",
+          "text": "责任"
+        },
+        {
+          "key": "C",
+          "text": "诚信"
+        },
+        {
+          "key": "D",
+          "text": "共赢"
+        }
+      ],
+      "correct_keys": [
+        "C"
+      ],
+      "explanation": "中国石化官网\"企业文化\"页将\"每一滴油都是承诺\"\"质量永远领先一步\"归入\"诚信\"条目，强调注重信用立企、依法经营、合规管理、规范运作。故本题选 C。",
+      "category_l1": "中国石化企业知识",
+      "category_l2": null,
+      "tags": [
+        "网络搜集"
+      ],
+      "difficulty": "unknown",
+      "importance": "normal",
+      "source": "中国石化官网·企业文化（现行版） sinopec.com/listco/qywh/index.shtml",
+      "source_year": null,
+      "source_question_no": "7020",
+      "status": "active",
+      "created_at": "2026-09-19T00:00:00.000Z",
+      "updated_at": "2026-09-19T00:00:00.000Z"
+    },
+    {
+      "question_id": "web_5066f5d987",
+      "version": "1.0",
+      "question_type": "multiple_choice",
+      "stem": "（多选）下列属于中国石化企业作风\"严、细、实\"内涵的是（　）。",
+      "options": [
+        {
+          "key": "A",
+          "text": "严格的要求"
+        },
+        {
+          "key": "B",
+          "text": "细致的操作"
+        },
+        {
+          "key": "C",
+          "text": "务实的态度"
+        },
+        {
+          "key": "D",
+          "text": "严实的业绩"
+        }
+      ],
+      "correct_keys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "\"严\"即严格的要求、严密的组织、严肃的态度、严明的纪律；\"细\"即处处重细节、事事讲细致、人人有细心；\"实\"即求真务实、崇尚实干。\"严实的业绩\"不是作风内涵表述。故本题选 ABC。",
+      "category_l1": "中国石化企业知识",
+      "category_l2": null,
+      "tags": [
+        "网络搜集"
+      ],
+      "difficulty": "unknown",
+      "importance": "normal",
+      "source": "中国石化官网·企业文化（现行版） sinopec.com/listco/qywh/index.shtml / 应届毕业生网《中石化笔试题目》 yjbys.com/qiuzhizinan/show-423507.html",
+      "source_year": null,
+      "source_question_no": "7021",
+      "status": "active",
+      "created_at": "2026-09-19T00:00:00.000Z",
+      "updated_at": "2026-09-19T00:00:00.000Z"
+    },
+    {
+      "question_id": "web_cec57663d6",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "中国石化企业作风\"严、细、实\"中，\"实\"的内涵是（　）。",
+      "options": [
+        {
+          "key": "A",
+          "text": "严格的要求"
+        },
+        {
+          "key": "B",
+          "text": "细致的操作"
+        },
+        {
+          "key": "C",
+          "text": "务实的态度"
+        },
+        {
+          "key": "D",
+          "text": "严实的业绩"
+        }
+      ],
+      "correct_keys": [
+        "C"
+      ],
+      "explanation": "\"实\"就是\"实字当家\"，坚持求真务实、崇尚实干，当老实人、说老实话、办老实事。A属\"严\"、B属\"细\"。故本题选 C。",
+      "category_l1": "中国石化企业知识",
+      "category_l2": null,
+      "tags": [
+        "网络搜集"
+      ],
+      "difficulty": "unknown",
+      "importance": "normal",
+      "source": "中国石化官网·企业文化（现行版） sinopec.com/listco/qywh/index.shtml",
+      "source_year": null,
+      "source_question_no": "7022",
+      "status": "active",
+      "created_at": "2026-09-19T00:00:00.000Z",
+      "updated_at": "2026-09-19T00:00:00.000Z"
+    },
+    {
+      "question_id": "web_4c4a20a082",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "中国石化的石化传统，其主要内涵是（　）。",
+      "options": [
+        {
+          "key": "A",
+          "text": "家国情怀、精细严谨、求真务实"
+        },
+        {
+          "key": "B",
+          "text": "苦干实干、三老四严"
+        },
+        {
+          "key": "C",
+          "text": "爱我中华、振兴石化"
+        },
+        {
+          "key": "D",
+          "text": "人本、责任、诚信、精细、创新、共赢"
+        }
+      ],
+      "correct_keys": [
+        "A"
+      ],
+      "explanation": "中国石化在传承石油精神的基础上，形成以\"家国情怀、精细严谨、求真务实\"为主要内涵的石化传统。【版本提示】早期官网表述为\"求真务实、精细严谨、家国情怀、事争第一\"，核心内涵一致。B是石油精神、C是企业精神、D是核心价值观。故本题选 A。",
+      "category_l1": "中国石化企业知识",
+      "category_l2": null,
+      "tags": [
+        "网络搜集"
+      ],
+      "difficulty": "unknown",
+      "importance": "normal",
+      "source": "中国石化官网·企业文化（现行版） sinopec.com/listco/qywh/index.shtml",
+      "source_year": null,
+      "source_question_no": "7023",
+      "status": "active",
+      "created_at": "2026-09-19T00:00:00.000Z",
+      "updated_at": "2026-09-19T00:00:00.000Z"
+    },
+    {
+      "question_id": "web_9ee7011b5a",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "中国石化的HSE方针是（　）。",
+      "options": [
+        {
+          "key": "A",
+          "text": "以人为本、安全第一、预防为主、综合治理"
+        },
+        {
+          "key": "B",
+          "text": "人民至上、生命至上"
+        },
+        {
+          "key": "C",
+          "text": "安全第一、产量第二、效益优先"
+        },
+        {
+          "key": "D",
+          "text": "谁主管、谁负责"
+        }
+      ],
+      "correct_keys": [
+        "A"
+      ],
+      "explanation": "中国石化HSE方针为\"以人为本、安全第一、预防为主、综合治理\"。公司坚持\"HSE先于一切、高于一切、重于一切\"和\"一切事故都是可以预防和避免的\"管理理念。故本题选 A。",
+      "category_l1": "中国石化企业知识",
+      "category_l2": null,
+      "tags": [
+        "网络搜集"
+      ],
+      "difficulty": "unknown",
+      "importance": "normal",
+      "source": "中国石化股份公司官网·QHSE方针/质量与安全 sipc.sinopec.com",
+      "source_year": null,
+      "source_question_no": "7024",
+      "status": "active",
+      "created_at": "2026-09-19T00:00:00.000Z",
+      "updated_at": "2026-09-19T00:00:00.000Z"
+    },
+    {
+      "question_id": "web_f8757ca182",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "中国石化的质量方针是（　）。",
+      "options": [
+        {
+          "key": "A",
+          "text": "质量永远领先一步"
+        },
+        {
+          "key": "B",
+          "text": "每一滴油都是承诺"
+        },
+        {
+          "key": "C",
+          "text": "精益求精、追求卓越"
+        },
+        {
+          "key": "D",
+          "text": "零缺陷、零事故"
+        }
+      ],
+      "correct_keys": [
+        "A"
+      ],
+      "explanation": "中国石化质量方针为\"质量永远领先一步\"。B项\"每一滴油都是承诺\"属诚信理念的表述，与质量方针并列出现在同一页面但并非质量方针本身。故本题选 A。",
+      "category_l1": "中国石化企业知识",
+      "category_l2": null,
+      "tags": [
+        "网络搜集"
+      ],
+      "difficulty": "unknown",
+      "importance": "normal",
+      "source": "中国石化股份公司官网·QHSE方针/质量与安全 sipc.sinopec.com",
+      "source_year": null,
+      "source_question_no": "7025",
+      "status": "active",
+      "created_at": "2026-09-19T00:00:00.000Z",
+      "updated_at": "2026-09-19T00:00:00.000Z"
+    },
+    {
+      "question_id": "web_6f649a9c1f",
+      "version": "1.0",
+      "question_type": "multiple_choice",
+      "stem": "（多选）中国石化需要扛稳的\"三大核心职责\"包括（　）。",
+      "options": [
+        {
+          "key": "A",
+          "text": "保障国家能源安全"
+        },
+        {
+          "key": "B",
+          "text": "引领我国石化工业高质量发展"
+        },
+        {
+          "key": "C",
+          "text": "担当国家战略科技力量"
+        },
+        {
+          "key": "D",
+          "text": "扩大海外油气并购规模"
+        }
+      ],
+      "correct_keys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "中国石化\"三大核心职责\"为：保障国家能源安全、引领我国石化工业高质量发展、担当国家战略科技力量，在端牢能源饭碗、构建现代化产业体系、实现高水平科技自立自强等方面发挥\"顶梁柱\"\"压舱石\"作用。D项不属于三大核心职责。故本题选 ABC。",
+      "category_l1": "中国石化企业知识",
+      "category_l2": null,
+      "tags": [
+        "网络搜集"
+      ],
+      "difficulty": "unknown",
+      "importance": "normal",
+      "source": "中国石化官网·企业文化（现行版） sinopec.com/listco/qywh/index.shtml / 中国石化官网·侯启军署名文章《扛稳核心职责 担当大国重器》 bypc.sinopec.com",
+      "source_year": null,
+      "source_question_no": "7026",
+      "status": "active",
+      "created_at": "2026-09-19T00:00:00.000Z",
+      "updated_at": "2026-09-19T00:00:00.000Z"
+    },
+    {
+      "question_id": "web_22addd9a8d",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "中国石化构建的产业新格局\"一基两翼三链四新\"中，\"四新\"是指（　）。",
+      "options": [
+        {
+          "key": "A",
+          "text": "新能源、新材料、新业态、新赛道"
+        },
+        {
+          "key": "B",
+          "text": "新能源、新材料、新经济、新领域"
+        },
+        {
+          "key": "C",
+          "text": "新产业、新业态、新模式、新动能"
+        },
+        {
+          "key": "D",
+          "text": "新能源、新经济、新业态、新模式"
+        }
+      ],
+      "correct_keys": [
+        "A"
+      ],
+      "explanation": "\"一基两翼三链四新\"：以能源资源为基础，以炼油化工为两翼，以油品、天然气、化工品三大销售为牵引链条，以新能源、新材料、新业态、新赛道为战新增长极。【版本提示】早期表述为\"一基两翼三新\"（新能源、新材料、新经济）。故本题选 A。",
+      "category_l1": "中国石化企业知识",
+      "category_l2": null,
+      "tags": [
+        "网络搜集"
+      ],
+      "difficulty": "unknown",
+      "importance": "normal",
+      "source": "中国石化官网·企业文化（现行版） sinopec.com/listco/qywh/index.shtml",
+      "source_year": null,
+      "source_question_no": "7027",
+      "status": "active",
+      "created_at": "2026-09-19T00:00:00.000Z",
+      "updated_at": "2026-09-19T00:00:00.000Z"
+    },
+    {
+      "question_id": "web_ee5ca54d9a",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "中国石化提出以（　）推进高质量发展，奋力谱写中国式现代化石化新篇章。",
+      "options": [
+        {
+          "key": "A",
+          "text": "二次创业"
+        },
+        {
+          "key": "B",
+          "text": "二次改革"
+        },
+        {
+          "key": "C",
+          "text": "转型发展"
+        },
+        {
+          "key": "D",
+          "text": "创新驱动"
+        }
+      ],
+      "correct_keys": [
+        "A"
+      ],
+      "explanation": "中国石化坚持以二次创业推进高质量发展，构建\"一基两翼三链四新\"产业新格局，坚定扛稳\"三大核心职责\"。故本题选 A。",
+      "category_l1": "中国石化企业知识",
+      "category_l2": null,
+      "tags": [
+        "网络搜集"
+      ],
+      "difficulty": "unknown",
+      "importance": "normal",
+      "source": "中国石化官网·企业文化（现行版） sinopec.com/listco/qywh/index.shtml / 中国石化官网·侯启军署名文章《扛稳核心职责 担当大国重器》 bypc.sinopec.com",
+      "source_year": null,
+      "source_question_no": "7028",
+      "status": "active",
+      "created_at": "2026-09-19T00:00:00.000Z",
+      "updated_at": "2026-09-19T00:00:00.000Z"
+    },
+    {
+      "question_id": "web_2ed2a6029b",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "中国石化的品牌口号是（　）。",
+      "options": [
+        {
+          "key": "A",
+          "text": "能源至净 生活至美"
+        },
+        {
+          "key": "B",
+          "text": "每一滴油都是承诺"
+        },
+        {
+          "key": "C",
+          "text": "为美好生活加油"
+        },
+        {
+          "key": "D",
+          "text": "爱我中华、振兴石化"
+        }
+      ],
+      "correct_keys": [
+        "A"
+      ],
+      "explanation": "中国石化品牌口号为\"能源至净 生活至美\"（Cleaner Energy Better Life）。B是诚信理念表述、C是使命、D是精神。故本题选 A。",
+      "category_l1": "中国石化企业知识",
+      "category_l2": null,
+      "tags": [
+        "网络搜集"
+      ],
+      "difficulty": "unknown",
+      "importance": "normal",
+      "source": "中国石化官网·核心价值理念 cpp.sinopec.com/cpp/public/culture/ / 中国石化官网·企业文化（现行版） sinopec.com/listco/qywh/index.shtml",
+      "source_year": null,
+      "source_question_no": "7029",
+      "status": "active",
+      "created_at": "2026-09-19T00:00:00.000Z",
+      "updated_at": "2026-09-19T00:00:00.000Z"
+    },
+    {
+      "question_id": "web_ad1367916b",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "石油勘探中常说的\"放炮\"特指（　）。",
+      "options": [
+        {
+          "key": "A",
+          "text": "井下爆破作业"
+        },
+        {
+          "key": "B",
+          "text": "地震勘探技术"
+        },
+        {
+          "key": "C",
+          "text": "油气井压力测试"
+        },
+        {
+          "key": "D",
+          "text": "设备检修敲击检查"
+        }
+      ],
+      "correct_keys": [
+        "B"
+      ],
+      "explanation": "在石油勘探中，\"放炮\"是地震勘探技术的俗称，通过人工激发地震波，探测地下油气资源分布。故本题选 B。",
+      "category_l1": "中国石化企业知识",
+      "category_l2": null,
+      "tags": [
+        "网络搜集"
+      ],
+      "difficulty": "unknown",
+      "importance": "normal",
+      "source": "应届毕业生网《中石化笔试题目》 yjbys.com/qiuzhizinan/show-423507.html",
+      "source_year": null,
+      "source_question_no": "7030",
+      "status": "active",
+      "created_at": "2026-09-19T00:00:00.000Z",
+      "updated_at": "2026-09-19T00:00:00.000Z"
+    },
+    {
+      "question_id": "web_b5b3498356",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "气候变化是人类面临的全球性问题。2021年全国两会，\"碳达峰\"和（　）首次被写入政府工作报告。",
+      "options": [
+        {
+          "key": "A",
+          "text": "碳暖和"
+        },
+        {
+          "key": "B",
+          "text": "碳中和"
+        },
+        {
+          "key": "C",
+          "text": "碳吸收"
+        },
+        {
+          "key": "D",
+          "text": "碳增长"
+        }
+      ],
+      "correct_keys": [
+        "B"
+      ],
+      "explanation": "2021年全国两会，\"碳达峰\"\"碳中和\"首次被写入政府工作报告。故本题选 B。",
+      "category_l1": "时事政治",
+      "category_l2": null,
+      "tags": [
+        "网络搜集"
+      ],
+      "difficulty": "unknown",
+      "importance": "normal",
+      "source": "上岸鸭公考《中国石化思想素质类考试真题》 m.gwy.com/gqzp/211405.html",
+      "source_year": null,
+      "source_question_no": "7031",
+      "status": "active",
+      "created_at": "2026-09-19T00:00:00.000Z",
+      "updated_at": "2026-09-19T00:00:00.000Z"
+    },
+    {
+      "question_id": "web_e26b315aa6",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "习近平总书记提出\"四个革命、一个合作\"能源安全新战略是在（　）。",
+      "options": [
+        {
+          "key": "A",
+          "text": "2012年"
+        },
+        {
+          "key": "B",
+          "text": "2014年"
+        },
+        {
+          "key": "C",
+          "text": "2017年"
+        },
+        {
+          "key": "D",
+          "text": "2020年"
+        }
+      ],
+      "correct_keys": [
+        "B"
+      ],
+      "explanation": "2014年6月13日，习近平总书记主持召开中央财经领导小组第六次会议，提出\"四个革命、一个合作\"能源安全新战略。故本题选 B。",
+      "category_l1": "时事政治",
+      "category_l2": null,
+      "tags": [
+        "网络搜集"
+      ],
+      "difficulty": "unknown",
+      "importance": "normal",
+      "source": "求是网《深入贯彻能源安全新战略 着力推进能源高质量发展》 qstheory.cn / 人民网理论频道《深入推进能源革命 助力高质量发展》 theory.people.com.cn",
+      "source_year": null,
+      "source_question_no": "7032",
+      "status": "active",
+      "created_at": "2026-09-19T00:00:00.000Z",
+      "updated_at": "2026-09-19T00:00:00.000Z"
+    },
+    {
+      "question_id": "web_b6f996e092",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "\"四个革命、一个合作\"能源安全新战略是习近平总书记主持召开中央财经领导小组第（　）次会议时提出的。",
+      "options": [
+        {
+          "key": "A",
+          "text": "第五次"
+        },
+        {
+          "key": "B",
+          "text": "第六次"
+        },
+        {
+          "key": "C",
+          "text": "第七次"
+        },
+        {
+          "key": "D",
+          "text": "第八次"
+        }
+      ],
+      "correct_keys": [
+        "B"
+      ],
+      "explanation": "2014年6月13日，习近平总书记在中央财经领导小组第六次会议上提出该战略。故本题选 B。",
+      "category_l1": "时事政治",
+      "category_l2": null,
+      "tags": [
+        "网络搜集"
+      ],
+      "difficulty": "unknown",
+      "importance": "normal",
+      "source": "求是网《深入贯彻能源安全新战略 着力推进能源高质量发展》 qstheory.cn",
+      "source_year": null,
+      "source_question_no": "7033",
+      "status": "active",
+      "created_at": "2026-09-19T00:00:00.000Z",
+      "updated_at": "2026-09-19T00:00:00.000Z"
+    },
+    {
+      "question_id": "web_4cf2252861",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "\"四个革命、一个合作\"能源安全新战略中的\"四个革命\"不包括（　）。",
+      "options": [
+        {
+          "key": "A",
+          "text": "能源消费革命"
+        },
+        {
+          "key": "B",
+          "text": "能源供给革命"
+        },
+        {
+          "key": "C",
+          "text": "能源技术革命"
+        },
+        {
+          "key": "D",
+          "text": "能源出口革命"
+        }
+      ],
+      "correct_keys": [
+        "D"
+      ],
+      "explanation": "\"四个革命\"指能源消费革命、能源供给革命、能源技术革命、能源体制革命；\"一个合作\"指全方位加强国际合作。不含\"能源出口革命\"。故本题选 D。",
+      "category_l1": "时事政治",
+      "category_l2": null,
+      "tags": [
+        "网络搜集"
+      ],
+      "difficulty": "unknown",
+      "importance": "normal",
+      "source": "人民网理论频道《深入推进能源革命 助力高质量发展》 theory.people.com.cn",
+      "source_year": null,
+      "source_question_no": "7034",
+      "status": "active",
+      "created_at": "2026-09-19T00:00:00.000Z",
+      "updated_at": "2026-09-19T00:00:00.000Z"
+    },
+    {
+      "question_id": "web_cfd6d1dae7",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "\"四个革命、一个合作\"能源安全新战略中的\"一个合作\"是指（　）。",
+      "options": [
+        {
+          "key": "A",
+          "text": "全方位加强国际合作"
+        },
+        {
+          "key": "B",
+          "text": "加强国内区域合作"
+        },
+        {
+          "key": "C",
+          "text": "深化国有企业改革合作"
+        },
+        {
+          "key": "D",
+          "text": "推进产学研合作"
+        }
+      ],
+      "correct_keys": [
+        "A"
+      ],
+      "explanation": "\"四个革命、一个合作\"中的\"一个合作\"即全方位加强国际合作，处理好国内国际两个市场、两种资源的关系，实现开放条件下的能源安全。故本题选 A。",
+      "category_l1": "时事政治",
+      "category_l2": null,
+      "tags": [
+        "网络搜集"
+      ],
+      "difficulty": "unknown",
+      "importance": "normal",
+      "source": "人民网理论频道《深入推进能源革命 助力高质量发展》 theory.people.com.cn / 共产党员网（12371）《四中全会〈建议〉学习辅导百问·为什么要建设能源强国》",
+      "source_year": null,
+      "source_question_no": "7035",
+      "status": "active",
+      "created_at": "2026-09-19T00:00:00.000Z",
+      "updated_at": "2026-09-19T00:00:00.000Z"
+    },
+    {
+      "question_id": "web_7dc795ce6c",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "我国提出的碳达峰、碳中和目标时间节点分别是（　）。",
+      "options": [
+        {
+          "key": "A",
+          "text": "2025年、2055年"
+        },
+        {
+          "key": "B",
+          "text": "2030年、2060年"
+        },
+        {
+          "key": "C",
+          "text": "2030年、2050年"
+        },
+        {
+          "key": "D",
+          "text": "2035年、2060年"
+        }
+      ],
+      "correct_keys": [
+        "B"
+      ],
+      "explanation": "我国二氧化碳排放力争于2030年前达到峰值，努力争取2060年前实现碳中和。故本题选 B。",
+      "category_l1": "时事政治",
+      "category_l2": null,
+      "tags": [
+        "网络搜集"
+      ],
+      "difficulty": "unknown",
+      "importance": "normal",
+      "source": "求是网《深入贯彻能源安全新战略 着力推进能源高质量发展》 qstheory.cn",
+      "source_year": null,
+      "source_question_no": "7036",
+      "status": "active",
+      "created_at": "2026-09-19T00:00:00.000Z",
+      "updated_at": "2026-09-19T00:00:00.000Z"
+    },
+    {
+      "question_id": "web_c63295fab8",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "党的二十大报告提出加快规划建设新型能源体系，新型能源体系的核心特征是（　）。",
+      "options": [
+        {
+          "key": "A",
+          "text": "高碳化石能源为主、保障供应安全"
+        },
+        {
+          "key": "B",
+          "text": "清洁低碳、安全高效"
+        },
+        {
+          "key": "C",
+          "text": "完全依赖新能源、淘汰传统能源"
+        },
+        {
+          "key": "D",
+          "text": "大规模进口能源、保障对外依存"
+        }
+      ],
+      "correct_keys": [
+        "B"
+      ],
+      "explanation": "我国能源战略表述为建设\"清洁低碳、安全高效\"的能源体系，建设过程坚持\"先立后破\"，在保障能源安全的前提下推动绿色转型，并非简单淘汰传统化石能源。故本题选 B。",
+      "category_l1": "时事政治",
+      "category_l2": null,
+      "tags": [
+        "网络搜集"
+      ],
+      "difficulty": "unknown",
+      "importance": "normal",
+      "source": "党的二十大报告 + 人民网理论频道《深入推进能源革命 助力高质量发展》 theory.people.com.cn",
+      "source_year": null,
+      "source_question_no": "7037",
+      "status": "active",
+      "created_at": "2026-09-19T00:00:00.000Z",
+      "updated_at": "2026-09-19T00:00:00.000Z"
+    },
+    {
+      "question_id": "web_f3dad69363",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "党的二十届四中全会通过的《建议》，是指导（　）时期经济社会发展的纲领性文件。",
+      "options": [
+        {
+          "key": "A",
+          "text": "十四五"
+        },
+        {
+          "key": "B",
+          "text": "十五五"
+        },
+        {
+          "key": "C",
+          "text": "十六五"
+        },
+        {
+          "key": "D",
+          "text": "十四五和十五五"
+        }
+      ],
+      "correct_keys": [
+        "B"
+      ],
+      "explanation": "党的二十届四中全会审议通过《中共中央关于制定国民经济和社会发展第十五个五年规划的建议》，该《建议》是指导\"十五五\"时期经济社会发展的纲领性文件。故本题选 B。",
+      "category_l1": "时事政治",
+      "category_l2": null,
+      "tags": [
+        "网络搜集"
+      ],
+      "difficulty": "unknown",
+      "importance": "normal",
+      "source": "《求是》杂志2026年第1期《学习好贯彻好党的二十届四中全会精神》考点梳理",
+      "source_year": null,
+      "source_question_no": "7038",
+      "status": "active",
+      "created_at": "2026-09-19T00:00:00.000Z",
+      "updated_at": "2026-09-19T00:00:00.000Z"
+    },
+    {
+      "question_id": "web_9867580017",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "党的二十届四中全会于（　）在北京召开。",
+      "options": [
+        {
+          "key": "A",
+          "text": "2025年10月20日至23日"
+        },
+        {
+          "key": "B",
+          "text": "2025年9月20日至23日"
+        },
+        {
+          "key": "C",
+          "text": "2026年3月1日至5日"
+        },
+        {
+          "key": "D",
+          "text": "2026年10月20日至23日"
+        }
+      ],
+      "correct_keys": [
+        "A"
+      ],
+      "explanation": "党的二十届四中全会于2025年10月20日至23日在北京举行。故本题选 A。",
+      "category_l1": "时事政治",
+      "category_l2": null,
+      "tags": [
+        "网络搜集"
+      ],
+      "difficulty": "unknown",
+      "importance": "normal",
+      "source": "CGTN：二十届四中全会公报要点 news.cgtn.com/news/2025-10-23/ / 《求是》杂志2026年第1期《学习好贯彻好党的二十届四中全会精神》考点梳理",
+      "source_year": null,
+      "source_question_no": "7039",
+      "status": "active",
+      "created_at": "2026-09-19T00:00:00.000Z",
+      "updated_at": "2026-09-19T00:00:00.000Z"
+    },
+    {
+      "question_id": "web_2ca4c963f7",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "\"十五五\"规划的时间范围是（　）。",
+      "options": [
+        {
+          "key": "A",
+          "text": "2025—2029年"
+        },
+        {
+          "key": "B",
+          "text": "2026—2030年"
+        },
+        {
+          "key": "C",
+          "text": "2026—2035年"
+        },
+        {
+          "key": "D",
+          "text": "2027—2031年"
+        }
+      ],
+      "correct_keys": [
+        "B"
+      ],
+      "explanation": "\"十五五\"规划期为2026—2030年，是我国基本实现社会主义现代化进程中具有承前启后重要地位的五年。故本题选 B。",
+      "category_l1": "时事政治",
+      "category_l2": null,
+      "tags": [
+        "网络搜集"
+      ],
+      "difficulty": "unknown",
+      "importance": "normal",
+      "source": "CGTN：二十届四中全会公报要点 news.cgtn.com/news/2025-10-23/",
+      "source_year": null,
+      "source_question_no": "7040",
+      "status": "active",
+      "created_at": "2026-09-19T00:00:00.000Z",
+      "updated_at": "2026-09-19T00:00:00.000Z"
+    },
+    {
+      "question_id": "web_cea2af4165",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "《建议》指出，在基本实现社会主义现代化进程中，（　）时期具有承前启后的重要地位。",
+      "options": [
+        {
+          "key": "A",
+          "text": "十三五"
+        },
+        {
+          "key": "B",
+          "text": "十四五"
+        },
+        {
+          "key": "C",
+          "text": "十五五"
+        },
+        {
+          "key": "D",
+          "text": "十六五"
+        }
+      ],
+      "correct_keys": [
+        "C"
+      ],
+      "explanation": "《建议》与全会公报均指出，\"十五五\"时期在基本实现社会主义现代化进程中具有承前启后的重要地位。故本题选 C。",
+      "category_l1": "时事政治",
+      "category_l2": null,
+      "tags": [
+        "网络搜集"
+      ],
+      "difficulty": "unknown",
+      "importance": "normal",
+      "source": "《求是》杂志2026年第1期《学习好贯彻好党的二十届四中全会精神》考点梳理 / CGTN：二十届四中全会公报要点 news.cgtn.com/news/2025-10-23/",
+      "source_year": null,
+      "source_question_no": "7041",
+      "status": "active",
+      "created_at": "2026-09-19T00:00:00.000Z",
+      "updated_at": "2026-09-19T00:00:00.000Z"
+    },
+    {
+      "question_id": "web_1b31d37985",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "推动（　）是\"十五五\"时期经济社会发展的主题，是中国式现代化的本质要求。",
+      "options": [
+        {
+          "key": "A",
+          "text": "高质量发展"
+        },
+        {
+          "key": "B",
+          "text": "高速增长"
+        },
+        {
+          "key": "C",
+          "text": "扩大内需"
+        },
+        {
+          "key": "D",
+          "text": "科技自立自强"
+        }
+      ],
+      "correct_keys": [
+        "A"
+      ],
+      "explanation": "《求是》2026年第1期考点梳理明确：推动高质量发展是\"十五五\"时期经济社会发展的主题，是中国式现代化的本质要求，要以新发展理念引领，保持质效与量增的统一。故本题选 A。",
+      "category_l1": "时事政治",
+      "category_l2": null,
+      "tags": [
+        "网络搜集"
+      ],
+      "difficulty": "unknown",
+      "importance": "normal",
+      "source": "《求是》杂志2026年第1期《学习好贯彻好党的二十届四中全会精神》考点梳理",
+      "source_year": null,
+      "source_question_no": "7042",
+      "status": "active",
+      "created_at": "2026-09-19T00:00:00.000Z",
+      "updated_at": "2026-09-19T00:00:00.000Z"
+    },
+    {
+      "question_id": "web_029163b6a9",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "《建议》确定的\"十五五\"时期经济社会发展必须遵循的\"六个坚持\"原则中，居于首位、作为根本保证的是（　）。",
+      "options": [
+        {
+          "key": "A",
+          "text": "坚持党的全面领导"
+        },
+        {
+          "key": "B",
+          "text": "坚持人民至上"
+        },
+        {
+          "key": "C",
+          "text": "坚持高质量发展"
+        },
+        {
+          "key": "D",
+          "text": "坚持统筹发展和安全"
+        }
+      ],
+      "correct_keys": [
+        "A"
+      ],
+      "explanation": "\"六个坚持\"依次为：坚持党的全面领导（根本保证）、坚持人民至上（根本立场）、坚持高质量发展（核心主题）、坚持全面深化改革（根本动力）、坚持有效市场和有为政府相结合（关键路径）、坚持统筹发展和安全（重要保障）。故本题选 A。",
+      "category_l1": "时事政治",
+      "category_l2": null,
+      "tags": [
+        "网络搜集"
+      ],
+      "difficulty": "unknown",
+      "importance": "normal",
+      "source": "《求是》杂志2026年第1期《学习好贯彻好党的二十届四中全会精神》考点梳理",
+      "source_year": null,
+      "source_question_no": "7043",
+      "status": "active",
+      "created_at": "2026-09-19T00:00:00.000Z",
+      "updated_at": "2026-09-19T00:00:00.000Z"
+    },
+    {
+      "question_id": "web_ff9bb40389",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "党的二十届四中全会《建议》提出，深入推进能源革命、建设社会主义现代化强国的必然要求是（　）。",
+      "options": [
+        {
+          "key": "A",
+          "text": "建设能源强国"
+        },
+        {
+          "key": "B",
+          "text": "扩大能源出口"
+        },
+        {
+          "key": "C",
+          "text": "提高煤炭比重"
+        },
+        {
+          "key": "D",
+          "text": "降低能源自给率"
+        }
+      ],
+      "correct_keys": [
+        "A"
+      ],
+      "explanation": "《建议》明确提出\"建设能源强国\"。共产党员网《学习辅导百问》指出，建设能源强国与能源安全新战略一脉相承，是强国建设对能源领域的新要求。故本题选 A。",
+      "category_l1": "时事政治",
+      "category_l2": null,
+      "tags": [
+        "网络搜集"
+      ],
+      "difficulty": "unknown",
+      "importance": "normal",
+      "source": "共产党员网（12371）《四中全会〈建议〉学习辅导百问·为什么要建设能源强国》",
+      "source_year": null,
+      "source_question_no": "7044",
+      "status": "active",
+      "created_at": "2026-09-19T00:00:00.000Z",
+      "updated_at": "2026-09-19T00:00:00.000Z"
+    },
+    {
+      "question_id": "web_f666ba57a5",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "石油炼制中，原油各组分通过蒸馏分离，其主要依据是组分（　）的差异。",
+      "options": [
+        {
+          "key": "A",
+          "text": "密度"
+        },
+        {
+          "key": "B",
+          "text": "沸点"
+        },
+        {
+          "key": "C",
+          "text": "熔点"
+        },
+        {
+          "key": "D",
+          "text": "溶解度"
+        }
+      ],
+      "correct_keys": [
+        "B"
+      ],
+      "explanation": "蒸馏是利用混合物中各组分沸点不同，通过加热汽化再冷凝实现分离，属石油加工基础常识。故本题选 B。",
+      "category_l1": "其他学科知识",
+      "category_l2": null,
+      "tags": [
+        "网络搜集"
+      ],
+      "difficulty": "unknown",
+      "importance": "normal",
+      "source": "网络综合·石油化工基础常识（多源交叉核对）",
+      "source_year": null,
+      "source_question_no": "7045",
+      "status": "active",
+      "created_at": "2026-09-19T00:00:00.000Z",
+      "updated_at": "2026-09-19T00:00:00.000Z"
+    },
+    {
+      "question_id": "web_6eff8390c7",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "石油的蒸馏分离属于（　）分离方法。",
+      "options": [
+        {
+          "key": "A",
+          "text": "物理"
+        },
+        {
+          "key": "B",
+          "text": "化学"
+        },
+        {
+          "key": "C",
+          "text": "生物"
+        },
+        {
+          "key": "D",
+          "text": "电化学"
+        }
+      ],
+      "correct_keys": [
+        "A"
+      ],
+      "explanation": "蒸馏过程中物质不发生化学变化、不生成新物质，属于物理分离方法。故本题选 A。",
+      "category_l1": "其他学科知识",
+      "category_l2": null,
+      "tags": [
+        "网络搜集"
+      ],
+      "difficulty": "unknown",
+      "importance": "normal",
+      "source": "网络综合·石油化工基础常识（多源交叉核对）",
+      "source_year": null,
+      "source_question_no": "7046",
+      "status": "active",
+      "created_at": "2026-09-19T00:00:00.000Z",
+      "updated_at": "2026-09-19T00:00:00.000Z"
+    },
+    {
+      "question_id": "web_163a106544",
+      "version": "1.0",
+      "question_type": "multiple_choice",
+      "stem": "（多选）石油中的硫元素会导致（　）。",
+      "options": [
+        {
+          "key": "A",
+          "text": "设备腐蚀"
+        },
+        {
+          "key": "B",
+          "text": "环境污染"
+        },
+        {
+          "key": "C",
+          "text": "油品质量下降"
+        },
+        {
+          "key": "D",
+          "text": "原油密度降低"
+        }
+      ],
+      "correct_keys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "硫及其化合物会腐蚀设备与管线、燃烧后生成硫氧化物污染环境、并使油品质量下降；硫含量与原油密度无直接因果关系。故本题选 ABC。",
+      "category_l1": "其他学科知识",
+      "category_l2": null,
+      "tags": [
+        "网络搜集"
+      ],
+      "difficulty": "unknown",
+      "importance": "normal",
+      "source": "网络综合·石油化工基础常识（多源交叉核对）",
+      "source_year": null,
+      "source_question_no": "7047",
+      "status": "active",
+      "created_at": "2026-09-19T00:00:00.000Z",
+      "updated_at": "2026-09-19T00:00:00.000Z"
+    },
+    {
+      "question_id": "web_e7e73a870b",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "加氢工艺可脱除的杂质不包括（　）。",
+      "options": [
+        {
+          "key": "A",
+          "text": "硫"
+        },
+        {
+          "key": "B",
+          "text": "氮"
+        },
+        {
+          "key": "C",
+          "text": "氧"
+        },
+        {
+          "key": "D",
+          "text": "碳"
+        }
+      ],
+      "correct_keys": [
+        "D"
+      ],
+      "explanation": "加氢精制主要脱除硫、氮、氧及金属等杂质，碳是烃类的骨架元素，不在脱除之列。故本题选 D。",
+      "category_l1": "其他学科知识",
+      "category_l2": null,
+      "tags": [
+        "网络搜集"
+      ],
+      "difficulty": "unknown",
+      "importance": "normal",
+      "source": "网络综合·石油化工基础常识（多源交叉核对）",
+      "source_year": null,
+      "source_question_no": "7048",
+      "status": "active",
+      "created_at": "2026-09-19T00:00:00.000Z",
+      "updated_at": "2026-09-19T00:00:00.000Z"
+    },
+    {
+      "question_id": "web_e75f509750",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "石油主要由（　）两种元素组成。",
+      "options": [
+        {
+          "key": "A",
+          "text": "碳和氢"
+        },
+        {
+          "key": "B",
+          "text": "碳和氧"
+        },
+        {
+          "key": "C",
+          "text": "氢和氧"
+        },
+        {
+          "key": "D",
+          "text": "碳和氮"
+        }
+      ],
+      "correct_keys": [
+        "A"
+      ],
+      "explanation": "石油是碳氢化合物的复杂混合物，碳、氢两种元素合计占 96% 以上。故本题选 A。",
+      "category_l1": "其他学科知识",
+      "category_l2": null,
+      "tags": [
+        "网络搜集"
+      ],
+      "difficulty": "unknown",
+      "importance": "normal",
+      "source": "网络综合·石油化工基础常识（多源交叉核对）",
+      "source_year": null,
+      "source_question_no": "7049",
+      "status": "active",
+      "created_at": "2026-09-19T00:00:00.000Z",
+      "updated_at": "2026-09-19T00:00:00.000Z"
+    }
+  ]
+}
