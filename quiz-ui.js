@@ -1,11 +1,11 @@
 (function (root, factory) {
-  if (typeof module !== 'undefined' && module.exports) module.exports = factory(require('./quiz-data.js'), require('./quiz-engine.js'), require('./quiz-import.js'), require('./quiz-remote.js'));
-  else root.QuizUI = factory(root.QuizData, root.QuizEngine, root.QuizImport, root.QuizRemote);
-})(typeof window !== 'undefined' ? window : globalThis, function (QuizData, QuizEngine, QuizImport, QuizRemote) {
+  if (typeof module !== 'undefined' && module.exports) module.exports = factory(require('./quiz-data.js'), require('./quiz-engine.js'), require('./quiz-import.js'), require('./quiz-remote.js'), require('./quiz-exam.js'), require('./quiz-stats.js'));
+  else root.QuizUI = factory(root.QuizData, root.QuizEngine, root.QuizImport, root.QuizRemote, root.QuizExam, root.QuizStats);
+})(typeof window !== 'undefined' ? window : globalThis, function (QuizData, QuizEngine, QuizImport, QuizRemote, QuizExam, QuizStats) {
   'use strict';
 
   var options = null;
-  var state = { mode: 'sequential', session: null, index: 0, responses: {}, timer: null, timerIndex: null, configured: false, remoteSourceKey: null, remotePreview: null };
+  var state = { mode: 'sequential', session: null, index: 0, responses: {}, timer: null, timerIndex: null, configured: false, remoteSourceKey: null, remotePreview: null, screen: 'home', examId: null, examIndex: 0, examTimer: null, examLastSavedAt: 0, practiceQuestionIds: null, examResult: null };
 
   function $(id) { return document.getElementById(id); }
   function esc(value) { return String(value == null ? '' : value).replace(/[&<>"']/g, function (ch) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]; }); }
@@ -31,6 +31,146 @@
   }
   function selectedKeys() {
     return Array.from(document.querySelectorAll('#quizOptions input:checked')).map(function (input) { return input.value; });
+  }
+  function syncOptionSelection(event, selector) {
+    var container = document.querySelector(selector);
+    if (!container) return;
+    if (event.target.type === 'radio') {
+      Array.prototype.forEach.call(container.querySelectorAll('.quiz-option'), function (label) { label.classList.remove('selected'); });
+    }
+    var label = event.target.closest('.quiz-option');
+    if (label) label.classList.toggle('selected', event.target.checked);
+  }
+  function examSelectedKeys() {
+    return Array.from(document.querySelectorAll('#quizExamOptions input:checked')).map(function (input) { return input.value; });
+  }
+  function fmtClock(seconds) {
+    seconds = Math.max(0, Math.round(Number(seconds) || 0));
+    var minutes = Math.floor(seconds / 60);
+    return String(minutes).padStart(2, '0') + ':' + String(seconds % 60).padStart(2, '0');
+  }
+  function showScreen(name) {
+    state.screen = name;
+    ['home', 'category', 'exam-setup', 'exam', 'exam-result'].forEach(function (screen) {
+      var el = $('quizScreen' + screen.split('-').map(function (part) { return part.charAt(0).toUpperCase() + part.slice(1); }).join(''));
+      if (el) el.classList.toggle('active', screen === name);
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('#view-quiz .quiz-home-block'), function (block) { block.style.display = name === 'home' ? '' : 'none'; });
+    $('quizEmptyState').style.display = name === 'home' && !QuizData.activeQuestions(currentData()).length && !state.session ? '' : 'none';
+    $('quizPractice').style.display = name === 'home' && state.session ? '' : 'none';
+  }
+  function categoryStats(data, category) {
+    var questions = QuizData.activeQuestions(data).filter(function (question) { return question.category_l1 === category; });
+    var ids = {};
+    questions.forEach(function (question) { ids[question.question_id] = true; });
+    var attempts = data.quiz_attempts.filter(function (attempt) { return !attempt.is_deleted && ids[attempt.question_id]; });
+    var correct = attempts.filter(function (attempt) { return attempt.is_correct; }).length;
+    return { total: questions.length, answered: new Set(attempts.map(function (attempt) { return attempt.question_id; })).size, correct: correct, accuracy: attempts.length ? correct / attempts.length : 0 };
+  }
+  function renderCategories(data) {
+    var categories = {};
+    QuizData.activeQuestions(data).forEach(function (question) { categories[question.category_l1 || '未分类'] = true; });
+    var html = Object.keys(categories).sort().map(function (category) {
+      var stats = categoryStats(data, category);
+      return '<div class="quiz-category-row"><div class="quiz-category-main"><b>' + esc(category) + '</b><small>' + stats.answered + ' / ' + stats.total + ' 题 · 正确 ' + Math.round(stats.accuracy * 100) + '%</small></div><span class="quiz-category-rate">' + stats.correct + ' 对</span><button class="btn blue" data-quiz-action="category-start" data-category="' + esc(category) + '">开始</button></div>';
+    }).join('');
+    $('quizCategoryList').innerHTML = html || '<div class="empty">当前题库没有可用板块</div>';
+  }
+  function renderExamSetup(data) {
+    var banks = data.quiz_banks.filter(function (bank) { return !bank.is_deleted; });
+    var bankSelect = $('quizExamBank');
+    var bankValue = bankSelect.value;
+    bankSelect.innerHTML = banks.length
+      ? '<option value="">全部题库</option>' + banks.map(function (bank) { return '<option value="' + esc(bank.bank_id) + '">' + esc(bank.name) + '</option>'; }).join('')
+      : '<option value="">没有题库</option>';
+    if (bankValue && banks.some(function (bank) { return bank.bank_id === bankValue; })) bankSelect.value = bankValue;
+    var categorySelect = $('quizExamCategory');
+    var categoryValue = categorySelect.value;
+    var categories = {};
+    QuizData.activeQuestions(data).forEach(function (question) { categories[question.category_l1 || '未分类'] = true; });
+    var categoryKeys = Object.keys(categories).sort();
+    categorySelect.innerHTML = '<option value="">全部板块</option>' + categoryKeys.map(function (category) { return '<option value="' + esc(category) + '">' + esc(category) + '</option>'; }).join('');
+    if (categoryKeys.indexOf(categoryValue) !== -1) categorySelect.value = categoryValue;
+    if (!$('quizExamYear').value) $('quizExamYear').value = new Date().getFullYear();
+  }
+  function currentExam(data) { return state.examId ? QuizExam.findSession(data, state.examId) : null; }
+  function examQuestion(data) {
+    var session = currentExam(data);
+    if (!session) return null;
+    var questionId = session.question_ids[state.examIndex];
+    var question = QuizData.findQuestion(data, questionId);
+    var version = question && QuizData.findVersion(data, questionId, session.question_versions[questionId]);
+    return question && version ? { question: question, version: version } : null;
+  }
+  function renderExam(data) {
+    var session = currentExam(data);
+    var current = examQuestion(data);
+    if (!session || !current) { stopExamTimer(); showScreen('home'); return; }
+    var answer = QuizExam.findAnswer(data, session.exam_id, current.question.question_id);
+    var selected = answer ? answer.selected_keys : [];
+    $('quizExamLiveTitle').textContent = session.title;
+    $('quizExamLiveMeta').textContent = (state.examIndex + 1) + ' / ' + session.total_count + ' 题 · ' + (session.source || '个人题库');
+    $('quizExamQuestionMeta').textContent = (current.question.question_type === 'multiple_choice' ? '多选题' : '单选题') + ' · ' + (current.question.category_l1 || '未分类');
+    $('quizExamStem').textContent = current.version.stem;
+    $('quizExamOptions').innerHTML = current.version.options.map(function (option) {
+      var checked = selected.indexOf(option.key) !== -1;
+      var type = current.question.question_type === 'multiple_choice' ? 'checkbox' : 'radio';
+      return '<label class="quiz-option' + (checked ? ' selected' : '') + '"><input type="' + type + '" name="quiz-exam-answer" value="' + esc(option.key) + '"' + (checked ? ' checked' : '') + '><span class="quiz-option-key">' + esc(option.key) + '</span><span class="quiz-option-text">' + esc(option.text) + '</span></label>';
+    }).join('');
+    var progress = QuizExam.getExamProgress(data, session.exam_id);
+    var elapsed = progress.elapsedSeconds;
+    var remaining = progress.remainingSeconds;
+    $('quizExamTime').textContent = remaining == null ? fmtClock(elapsed) : fmtClock(remaining);
+    $('quizExamTime').className = 'quiz-exam-time' + (remaining != null && remaining <= 60 ? ' danger' : '');
+    $('quizExamProgress').style.width = Math.round((state.examIndex + 1) / session.total_count * 100) + '%';
+    refreshExamProgress(data, session);
+    var markBtn = $('quizExamMarkBtn');
+    if (markBtn) markBtn.textContent = answer && answer.is_marked ? '★ 取消标记' : '☆ 标记本题';
+  }
+  function refreshExamProgress(data, session) {
+    var progress = QuizExam.getExamProgress(data, session.exam_id);
+    var text = $('quizExamProgressText');
+    if (text) text.textContent = '已答 ' + progress.answeredCount + ' · 标记 ' + progress.markedCount;
+    var grid = $('quizExamQuestionGrid');
+    if (grid) grid.innerHTML = progress.answers.map(function (item) {
+      var classes = [];
+      if (item.answered) classes.push('answered');
+      if (item.marked) classes.push('marked');
+      if (item.index === state.examIndex) classes.push('current');
+      return '<button class="' + classes.join(' ') + '" data-quiz-action="exam-jump" data-index="' + item.index + '">' + (item.index + 1) + '</button>';
+    }).join('');
+    return progress;
+  }
+  function stopExamTimer() { if (state.examTimer) { clearInterval(state.examTimer); state.examTimer = null; } }
+  function startExamTimer() {
+    stopExamTimer();
+    state.examTimer = setInterval(function () {
+      var data = currentData();
+      var session = currentExam(data);
+      if (!session) return stopExamTimer();
+      var progress = QuizExam.getExamProgress(data, session.exam_id);
+      if (Date.now() - state.examLastSavedAt > 10000) { options.saveData(data); state.examLastSavedAt = Date.now(); }
+      if (QuizExam.shouldAutoSubmit(session)) {
+        var result = QuizExam.submitExam(data, session.exam_id);
+        options.saveData(data); state.examResult = result; stopExamTimer(); renderExamResult(data, result); options.toast('考试时间到，已自动交卷', 'info');
+      } else {
+        var remaining = progress.remainingSeconds;
+        $('quizExamTime').textContent = remaining == null ? fmtClock(progress.elapsedSeconds) : fmtClock(remaining);
+        $('quizExamTime').className = 'quiz-exam-time' + (remaining != null && remaining <= 60 ? ' danger' : '');
+      }
+    }, 1000);
+  }
+  function renderExamResult(data, result) {
+    var session = QuizExam.findSession(data, result.exam_id);
+    $('quizExamResultTitle').textContent = session ? session.title : '考试结果';
+    $('quizExamResultMeta').textContent = session ? (session.source || '个人题库') + ' · 用时 ' + fmtClock(result.elapsed_seconds) : '';
+    $('quizExamScore').textContent = result.total_score;
+    $('quizExamCorrect').textContent = result.correct_count;
+    $('quizExamWrong').textContent = result.wrong_count;
+    $('quizExamUnanswered').textContent = result.unanswered_count;
+    $('quizExamCategoryResult').innerHTML = (result.category_stats || []).map(function (item) { return '<div class="quiz-result-category"><span>' + esc(item.category_l1) + '</span><span>' + item.correct + '/' + item.total + ' · ' + Math.round(item.accuracy * 100) + '%</span></div>'; }).join('') || '<div class="empty">本次没有可统计的板块</div>';
+    state.examResult = result;
+    showScreen('exam-result');
   }
   function stopTimer() { if (state.timer) { state.timer.pause(); state.timer = null; } state.timerIndex = null; }
   function startTimer() {
@@ -178,7 +318,7 @@
     var version = current.version;
     var response = state.responses[state.index] || { selected: [], submitted: false };
     var stateRecord = QuizData.findState(data, question.question_id);
-    $('quizPractice').style.display = '';
+    $('quizPractice').style.display = state.screen === 'exam' || state.screen === 'exam-result' ? 'none' : '';
     $('quizPracticeTitle').textContent = '第 ' + (state.index + 1) + ' / ' + session.question_ids.length + ' 题';
     $('quizPracticeMeta').textContent = (question.question_type === 'multiple_choice' ? '多选题' : '单选题') + ' · ' + esc(question.category_l1 || '未分类');
     $('quizQuestionStem').textContent = version.stem;
@@ -217,15 +357,32 @@
     renderBanks(data);
     renderRemoteSources(data);
     renderRemoteReport();
-    var hasQuestions = QuizData.activeQuestions(data).length > 0;
-    $('quizEmptyState').style.display = hasQuestions || state.session ? 'none' : '';
-    $('quizPractice').style.display = state.session ? '' : 'none';
+    renderCategories(data);
+    renderExamSetup(data);
+    renderResumeExam(data);
+    if (state.examResult) renderExamResult(data, state.examResult);
+    else if (state.examId) {
+      var session = currentExam(data);
+      if (session && session.status === 'in_progress') { showScreen('exam'); renderExam(data); }
+      else { state.examId = null; state.screen = 'home'; showScreen('home'); }
+    } else {
+      showScreen(state.screen);
+    }
     if (state.session) renderQuestion(data);
   }
-  function startSession(mode) {
+  function renderResumeExam(data) {
+    var box = $('quizResumeExam');
+    if (!box) return;
+    var session = state.examId || state.examResult ? null : QuizExam.resumeLatestExam(data);
+    if (!session) { box.style.display = 'none'; box.innerHTML = ''; return; }
+    box.style.display = '';
+    box.innerHTML = '<div class="quiz-category-row"><div class="quiz-category-main"><b>未完成的考试：' + esc(session.title) + '</b><small>已答 ' + (session.answered_count || 0) + ' / ' + session.total_count + ' 题 · 答案已保存</small></div><button class="btn blue" data-quiz-action="exam-resume">继续考试</button></div>';
+  }
+  function startSession(mode, category) {
     var data = currentData();
     var selection = QuizEngine.selectQuestions(data, {
       mode: mode === 'random' ? 'random' : 'sequential',
+      categoryL1: category || null,
       wrongOnly: mode === 'wrong', favoriteOnly: mode === 'favorite', limit: 100
     });
     if (!selection.length) { options.toast(mode === 'wrong' ? '当前没有错题' : mode === 'favorite' ? '当前没有收藏题' : '请先导入题库', 'info'); return; }
@@ -236,6 +393,9 @@
     });
     state.index = 0;
     state.responses = {};
+    state.examId = null;
+    state.examResult = null;
+    state.screen = 'home';
     setMessage('');
     options.saveData(data);
     render(data);
@@ -343,12 +503,212 @@
     };
     reader.readAsText(file);
   }
+  function startQuestionIds(questionIds, mode) {
+    var data = currentData();
+    var questions = (questionIds || []).map(function (id) { return QuizData.findQuestion(data, id); }).filter(function (question) {
+      return question && QuizData.currentVersion(data, question);
+    });
+    if (!questions.length) { options.toast('没有可练习的题目', 'info'); return; }
+    state.mode = mode || 'wrong';
+    state.session = QuizEngine.sessionForQuestions(data, questions, {
+      mode: mode || 'wrong',
+      learningDate: options.learningDateStr ? options.learningDateStr(new Date()) : new Date().toISOString().slice(0, 10)
+    });
+    state.index = 0;
+    state.responses = {};
+    state.examId = null;
+    state.examResult = null;
+    state.screen = 'home';
+    setMessage('');
+    options.saveData(data);
+    render(data);
+    options.toast('开始练习 ' + questions.length + ' 题');
+  }
+
+  function startExam() {
+    var data = currentData();
+    var session;
+    try {
+      session = QuizExam.createExamSession(data, {
+        bankId: $('quizExamBank').value || null,
+        categoryL1: $('quizExamCategory').value || null,
+        count: Number($('quizExamCount').value) || 20,
+        durationSeconds: Number($('quizExamDuration').value) || 0,
+        title: $('quizExamTitle').value,
+        source: $('quizExamSource').value,
+        year: $('quizExamYear').value,
+        note: $('quizExamNote').value,
+        learningDate: options.learningDateStr ? options.learningDateStr(new Date()) : new Date().toISOString().slice(0, 10),
+        random: true
+      });
+    } catch (error) { options.toast(error.message, 'error'); return; }
+    options.saveData(data);
+    state.examId = session.exam_id;
+    state.examIndex = 0;
+    state.examResult = null;
+    state.screen = 'exam';
+    render(data);
+    startExamTimer();
+    options.toast('开始考试：' + session.total_count + ' 题' + (session.duration_seconds ? ' · ' + Math.round(session.duration_seconds / 60) + ' 分钟' : ' · 不限时'));
+  }
+
+  function resumeExam() {
+    var data = currentData();
+    var session = QuizExam.resumeLatestExam(data);
+    if (!session) { options.toast('没有未完成的考试', 'info'); render(data); return; }
+    state.examId = session.exam_id;
+    state.examIndex = Math.max(0, Math.min(Number(session.current_index) || 0, session.total_count - 1));
+    state.examResult = null;
+    state.screen = 'exam';
+    render(data);
+    startExamTimer();
+  }
+
+  function saveExamSelection() {
+    var data = currentData();
+    var session = currentExam(data);
+    var current = examQuestion(data);
+    if (!session || session.status !== 'in_progress' || !current) return;
+    try { QuizExam.saveExamAnswer(data, session.exam_id, current.question.question_id, examSelectedKeys()); }
+    catch (error) { return; }
+    session.current_index = state.examIndex;
+    options.saveData(data);
+    refreshExamProgress(data, session);
+  }
+
+  function navigateExam(delta) {
+    var data = currentData();
+    var session = currentExam(data);
+    if (!session) return;
+    var next = state.examIndex + delta;
+    if (next < 0 || next >= session.question_ids.length) return;
+    state.examIndex = next;
+    session.current_index = next;
+    options.saveData(data);
+    renderExam(data);
+  }
+
+  function jumpExam(index) {
+    var data = currentData();
+    var session = currentExam(data);
+    var target = Number(index);
+    if (!session || !isFinite(target) || target < 0 || target >= session.question_ids.length) return;
+    state.examIndex = Math.floor(target);
+    session.current_index = state.examIndex;
+    options.saveData(data);
+    renderExam(data);
+  }
+
+  function toggleExamMark() {
+    var data = currentData();
+    var session = currentExam(data);
+    var current = examQuestion(data);
+    if (!session || session.status !== 'in_progress' || !current) return;
+    var answer = QuizExam.toggleExamMark(data, session.exam_id, current.question.question_id);
+    options.saveData(data);
+    renderExam(data);
+    options.toast(answer.is_marked ? '已标记本题' : '已取消标记', 'info');
+  }
+
+  function submitExamNow(automatic) {
+    var data = currentData();
+    var session = currentExam(data);
+    if (!session || session.status !== 'in_progress') return;
+    var progress = QuizExam.getExamProgress(data, session.exam_id);
+    var doSubmit = function () {
+      var current = currentData();
+      var result;
+      try { result = QuizExam.submitExam(current, session.exam_id); }
+      catch (error) { options.toast('交卷失败：' + error.message, 'error'); return; }
+      options.saveData(current);
+      stopExamTimer();
+      state.examId = session.exam_id;
+      state.examResult = result;
+      state.screen = 'exam-result';
+      renderExamResult(current, result);
+      renderStats(current);
+      options.toast(automatic ? '考试时间到，已自动交卷' : '已交卷，本次成绩已保存');
+    };
+    if (automatic) { doSubmit(); return; }
+    var message = '交卷后不能修改答案。';
+    if (progress.unansweredCount > 0) message = '还有 ' + progress.unansweredCount + ' 题未作答。' + message;
+    if (options.confirmModal) options.confirmModal('确认交卷？', session.title, message, '交卷', false, doSubmit);
+    else if (window.confirm(message)) doSubmit();
+  }
+
+  function exitExam() {
+    var data = currentData();
+    var session = currentExam(data);
+    var leave = function () {
+      stopExamTimer();
+      state.examId = null;
+      state.examResult = null;
+      state.screen = 'home';
+      render(currentData());
+      options.toast('考试已保留，可随时继续', 'info');
+    };
+    if (!session) { leave(); return; }
+    var progress = QuizExam.getExamProgress(data, session.exam_id);
+    var message = '已答 ' + progress.answeredCount + ' / ' + session.total_count + ' 题。退出后答案保留，可随时继续。';
+    if (options.confirmModal) options.confirmModal('退出考试？', session.title, message, '退出', false, leave);
+    else if (window.confirm(message)) leave();
+  }
+
+  function retryExam() {
+    var data = currentData();
+    var previous = state.examResult ? QuizExam.findSession(data, state.examResult.exam_id) : null;
+    if (!previous) { showScreen('home'); return; }
+    var session;
+    try {
+      session = QuizExam.createExamSession(data, {
+        bankId: previous.bank_id, categoryL1: previous.category_l1, categoryL2: previous.category_l2,
+        count: previous.total_count, durationSeconds: previous.duration_seconds,
+        title: previous.title, source: previous.source, year: previous.year, note: previous.note,
+        learningDate: options.learningDateStr ? options.learningDateStr(new Date()) : new Date().toISOString().slice(0, 10),
+        random: true
+      });
+    } catch (error) { options.toast(error.message, 'error'); return; }
+    options.saveData(data);
+    state.examId = session.exam_id;
+    state.examIndex = 0;
+    state.examResult = null;
+    state.screen = 'exam';
+    render(data);
+    startExamTimer();
+    options.toast('已重新开始：' + session.total_count + ' 题');
+  }
+
   function bind() {
     var root = options.root;
     root.addEventListener('click', function (event) {
       var button = event.target.closest('[data-quiz-action]');
       if (!button) return;
       var action = button.dataset.quizAction;
+      if (action === 'home') {
+        stopExamTimer();
+        state.examId = null;
+        state.examResult = null;
+        state.screen = 'home';
+        render(currentData());
+        return;
+      }
+      if (action === 'category-open') { showScreen('category'); return; }
+      if (action === 'category-start') { startSession('sequential', button.dataset.category || null); return; }
+      if (action === 'exam-open') { showScreen('exam-setup'); return; }
+      if (action === 'exam-start') { startExam(); return; }
+      if (action === 'exam-resume') { resumeExam(); return; }
+      if (action === 'exam-exit') { exitExam(); return; }
+      if (action === 'exam-submit') { submitExamNow(false); return; }
+      if (action === 'exam-prev') { navigateExam(-1); return; }
+      if (action === 'exam-next') { navigateExam(1); return; }
+      if (action === 'exam-jump') { jumpExam(button.dataset.index); return; }
+      if (action === 'exam-mark') { toggleExamMark(); return; }
+      if (action === 'exam-wrong-practice') {
+        var examResult = state.examResult;
+        startQuestionIds(examResult ? examResult.wrong_question_ids : [], 'wrong');
+        return;
+      }
+      if (action === 'exam-retry') { retryExam(); return; }
       if (action === 'start') startSession(button.dataset.mode || 'sequential');
       else if (action === 'import') $('quizImportFile').click();
       else if (action === 'remote-fetch') fetchRemoteBank();
@@ -369,9 +729,13 @@
         renderRemoteReport();
         return;
       }
+      if (event.target.closest('#quizExamOptions')) {
+        syncOptionSelection(event, '#quizExamOptions');
+        saveExamSelection();
+        return;
+      }
       if (event.target.closest('#quizOptions') && !isSubmitted()) {
-        var label = event.target.closest('.quiz-option');
-        if (label) label.classList.toggle('selected', event.target.checked);
+        syncOptionSelection(event, '#quizOptions');
         if (state.session) {
           state.responses[state.index] = state.responses[state.index] || {};
           state.responses[state.index].selected = selectedKeys();
@@ -381,8 +745,12 @@
     root.addEventListener('pointerdown', function () { if (state.timer) state.timer.activity(); });
     $('quizImportFile').addEventListener('change', function () { if (this.files && this.files[0]) handleImport(this.files[0]); this.value = ''; });
     document.addEventListener('visibilitychange', function () {
-      if (!state.timer) return;
-      if (document.hidden) state.timer.pause(); else state.timer.resume();
+      if (state.timer) { if (document.hidden) state.timer.pause(); else state.timer.resume(); }
+      if (!document.hidden && state.screen === 'exam' && state.examId) {
+        var data = currentData();
+        var live = QuizExam.findSession(data, state.examId);
+        if (live && live.status === 'in_progress') renderExam(data);
+      }
     });
   }
   function configure(nextOptions) {
@@ -390,8 +758,17 @@
     if (!state.configured) { bind(); state.configured = true; }
     render(currentData());
   }
-  function onViewHidden() { if (state.timer) state.timer.pause(); }
-  function onViewShown() { if (state.timer && state.session && !isSubmitted()) state.timer.resume(); }
+  function onViewHidden() {
+    if (state.timer) state.timer.pause();
+    stopExamTimer();
+  }
+  function onViewShown() {
+    if (state.timer && state.session && !isSubmitted()) state.timer.resume();
+    if (!options || !state.examId) return;
+    var data = currentData();
+    var session = QuizExam.findSession(data, state.examId);
+    if (session && session.status === 'in_progress') { renderExam(data); startExamTimer(); }
+  }
   return {
     configure: configure,
     render: function () { if (options) render(currentData()); },
