@@ -44,17 +44,17 @@ async function run() {
   console.log('\n=== Test: remote quiz bank ===');
   assert(QuizRemote.FILENAME === 'quiz_bank.json', '远程题库使用独立文件名');
   const defaultSources = QuizRemote.getSources({});
-  assert(defaultSources.length === 3, '默认配置包含三个已发布题库源');
-  assert(defaultSources[0].bank_id === 'sinopec-sixiang-suzhi-20260919', '新清洗库排在默认题库源首位');
-  assert(defaultSources.every((source) => /^[A-Za-z0-9]+$/.test(source.gist_id)), '默认题库源 Gist ID 合法');
+  assert(defaultSources.length === 2, '默认配置只保留两套可用题库源');
+  assert(defaultSources.every((s) => s.bank_id !== 'sinopec-sixiang-suzhi-20260919'), '默认源不含清洗失败的新库');
+  assert(defaultSources[0].bank_id === 'sixiang-suzhi-formal', '思想素质综合正式库为默认源');
   const partialSaved = QuizRemote.getSources({
-    quiz_remote_sources: [{
-      provider: 'github_gist', gist_id: '9baacee6a3ec7c24447b16cc65cdb773',
-      bank_id: 'sixiang-suzhi-formal', name: '思想素质综合正式库'
-    }]
+    quiz_remote_sources: [
+      { provider: 'github_gist', gist_id: 'ef846efff3c2b97464647791295f3231', bank_id: 'sinopec-sixiang-suzhi-20260919', name: '新清洗库' },
+      { provider: 'github_gist', gist_id: '9baacee6a3ec7c24447b16cc65cdb773', bank_id: 'sixiang-suzhi-formal', name: '思想素质综合正式库' }
+    ]
   });
-  assert(partialSaved.some((s) => s.bank_id === 'sinopec-sixiang-suzhi-20260919'), '旧 settings 不会丢掉新清洗库远程源');
-  assert(partialSaved[0].bank_id === 'sinopec-sixiang-suzhi-20260919', '合并后新清洗库仍排在首位');
+  assert(!partialSaved.some((s) => s.bank_id === 'sinopec-sixiang-suzhi-20260919'), '已保存列表中的新清洗库会被过滤掉');
+  assert(partialSaved.some((s) => s.bank_id === 'sixiang-suzhi-formal'), '旧正式库远程源仍在');
   assert(new GistClient('token', 'gist', 'quiz_bank.json').filename === 'quiz_bank.json', 'Gist 客户端支持自定义文件名');
 
   global.fetch = async function (url) {
