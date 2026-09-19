@@ -51,30 +51,13 @@
   }
   function showScreen(name) {
     state.screen = name;
-    ['home', 'category', 'exam-setup', 'exam', 'exam-result'].forEach(function (screen) {
+    ['home', 'exam-setup', 'exam', 'exam-result'].forEach(function (screen) {
       var el = $('quizScreen' + screen.split('-').map(function (part) { return part.charAt(0).toUpperCase() + part.slice(1); }).join(''));
       if (el) el.classList.toggle('active', screen === name);
     });
     Array.prototype.forEach.call(document.querySelectorAll('#view-quiz .quiz-home-block'), function (block) { block.style.display = name === 'home' ? '' : 'none'; });
     $('quizEmptyState').style.display = name === 'home' && !QuizData.activeQuestions(currentData()).length && !state.session ? '' : 'none';
     $('quizPractice').style.display = name === 'home' && state.session ? '' : 'none';
-  }
-  function categoryStats(data, category) {
-    var questions = QuizData.activeQuestions(data).filter(function (question) { return question.category_l1 === category; });
-    var ids = {};
-    questions.forEach(function (question) { ids[question.question_id] = true; });
-    var attempts = data.quiz_attempts.filter(function (attempt) { return !attempt.is_deleted && ids[attempt.question_id]; });
-    var correct = attempts.filter(function (attempt) { return attempt.is_correct; }).length;
-    return { total: questions.length, answered: new Set(attempts.map(function (attempt) { return attempt.question_id; })).size, correct: correct, accuracy: attempts.length ? correct / attempts.length : 0 };
-  }
-  function renderCategories(data) {
-    var categories = {};
-    QuizData.activeQuestions(data).forEach(function (question) { categories[question.category_l1 || '未分类'] = true; });
-    var html = Object.keys(categories).sort().map(function (category) {
-      var stats = categoryStats(data, category);
-      return '<div class="quiz-category-row"><div class="quiz-category-main"><b>' + esc(category) + '</b><small>' + stats.answered + ' / ' + stats.total + ' 题 · 正确 ' + Math.round(stats.accuracy * 100) + '%</small></div><span class="quiz-category-rate">' + stats.correct + ' 对</span><button class="btn blue" data-quiz-action="category-start" data-category="' + esc(category) + '">开始</button></div>';
-    }).join('');
-    $('quizCategoryList').innerHTML = html || '<div class="empty">当前题库没有可用板块</div>';
   }
   function renderExamSetup(data) {
     var banks = data.quiz_banks.filter(function (bank) { return !bank.is_deleted; });
@@ -357,7 +340,6 @@
     renderBanks(data);
     renderRemoteSources(data);
     renderRemoteReport();
-    renderCategories(data);
     renderExamSetup(data);
     renderResumeExam(data);
     if (state.examResult) renderExamResult(data, state.examResult);
@@ -692,8 +674,6 @@
         render(currentData());
         return;
       }
-      if (action === 'category-open') { showScreen('category'); return; }
-      if (action === 'category-start') { startSession('sequential', button.dataset.category || null); return; }
       if (action === 'exam-open') { showScreen('exam-setup'); return; }
       if (action === 'exam-start') { startExam(); return; }
       if (action === 'exam-resume') { resumeExam(); return; }
