@@ -1,0 +1,362 @@
+/* 三桶油行测刷题 · 科目一/科目四风格（独立样式，不覆盖价值观模块） */
+#view-xingce {
+  --x-bg: var(--bg, #EDEEF3);
+  --x-card: var(--card, #fff);
+  --x-ink: var(--text, #1c1c1e);
+  --x-mut: var(--text-2, #8e8e93);
+  --x-line: var(--fill, #e8e9ef);
+  --x-fill: var(--fill-2, #f2f3f8);
+  --x-blue: var(--blue, #3478f6);
+  --x-green: var(--green, #34c759);
+  --x-red: var(--red, #ff3b30);
+  --x-orange: var(--orange, #ff9500);
+  --x-purple: #7a5cff;
+  max-width: 1100px;
+  margin: 0 auto;
+  font-size: 17px;
+  line-height: 1.55;
+}
+
+#view-xingce [id^="xScreen_"] { display: none; }
+#view-xingce [id^="xScreen_"].active { display: block; }
+
+#view-xingce .x-card {
+  background: var(--x-card);
+  border-radius: 22px;
+  padding: 18px 18px 16px;
+  box-shadow: 0 8px 24px rgba(28, 28, 30, 0.06);
+  margin-bottom: 14px;
+}
+
+#view-xingce .x-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  margin: 0 0 6px;
+}
+
+#view-xingce .x-sub {
+  color: var(--x-mut);
+  font-size: 0.86rem;
+  margin-bottom: 14px;
+}
+
+/* 顶部考试条 */
+#view-xingce .x-exam-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 18px;
+  background: var(--x-card);
+  box-shadow: 0 6px 18px rgba(28, 28, 30, 0.06);
+  margin-bottom: 12px;
+  position: sticky;
+  top: 8px;
+  z-index: 5;
+}
+
+#view-xingce .x-exam-bar .x-progress-text {
+  flex: 1;
+  min-width: 0;
+  font-weight: 800;
+  font-size: 1rem;
+}
+
+#view-xingce .x-timer {
+  font-variant-numeric: tabular-nums;
+  font-weight: 800;
+  color: var(--x-blue);
+  font-size: 1.05rem;
+  white-space: nowrap;
+}
+
+#view-xingce .x-timer.danger { color: var(--x-red); }
+
+#view-xingce .x-btn {
+  appearance: none;
+  border: 0;
+  border-radius: 14px;
+  padding: 14px 16px;
+  font-size: 1rem;
+  font-weight: 800;
+  cursor: pointer;
+  color: var(--x-ink);
+  background: var(--x-fill);
+  min-height: 48px;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+#view-xingce .x-btn:active { transform: scale(0.97); }
+#view-xingce .x-btn.primary { background: linear-gradient(180deg, #5b8cff, var(--x-blue)); color: #fff; }
+#view-xingce .x-btn.success { background: linear-gradient(180deg, #55d97a, var(--x-green)); color: #fff; }
+#view-xingce .x-btn.warn { background: linear-gradient(180deg, #ffb340, var(--x-orange)); color: #fff; }
+#view-xingce .x-btn.danger { background: rgba(255, 59, 48, 0.12); color: var(--x-red); }
+#view-xingce .x-btn.ghost { background: var(--x-fill); }
+#view-xingce .x-btn:disabled { opacity: 0.45; pointer-events: none; }
+
+/* 启动屏 */
+#view-xingce .x-mode-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+#view-xingce .x-mode {
+  text-align: left;
+  padding: 18px 16px;
+  border-radius: 18px;
+  background: var(--x-fill);
+  border: 2px solid transparent;
+  cursor: pointer;
+  min-height: 88px;
+}
+
+#view-xingce .x-mode b { display: block; font-size: 1.05rem; margin-bottom: 4px; }
+#view-xingce .x-mode small { color: var(--x-mut); font-size: 0.82rem; line-height: 1.4; display: block; }
+#view-xingce .x-mode.selected {
+  border-color: rgba(52, 120, 246, 0.55);
+  background: rgba(52, 120, 246, 0.08);
+}
+
+#view-xingce .x-chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 10px 0 6px;
+}
+
+#view-xingce .x-chip {
+  border: 0;
+  background: var(--x-fill);
+  color: var(--x-ink);
+  border-radius: 999px;
+  padding: 10px 14px;
+  font-size: 0.92rem;
+  font-weight: 700;
+  cursor: pointer;
+  min-height: 40px;
+}
+
+#view-xingce .x-chip.on {
+  background: rgba(52, 120, 246, 0.14);
+  color: var(--x-blue);
+}
+
+#view-xingce select.x-select,
+#view-xingce input.x-input {
+  width: 100%;
+  border: 0;
+  border-radius: 14px;
+  background: var(--x-fill);
+  color: var(--x-ink);
+  padding: 14px 14px;
+  font-size: 1rem;
+  font-family: inherit;
+  min-height: 48px;
+}
+
+/* 答题区：宽题干，防长文挤成一列 */
+#view-xingce .x-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 220px;
+  gap: 14px;
+  align-items: start;
+}
+
+#view-xingce .x-main { min-width: 0; max-width: 860px; }
+
+#view-xingce .x-stem {
+  font-size: 1.18rem;
+  line-height: 1.7;
+  font-weight: 700;
+  white-space: pre-wrap;
+  word-break: break-word;
+  margin: 8px 0 18px;
+}
+
+#view-xingce .x-options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+#view-xingce .x-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  width: 100%;
+  text-align: left;
+  background: var(--x-fill);
+  border: 2px solid transparent;
+  border-radius: 18px;
+  padding: 16px 16px;
+  cursor: pointer;
+  min-height: 56px;
+  font-size: 1.05rem;
+  line-height: 1.5;
+  color: var(--x-ink);
+}
+
+#view-xingce .x-option .k {
+  width: 32px;
+  height: 32px;
+  flex: 0 0 32px;
+  border-radius: 50%;
+  background: var(--x-card);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 0.95rem;
+  color: var(--x-mut);
+}
+
+#view-xingce .x-option.selected {
+  border-color: rgba(52, 120, 246, 0.55);
+  background: rgba(52, 120, 246, 0.1);
+}
+
+#view-xingce .x-option.selected .k { background: var(--x-blue); color: #fff; }
+
+#view-xingce .x-option.correct {
+  border-color: rgba(52, 199, 89, 0.65);
+  background: rgba(52, 199, 89, 0.12);
+}
+
+#view-xingce .x-option.wrong {
+  border-color: rgba(255, 59, 48, 0.55);
+  background: rgba(255, 59, 48, 0.1);
+}
+
+#view-xingce .x-result {
+  margin-top: 16px;
+  border-radius: 16px;
+  padding: 16px;
+  background: var(--x-fill);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+#view-xingce .x-result.ok { background: rgba(52, 199, 89, 0.12); color: #248a3d; }
+#view-xingce .x-result.bad { background: rgba(255, 59, 48, 0.1); color: #b42318; }
+#view-xingce .x-result p { color: var(--x-ink); margin: 10px 0 0; }
+
+#view-xingce .x-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+#view-xingce .x-tag {
+  background: rgba(122, 92, 255, 0.12);
+  color: var(--x-purple);
+  border-radius: 999px;
+  padding: 6px 10px;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+/* 题号导航（科一科四） */
+#view-xingce .x-navgrid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+  max-height: 320px;
+  overflow: auto;
+  padding: 2px;
+}
+
+#view-xingce .x-navgrid button {
+  aspect-ratio: 1;
+  border: 0;
+  border-radius: 12px;
+  background: var(--x-fill);
+  color: var(--x-mut);
+  font-weight: 800;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+#view-xingce .x-navgrid button.answered { background: rgba(52, 120, 246, 0.14); color: var(--x-blue); }
+#view-xingce .x-navgrid button.wrong { background: rgba(255, 59, 48, 0.14); color: var(--x-red); }
+#view-xingce .x-navgrid button.correct { background: rgba(52, 199, 89, 0.16); color: #248a3d; }
+#view-xingce .x-navgrid button.current { box-shadow: inset 0 0 0 2px var(--x-blue); }
+
+#view-xingce .x-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+#view-xingce .x-actions .x-btn { flex: 1 1 120px; }
+
+#view-xingce .x-score {
+  text-align: center;
+  padding: 12px 0 8px;
+}
+
+#view-xingce .x-score .v {
+  display: block;
+  font-size: 3rem;
+  font-weight: 900;
+  color: var(--x-blue);
+  font-variant-numeric: tabular-nums;
+}
+
+#view-xingce .x-score .l { color: var(--x-mut); font-size: 0.9rem; }
+
+#view-xingce .x-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+#view-xingce .x-stat {
+  background: var(--x-fill);
+  border-radius: 16px;
+  padding: 14px 8px;
+  text-align: center;
+}
+
+#view-xingce .x-stat b { display: block; font-size: 1.25rem; font-variant-numeric: tabular-nums; }
+#view-xingce .x-stat small { color: var(--x-mut); font-size: 0.78rem; }
+
+#view-xingce .x-fav {
+  border: 0;
+  background: var(--x-fill);
+  border-radius: 999px;
+  padding: 10px 14px;
+  font-weight: 800;
+  color: var(--x-mut);
+  cursor: pointer;
+  min-height: 42px;
+}
+
+#view-xingce .x-fav.on { background: rgba(255, 149, 0, 0.14); color: #c93400; }
+
+/* 平板横屏 */
+@media (min-width: 900px) {
+  #view-xingce { font-size: 18px; }
+  #view-xingce .x-stem { font-size: 1.28rem; }
+  #view-xingce .x-option { font-size: 1.1rem; min-height: 64px; }
+  #view-xingce .x-mode-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+/* 手机竖屏：加宽触控、避免挤小 */
+@media (max-width: 720px) {
+  #view-xingce { font-size: 18px; }
+  #view-xingce .x-layout { grid-template-columns: 1fr; }
+  #view-xingce .x-side { order: 2; }
+  #view-xingce .x-mode-grid { grid-template-columns: 1fr; }
+  #view-xingce .x-navgrid { grid-template-columns: repeat(6, minmax(0, 1fr)); max-height: 200px; }
+  #view-xingce .x-stem { font-size: 1.2rem; line-height: 1.75; }
+  #view-xingce .x-option { min-height: 60px; font-size: 1.08rem; padding: 18px 16px; }
+  #view-xingce .x-btn { min-height: 52px; font-size: 1.05rem; }
+  #view-xingce .x-exam-bar { flex-wrap: wrap; }
+}
+
+@media (min-width: 721px) and (max-width: 899px) {
+  #view-xingce .x-layout { grid-template-columns: minmax(0, 1fr) 200px; }
+}
