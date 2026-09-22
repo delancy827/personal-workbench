@@ -1,0 +1,108 @@
+{
+  "schema_version": 1,
+  "bank": {
+    "bank_id": "xingce-demo-20260919",
+    "name": "行测演示题库",
+    "version": "0.1",
+    "description": "仅用于验证界面与隔离；请通过「导入标准 JSON」换成正式行测题库。",
+    "language": "zh-CN"
+  },
+  "questions": [
+    {
+      "question_id": "x-demo-verbal-1",
+      "question_type": "single_choice",
+      "stem": "依次填入下列横线处的词语，最恰当的一组是（ ）。\n科研人员只有______观察，大胆假设，才能有所发现。",
+      "options": [
+        { "key": "A", "text": "谨慎  因循守旧" },
+        { "key": "B", "text": "细致  墨守成规" },
+        { "key": "C", "text": "缜密  固步自封" },
+        { "key": "D", "text": "周密  抱残守缺" }
+      ],
+      "answer_keys": ["D"],
+      "explanation": "“周密观察”搭配更自然，且后文强调“大胆假设”，与保守类成语形成对照。本题为演示题。",
+      "category_l1": "言语理解",
+      "category_l2": "逻辑填空",
+      "difficulty": "easy"
+    },
+    {
+      "question_id": "x-demo-judge-1",
+      "question_type": "single_choice",
+      "stem": "所有参加培训的员工都通过了考核。小王没有通过考核。由此可以推出（ ）。",
+      "options": [
+        { "key": "A", "text": "小王参加了培训" },
+        { "key": "B", "text": "小王没有参加培训" },
+        { "key": "C", "text": "有些员工没通过考核" },
+        { "key": "D", "text": "所有员工都通过了考核" }
+      ],
+      "answer_keys": ["B"],
+      "explanation": "“参加培训→通过考核”，否定后件可以否定前件，故小王未参加培训。",
+      "category_l1": "判断推理",
+      "category_l2": "翻译推理",
+      "difficulty": "medium"
+    },
+    {
+      "question_id": "x-demo-quant-1",
+      "question_type": "single_choice",
+      "stem": "一项工程，甲单独做 10 天完成，乙单独做 15 天完成。两人合作，需要几天完成？",
+      "options": [
+        { "key": "A", "text": "5" },
+        { "key": "B", "text": "6" },
+        { "key": "C", "text": "7.5" },
+        { "key": "D", "text": "8" }
+      ],
+      "answer_keys": ["B"],
+      "explanation": "设总量 30，甲效率 3，乙效率 2，合作效率 5，需 6 天。",
+      "category_l1": "数量关系",
+      "category_l2": "工程问题",
+      "difficulty": "easy"
+    },
+    {
+      "question_id": "x-demo-data-1",
+      "question_type": "single_choice",
+      "stem": "某企业 2025 年产值 200 万元，2026 年产值 250 万元。2026 年产值同比增长约（ ）。",
+      "options": [
+        { "key": "A", "text": "20%" },
+        { "key": "B", "text": "25%" },
+        { "key": "C", "text": "30%" },
+        { "key": "D", "text": "35%" }
+      ],
+      "answer_keys": ["B"],
+      "explanation": "增长量 50，基期 200，增长率 = 50/200 = 25%。",
+      "category_l1": "资料分析",
+      "category_l2": "增长率",
+      "difficulty": "easy"
+    },
+    {
+      "question_id": "x-demo-common-1",
+      "question_type": "single_choice",
+      "stem": "下列关于我国基本国情的说法，正确的是（ ）。",
+      "options": [
+        { "key": "A", "text": "我国是世界上最大的发展中国家" },
+        { "key": "B", "text": "我国已经实现全面现代化" },
+        { "key": "C", "text": "我国人均资源占有量远超世界平均水平" },
+        { "key": "D", "text": "我国城乡差距已经消失" }
+      ],
+      "answer_keys": ["A"],
+      "explanation": "我国仍处于并将长期处于社会主义初级阶段，是世界上最大的发展中国家。",
+      "category_l1": "常识",
+      "category_l2": "经济国情",
+      "difficulty": "easy"
+    },
+    {
+      "question_id": "x-demo-quant-2",
+      "question_type": "multiple_choice",
+      "stem": "下列问题中，可用“工程问题”思路求解的有（ ）。",
+      "options": [
+        { "key": "A", "text": "甲队单独修路 12 天，乙队单独修路 18 天，合作几天完成" },
+        { "key": "B", "text": "打印一份文件，甲打印机需 5 小时，乙需 8 小时" },
+        { "key": "C", "text": "从 A 城到 B 城，汽车需 4 小时，火车需 6 小时" },
+        { "key": "D", "text": "注满一水池，甲管 10 小时，乙管 15 小时" }
+      ],
+      "answer_keys": ["A", "B", "D"],
+      "explanation": "A、B、D 都是总量固定、效率可加的完工/注水问题；C 更接近行程问题表述。",
+      "category_l1": "数量关系",
+      "category_l2": "工程问题",
+      "difficulty": "medium"
+    }
+  ]
+}
