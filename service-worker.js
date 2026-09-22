@@ -1,4 +1,4 @@
-const CACHE_NAME = 'personal-workbench-v11';
+const CACHE_NAME = 'personal-workbench-v12';
 const APP_SHELL = [
   './',
   './index.html',
@@ -20,6 +20,13 @@ const APP_SHELL = [
   './quiz-ui.js',
   './quiz-stats.js',
   './quiz-exam.js',
+  './xingce.css',
+  './xingce-data.js',
+  './xingce-engine.js',
+  './xingce-import.js',
+  './xingce-ui.js',
+  './xingce-mixed.js',
+  './xingce-demo-bank.json',
   './icons/icon-180.png',
   './icons/icon-180.svg',
   './icons/icon-512.svg'
