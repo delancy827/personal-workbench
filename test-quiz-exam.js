@@ -31,7 +31,7 @@ const session = QuizExam.createExamSession(data, {
   count: 2, durationSeconds: 60, startedAt: '2026-09-19T10:00:00.000Z',
   randomValue: function () { return 0.5; }
 });
-assert(session.title === '综合练习 · 2026-09-19', '缺省名称自动生成');
+assert(session.title === '综合练习 · ' + new Date().toISOString().slice(0, 10), '缺省名称自动生成');
 assert(session.source === '个人题库' && session.year === 2026, '缺省来源和年份自动生成');
 assert(session.question_ids.length === 2, '考试题目数量正确');
 assert(Object.keys(session.question_versions).length === 2, '考试固定题目版本');
