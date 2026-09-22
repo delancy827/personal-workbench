@@ -9,6 +9,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="个人工作台">
 <link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="xingce.css">
 <link rel="apple-touch-icon" sizes="180x180" href="icons/icon-180.png">
 <link rel="icon" href="icons/icon-180.png">
 <title>个人工作台</title>
@@ -1248,6 +1249,133 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     <div class="card quiz-home-block"><div class="section-title" style="margin:0 0 4px">题库概览</div><div id="quizBankList"></div></div>
   </div>
 
+
+  <!-- 视图：三桶油行测（独立模块，数据键 xingce_quiz_data，不碰价值观题库） -->
+  <div class="view" id="view-xingce">
+    <div class="x-card">
+      <div class="x-title">📐 三桶油行测刷题</div>
+      <div class="x-sub">独立题库与做题数据 · 平板/电脑优先 · 界面按模拟考风格 · 与「刷题」（价值观/思想素质）完全隔离</div>
+    </div>
+
+    <div id="xScreen_home" class="x-card active">
+      <div id="xStatsLine"></div>
+      <div class="x-title" style="margin-top:8px">选择练习方式</div>
+      <div class="x-mode-grid">
+        <button type="button" class="x-mode" data-x-action="mode" data-mode="sequential"><b>顺序练习</b><small>按题库顺序刷题，边做边判分</small></button>
+        <button type="button" class="x-mode" data-x-action="mode" data-mode="random"><b>随机练习</b><small>随机抽题，适合巩固</small></button>
+        <button type="button" class="x-mode" data-x-action="mode" data-mode="wrong"><b>错题本</b><small>只练行测做错的题</small></button>
+        <button type="button" class="x-mode" data-x-action="mode" data-mode="favorite"><b>收藏练习</b><small>只练收藏题</small></button>
+        <button type="button" class="x-mode" data-x-action="mode" data-mode="exam"><b>模拟考试</b><small>科一/科四式：考试中不显答案，交卷结算</small></button>
+        <button type="button" class="x-mode" data-x-action="stats"><b>学习统计</b><small>行测正确率 / 板块表现</small></button>
+      </div>
+
+      <div class="x-title" style="margin-top:18px">专项 / 考点</div>
+      <div class="x-chip-row" id="xCatChips"></div>
+      <select class="x-select" id="xSkillSelect"></select>
+      <div class="x-actions">
+        <button type="button" class="x-btn primary" data-x-action="mode" data-mode="sequential">按当前考点开始</button>
+      </div>
+
+      <div class="x-title" style="margin-top:18px">题库</div>
+      <div id="xBankList"></div>
+      <div class="x-actions">
+        <button type="button" class="x-btn ghost" data-x-action="import">📥 导入行测题库 JSON</button>
+        <input type="file" id="xImportFile" accept=".json,application/json" style="display:none">
+      </div>
+      <div class="x-sub" id="xMixedNote" style="margin-top:12px"></div>
+    </div>
+
+    <div id="xScreen_stats" class="x-card">
+      <div class="x-title">学习统计</div>
+      <div id="xStatsDetail"></div>
+      <div class="x-actions">
+        <button type="button" class="x-btn ghost" data-x-action="home">返回</button>
+      </div>
+    </div>
+
+    <div id="xScreen_exam-setup" class="x-card">
+      <div class="x-title">模拟考试</div>
+      <div class="x-sub">考试过程中不显示答案，交卷后统一判分（科目一/四式）</div>
+      <div class="x-chip-row">
+        <label class="x-sub" style="width:100%">板块
+          <select class="x-select" id="xExamCat"></select>
+        </label>
+        <label class="x-sub" style="width:100%">题量
+          <select class="x-select" id="xExamCount"></select>
+        </label>
+        <label class="x-sub" style="width:100%">时长
+          <select class="x-select" id="xExamDur"></select>
+        </label>
+      </div>
+      <div class="x-actions">
+        <button type="button" class="x-btn ghost" data-x-action="home">取消</button>
+        <button type="button" class="x-btn primary" data-x-action="exam-start">开始考试</button>
+      </div>
+    </div>
+
+    <div id="xScreen_practice">
+      <div class="x-card">
+        <div class="x-exam-bar" style="position:static;box-shadow:none;background:transparent;padding:0">
+          <div class="x-progress-text" id="xPTitle"></div>
+          <div class="x-sub" id="xPMeta" style="margin:0"></div>
+          <button type="button" class="x-fav" id="xFavBtn" data-x-action="fav">☆ 收藏</button>
+        </div>
+        <div style="height:8px;background:var(--x-fill);border-radius:8px;overflow:hidden;margin-bottom:12px">
+          <div id="xPProgress" style="height:100%;width:0;background:linear-gradient(90deg,#5AC8FA,#3478F6);transition:width .25s"></div>
+        </div>
+        <div class="x-main">
+          <div class="x-stem" id="xPStem"></div>
+          <div class="x-options" id="xPOptions"></div>
+          <div class="x-result" id="xPResult" style="display:none"></div>
+          <div class="x-actions">
+            <button type="button" class="x-btn ghost" data-x-action="prev">上一题</button>
+            <button type="button" class="x-btn primary" id="xPSubmit" data-x-action="submit">提交答案</button>
+            <button type="button" class="x-btn success" id="xPNext" data-x-action="next" style="display:none">下一题</button>
+            <button type="button" class="x-btn danger" data-x-action="stop">结束练习</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="xScreen_exam">
+      <div class="x-card">
+        <div class="x-exam-bar">
+          <div class="x-progress-text" id="xExamProgressText">1 / 1</div>
+          <div class="x-sub" id="xExamMeta" style="margin:0"></div>
+          <div class="x-timer" id="xExamTimer">不限时</div>
+          <button type="button" class="x-fav" id="xExamMark" data-x-action="exam-mark">☆ 标记本题</button>
+          <button type="button" class="x-btn primary" data-x-action="exam-submit">交卷</button>
+        </div>
+        <div class="x-layout">
+          <div class="x-main">
+            <div class="x-stem" id="xExamStem"></div>
+            <div class="x-options" id="xExamOptions"></div>
+            <div class="x-actions">
+              <button type="button" class="x-btn ghost" data-x-action="exam-prev">上一题</button>
+              <button type="button" class="x-btn primary" data-x-action="exam-next">下一题</button>
+            </div>
+          </div>
+          <div class="x-side">
+            <div class="x-title" style="margin-top:0">题号导航</div>
+            <div class="x-navgrid" id="xExamGrid"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="xScreen_exam-result" class="x-card">
+      <div class="x-score">
+        <span class="v" id="xResultScore">0</span>
+        <span class="l">本次得分</span>
+      </div>
+      <div class="x-sub" id="xResultMeta"></div>
+      <div id="xResultGrid"></div>
+      <div class="x-actions">
+        <button type="button" class="x-btn primary" data-x-action="home">返回首页</button>
+      </div>
+    </div>
+  </div>
+
   <!-- 视图：课程进度 -->
   <div class="view" id="view-courses">
     <button class="btn grad" id="courseAddBtn" style="width:100%;margin-bottom:14px"><span class="label">＋ 新建课程</span></button>
@@ -1495,6 +1623,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
   <button class="drawer-item active" data-view="home"><span class="d-icon">📊</span>工作台</button>
   <button class="drawer-item" data-view="speed-match"><span class="d-icon">🧮</span>速算消消乐</button>
   <button class="drawer-item" data-view="quiz"><span class="d-icon">✍️</span>刷题</button>
+  <button class="drawer-item" data-view="xingce"><span class="d-icon">📐</span>三桶油行测</button>
   <button class="drawer-item" data-view="courses"><span class="d-icon">📚</span>课程进度</button>
   <button class="drawer-item" data-view="goals"><span class="d-icon">🎯</span>目标管理</button>
   <button class="drawer-item" data-view="review"><span class="d-icon">📈</span>总结复盘</button>
@@ -1634,6 +1763,11 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
 <script src="quiz-exam.js"></script>
 <script src="quiz-stats.js"></script>
 <script src="quiz-ui.js"></script>
+<script src="xingce-data.js"></script>
+<script src="xingce-engine.js"></script>
+<script src="xingce-import.js"></script>
+<script src="xingce-ui.js"></script>
+<script src="xingce-mixed.js"></script>
 <script>
 /* ============================================================
    个人工作台 前端 App（Kimi K3）
@@ -2835,11 +2969,12 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
   // ---------- 关于（已移至「设置」视图） ----------
 
   // ==================== v2.1 导航与视图切换 ====================
-  var VIEW_NAMES = { home: '工作台', 'speed-match': '速算消消乐', quiz: '个人刷题', courses: '课程进度', goals: '目标管理', review: '总结复盘', notes: '学习笔记', knowledge: '项目知识库', settings: '设置' };
+  var VIEW_NAMES = { home: '工作台', 'speed-match': '速算消消乐', quiz: '个人刷题', xingce: '三桶油行测', courses: '课程进度', goals: '目标管理', review: '总结复盘', notes: '学习笔记', knowledge: '项目知识库', settings: '设置' };
   var currentView = 'home';
   function switchView(name) {
     if (!VIEW_NAMES[name]) name = 'home';
     if (currentView === 'quiz' && name !== 'quiz' && window.QuizUI) QuizUI.onViewHidden();
+    if (currentView === 'xingce' && name !== 'xingce' && window.XingceUI) XingceUI.onViewHidden();
     currentView = name;
     document.body.classList.toggle('on-home', name === 'home');
     Array.from(document.querySelectorAll('.view')).forEach(function (v) { v.classList.remove('active'); });
@@ -2854,6 +2989,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
     window.scrollTo({ top: 0 });
     if (name === 'speed-match') { if (window.SpeedMatchGame) window.SpeedMatchGame.mount(); }
     else if (name === 'quiz') { if (window.QuizUI) { QuizUI.onViewShown(); QuizUI.render(); } }
+    else if (name === 'xingce') { if (window.XingceUI) { XingceUI.onViewShown(); XingceUI.render(); } }
     else if (name === 'courses') renderCourses();
     else if (name === 'goals') renderGoalsView();
     else if (name === 'review') renderReview();
@@ -3875,6 +4011,30 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
 
   }
 
+  if (window.XingceUI) {
+    XingceUI.configure({
+      root: document.getElementById('view-xingce'),
+      toast: toast,
+      confirmModal: confirmModal,
+      timerEnabled: function () { return true; }
+    });
+    // 首次进入自动载入演示题库，便于验证界面；正式题库请用「导入」
+    (function seedXingceDemoIfEmpty() {
+      try {
+        var d = XingceData.load();
+        if (XingceData.activeQuestions(d).length) return;
+        fetch('./xingce-demo-bank.json', { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (doc) {
+          if (!doc) return;
+          var cur = XingceData.load();
+          if (XingceData.activeQuestions(cur).length) return;
+          var analysis = XingceImport.analyze(doc, cur);
+          if (!analysis.valid) return;
+          XingceData.save(XingceImport.apply(doc, cur, analysis).data);
+          if (window.XingceUI) XingceUI.render();
+        }).catch(function () {});
+      } catch (e) {}
+    })();
+  }
   migrateLearningTimelineData();
   splitDailyGoalIntoTasks(true);
   renderAll();
