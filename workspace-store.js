@@ -38,20 +38,27 @@
   function isArray(value) { return Array.isArray(value); }
 
   function normalizeRecord(record, collection) {
-    var item = Object.assign({}, record || {});
-    if (SCOPED_COLLECTIONS.indexOf(collection) >= 0 && !item.workspace_id) item.workspace_id = LEGACY_HISTORY_WORKSPACE;
+    var item = record && typeof record === 'object' ? record : {};
+    var patch = null;
+    function setDefault(key, value, nullOnly) {
+      if (nullOnly ? item[key] == null : !item[key]) {
+        if (!patch) patch = Object.assign({}, item);
+        patch[key] = value;
+      }
+    }
+    if (SCOPED_COLLECTIONS.indexOf(collection) >= 0) setDefault('workspace_id', LEGACY_HISTORY_WORKSPACE);
     if (collection === 'focus_sessions') {
-      if (item.content == null) item.content = item.note || '';
-      if (!item.analysis_status) item.analysis_status = item.content ? 'pending' : 'not_started';
-      if (!item.visibility) item.visibility = 'private';
+      setDefault('content', item.note || '', true);
+      setDefault('analysis_status', (patch || item).content ? 'pending' : 'not_started');
+      setDefault('visibility', 'private');
     }
     if (collection === 'knowledge_items') {
-      if (!item.workspace_id) item.workspace_id = 'sinopec-2027';
-      if (!item.visibility) item.visibility = 'public';
-      if (!item.status) item.status = 'active';
-      if (!item.version) item.version = 1;
+      setDefault('workspace_id', 'sinopec-2027');
+      setDefault('visibility', 'public');
+      setDefault('status', 'active');
+      setDefault('version', 1);
     }
-    return item;
+    return patch || item;
   }
 
   function normalize(raw) {
@@ -62,8 +69,12 @@
 
     ALL_COLLECTIONS.forEach(function (key) {
       if (!isArray(data[key])) { data[key] = []; changed = true; }
-      var normalized = data[key].map(function (record) { return normalizeRecord(record, key); });
-      if (JSON.stringify(normalized) !== JSON.stringify(data[key])) changed = true;
+      var records = data[key];
+      var normalized = records.map(function (record) {
+        var item = normalizeRecord(record, key);
+        if (item !== record) changed = true;
+        return item;
+      });
       data[key] = normalized;
     });
 
@@ -123,6 +134,10 @@
 
   function activeWorkspaceId() {
     var data = loadFull();
+    return workspaceIdForData(data);
+  }
+
+  function workspaceIdForData(data) {
     var requested = localStorage.getItem(ACTIVE_KEY) || 'personal';
     if (data.workspaces.some(function (item) { return item.client_id === requested; })) return requested;
     localStorage.setItem(ACTIVE_KEY, 'personal');
@@ -130,12 +145,13 @@
   }
 
   function getActiveWorkspace() {
-    var id = activeWorkspaceId();
-    return loadFull().workspaces.find(function (item) { return item.client_id === id; });
+    var data = loadFull();
+    var id = workspaceIdForData(data);
+    return data.workspaces.find(function (item) { return item.client_id === id; });
   }
 
   function scopedData(data, workspaceId) {
-    var result = clone(data);
+    var result = Object.assign({}, data);
     SCOPED_COLLECTIONS.forEach(function (key) {
       result[key] = (data[key] || []).filter(function (item) { return item.workspace_id === workspaceId; });
     });
@@ -146,12 +162,12 @@
 
   function loadScoped() {
     var full = loadFull();
-    return scopedData(full, activeWorkspaceId());
+    return scopedData(full, workspaceIdForData(full));
   }
 
   function saveScoped(scoped) {
     var full = loadFull();
-    var workspaceId = activeWorkspaceId();
+    var workspaceId = workspaceIdForData(full);
     SCOPED_COLLECTIONS.concat(['knowledge_items']).forEach(function (key) {
       var incoming = isArray(scoped[key]) ? scoped[key].map(function (item) {
         return normalizeRecord(Object.assign({}, item, { workspace_id: item.workspace_id || workspaceId }), key);
