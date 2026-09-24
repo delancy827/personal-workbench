@@ -162,7 +162,9 @@
     var st = XingceData.findState(d, q.question_id);
     var total = state.session.question_ids.length;
     $('xPTitle').textContent = (state.mode === 'wrong' ? '错题练习' : state.mode === 'favorite' ? '收藏练习' : state.mode === 'random' ? '随机练习' : state.mode === 'exam' ? '模拟考试' : '专项练习') + ' · 第 ' + (state.index + 1) + '/' + total + ' 题';
-    $('xPMeta').textContent = q.category_l1 + (q.category_l2 ? ' · ' + q.category_l2 : '') + ' · ' + (q.question_type === 'multiple_choice' ? '多选' : '单选');
+    var practiceTypeLabel = q.question_type === 'multiple_choice' ? '多选题' : '单选题';
+    $('xPMeta').textContent = q.category_l1 + (q.category_l2 ? ' · ' + q.category_l2 : '') + ' · ' + practiceTypeLabel;
+    $('xPType').textContent = practiceTypeLabel;
     $('xPStem').textContent = q.stem;
     var type = q.question_type === 'multiple_choice' ? 'checkbox' : 'radio';
     $('xPOptions').innerHTML = q.options.map(function (o) {
@@ -399,8 +401,10 @@
     if (!q) return;
     var selected = state.exam.answers[id] || [];
     $('xExamProgressText').textContent = (state.exam.index + 1) + ' / ' + state.exam.question_ids.length;
+    var examTypeLabel = q.question_type === 'multiple_choice' ? '多选题' : '单选题';
+    $('xExamType').textContent = examTypeLabel;
     $('xExamStem').textContent = q.stem;
-    $('xExamMeta').textContent = (q.question_type === 'multiple_choice' ? '多选题' : '单选题') + ' · ' + (q.category_l1 || '');
+    $('xExamMeta').textContent = examTypeLabel + ' · ' + (q.category_l1 || '');
     $('xExamOptions').innerHTML = q.options.map(function (o) {
       var on = selected.indexOf(o.key) !== -1;
       return '<button type="button" class="x-option' + (on ? ' selected' : '') + '" data-x-action="exam-opt" data-k="' + esc(o.key) + '"><span class="k">' + esc(o.key) + '</span><span>' + esc(o.text) + '</span></button>';

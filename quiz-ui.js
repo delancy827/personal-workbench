@@ -93,7 +93,9 @@
     var selected = answer ? answer.selected_keys : [];
     $('quizExamLiveTitle').textContent = session.title;
     $('quizExamLiveMeta').textContent = (state.examIndex + 1) + ' / ' + session.total_count + ' 题 · ' + (session.source || '个人题库');
-    $('quizExamQuestionMeta').textContent = (current.question.question_type === 'multiple_choice' ? '多选题' : '单选题') + ' · ' + (current.question.category_l1 || '未分类');
+    var examTypeLabel = current.question.question_type === 'multiple_choice' ? '多选题' : '单选题';
+    $('quizExamQuestionMeta').textContent = examTypeLabel + ' · ' + (current.question.category_l1 || '未分类');
+    $('quizExamQuestionType').textContent = examTypeLabel;
     $('quizExamStem').textContent = current.version.stem;
     $('quizExamOptions').innerHTML = current.version.options.map(function (option) {
       var checked = selected.indexOf(option.key) !== -1;
@@ -303,7 +305,9 @@
     var stateRecord = QuizData.findState(data, question.question_id);
     $('quizPractice').style.display = state.screen === 'exam' || state.screen === 'exam-result' ? 'none' : '';
     $('quizPracticeTitle').textContent = '第 ' + (state.index + 1) + ' / ' + session.question_ids.length + ' 题';
-    $('quizPracticeMeta').textContent = (question.question_type === 'multiple_choice' ? '多选题' : '单选题') + ' · ' + esc(question.category_l1 || '未分类');
+    var practiceTypeLabel = question.question_type === 'multiple_choice' ? '多选题' : '单选题';
+    $('quizPracticeMeta').textContent = practiceTypeLabel + ' · ' + esc(question.category_l1 || '未分类');
+    $('quizQuestionType').textContent = practiceTypeLabel;
     $('quizQuestionStem').textContent = version.stem;
     $('quizFavoriteBtn').textContent = stateRecord && stateRecord.favorite ? '★ 已收藏' : '☆ 收藏';
     $('quizFavoriteBtn').className = 'quiz-favorite-btn' + (stateRecord && stateRecord.favorite ? ' active' : '');

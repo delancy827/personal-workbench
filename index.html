@@ -760,6 +760,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
 .quiz-favorite-btn.active { background:rgba(255,149,0,.14); color:#C93400; }
 .quiz-progress { height:6px; border-radius:4px; background:var(--fill-2); overflow:hidden; margin-bottom:18px; }
 .quiz-progress > div { height:100%; width:0; border-radius:4px; background:linear-gradient(90deg,#5AC8FA,#3478F6,#AF52DE); transition:width .3s ease; }
+.question-type-badge { display:inline-flex; align-items:center; border:1px solid currentColor; border-radius:6px; padding:3px 7px; color:var(--blue); font-size:.72rem; line-height:1.2; font-weight:800; white-space:nowrap; margin-bottom:8px; }
 .quiz-stem { font-size:1.08rem; line-height:1.6; font-weight:750; white-space:pre-wrap; margin-bottom:16px; }
 .quiz-options { display:flex; flex-direction:column; gap:9px; }
 .quiz-option { display:flex; align-items:flex-start; gap:10px; background:var(--fill-2); border:2px solid transparent; border-radius:15px; padding:13px 14px; cursor:pointer; }
@@ -1197,6 +1198,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
         </div>
         <div class="quiz-progress"><div id="quizExamProgress"></div></div>
         <div class="quiz-practice-meta" id="quizExamQuestionMeta"></div>
+        <div class="question-type-badge" id="quizExamQuestionType"></div>
         <div class="quiz-exam-stem" id="quizExamStem"></div>
         <div class="quiz-exam-options" id="quizExamOptions"></div>
         <div class="quiz-exam-nav">
@@ -1235,6 +1237,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
         <button class="quiz-favorite-btn" id="quizFavoriteBtn" data-quiz-action="favorite">☆ 收藏</button>
       </div>
       <div class="quiz-progress"><div id="quizProgress"></div></div>
+      <div class="question-type-badge" id="quizQuestionType"></div>
       <div class="quiz-stem" id="quizQuestionStem"></div>
       <div class="quiz-options" id="quizOptions"></div>
       <div class="quiz-result" id="quizResult" style="display:none"></div>
@@ -1324,6 +1327,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
           <div id="xPProgress" style="height:100%;width:0;background:linear-gradient(90deg,#5AC8FA,#3478F6);transition:width .25s"></div>
         </div>
         <div class="x-main">
+          <div class="question-type-badge" id="xPType"></div>
           <div class="x-stem" id="xPStem"></div>
           <div class="x-options" id="xPOptions"></div>
           <div class="x-result" id="xPResult" style="display:none"></div>
@@ -1348,6 +1352,7 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
         </div>
         <div class="x-layout">
           <div class="x-main">
+            <div class="question-type-badge" id="xExamType"></div>
             <div class="x-stem" id="xExamStem"></div>
             <div class="x-options" id="xExamOptions"></div>
             <div class="x-actions">
