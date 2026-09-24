@@ -35,6 +35,27 @@
     return result;
   }
 
+  function prioritizeRandom(list, data, random, now) {
+    random = random || Math.random;
+    now = now || Date.now();
+    return list.map(function (question) {
+      var state = QuizData.findState(data, question.question_id);
+      var attempts = state && Number(state.attempt_count) || 0;
+      var parsedLastAttempt = state && state.last_attempt_at ? new Date(state.last_attempt_at).getTime() : 0;
+      var lastAttempt = Number.isFinite(parsedLastAttempt) ? parsedLastAttempt : 0;
+      return {
+        question: question,
+        attempts: attempts,
+        lastAttempt: lastAttempt,
+        tie: random()
+      };
+    }).sort(function (a, b) {
+      if (a.attempts !== b.attempts) return a.attempts - b.attempts;
+      if (a.lastAttempt !== b.lastAttempt) return a.lastAttempt - b.lastAttempt;
+      return a.tie - b.tie;
+    }).map(function (item) { return item.question; });
+  }
+
   function selectQuestions(data, options) {
     data = QuizData.ensure(data);
     options = options || {};
@@ -49,7 +70,7 @@
       if (options.favoriteOnly && (!state || !state.favorite)) return false;
       return true;
     });
-    if (options.mode === 'random') list = shuffle(list, options.random);
+    if (options.mode === 'random') list = prioritizeRandom(list, data, options.random, options.now);
     else list.sort(function (a, b) { return String(a.question_id).localeCompare(String(b.question_id)); });
     if (options.limit && options.limit > 0) list = list.slice(0, options.limit);
     return list;
