@@ -54,6 +54,87 @@
     return result;
   }
 
+  function text(value) {
+    return typeof value === 'string' ? value.trim() : value == null ? '' : String(value).trim();
+  }
+
+  function normalizeOptions(value) {
+    if (Array.isArray(value)) {
+      return value.map(function (option, index) {
+        option = option && typeof option === 'object' ? option : {};
+        return {
+          key: text(option.key || option.label || String.fromCharCode(65 + index)).toUpperCase(),
+          text: text(option.text || option.value || option.label)
+        };
+      }).filter(function (option) { return option.key && option.text; });
+    }
+    if (!value || typeof value !== 'object') return [];
+    return Object.keys(value).sort().map(function (key) {
+      var option = value[key];
+      return { key: text(key).toUpperCase(), text: text(option && typeof option === 'object' ? option.text || option.value : option) };
+    }).filter(function (option) { return option.key && option.text; });
+  }
+
+  function normalizeAnswer(value) {
+    if (Array.isArray(value)) return value.map(function (key) { return text(key).toUpperCase(); }).filter(Boolean);
+    return text(value).split(/[,，\s、;；/|]+/).map(function (key) { return key.toUpperCase(); }).filter(Boolean);
+  }
+
+  function firstNonEmptyAnswer(values) {
+    for (var i = 0; i < values.length; i += 1) {
+      var result = normalizeAnswer(values[i]);
+      if (result.length) return result;
+    }
+    return [];
+  }
+
+  function repairLegacyContent(data) {
+    data = ensure(data);
+    var changed = false;
+    data.quiz_questions.forEach(function (question) {
+      if (!question || question.is_deleted) return;
+      var version = findVersion(data, question.question_id, question.current_version);
+      var source = version || question;
+      var stem = text(source.stem || source.question || question.stem || question.question);
+      var options = normalizeOptions(source.options && normalizeOptions(source.options).length ? source.options : question.options);
+      var correctKeys = firstNonEmptyAnswer([
+        source.correct_keys, source.answer_keys, source.answer,
+        question.correct_keys, question.answer
+      ]);
+      if (!version && stem && options.length >= 2) {
+        version = {
+          client_id: newId('qversion'),
+          question_id: question.question_id,
+          version: text(question.current_version) || '1.0',
+          stem: stem,
+          options: options,
+          correct_keys: correctKeys,
+          explanation: text(source.explanation || source.analysis || question.explanation || question.analysis) || null,
+          source_snapshot: {},
+          content_fingerprint: '',
+          created_at: nowIso(),
+          created_by: 'legacy-repair',
+          is_current: true,
+          is_deleted: false,
+          updated_at: nowIso()
+        };
+        question.current_version = version.version;
+        data.quiz_question_versions.push(version);
+        changed = true;
+        return;
+      }
+      if (!version) return;
+      if (!text(version.stem) && stem) { version.stem = stem; changed = true; }
+      if ((!Array.isArray(version.options) || !version.options.length) && options.length) { version.options = options; changed = true; }
+      if ((!Array.isArray(version.correct_keys) || !version.correct_keys.length) && correctKeys.length) { version.correct_keys = correctKeys; changed = true; }
+      if (!version.explanation && (source.explanation || source.analysis || question.explanation || question.analysis)) {
+        version.explanation = text(source.explanation || source.analysis || question.explanation || question.analysis) || null;
+        changed = true;
+      }
+    });
+    return changed;
+  }
+
   function load(storage) {
     storage = storage || (typeof localStorage !== 'undefined' ? localStorage : null);
     if (!storage) return ensure({});
@@ -130,6 +211,7 @@
     nowIso: nowIso,
     emptyData: emptyData,
     ensure: ensure,
+    repairLegacyContent: repairLegacyContent,
     load: load,
     save: save,
     clone: clone,
