@@ -1,0 +1,4011 @@
+{
+  "schema_version": 1,
+  "exported_at": "2026-09-25T04:31:21.735Z",
+  "bank": {
+    "bank_id": "sinopec-muqti-20260919",
+    "name": "2026中石化母题（企业文化45+时政46）",
+    "version": "2026.09.19",
+    "description": "2026 中石化考前母题：企业文化 45 + 时政 46，共 91 题。答案按题号配对核验，未改写原答案。",
+    "source": "E:\\workbuddyworkspace\\mmsh\\题库清洗\\output\\新清洗_20260919",
+    "language": "zh-CN"
+  },
+  "questions": [
+    {
+      "question_id": "muqti-muqyw_3cecbe519373",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "中国石化的企业精神是：",
+      "options": [
+        {
+          "key": "A",
+          "text": "爱我石化、振兴中华"
+        },
+        {
+          "key": "B",
+          "text": "爱我中华、振兴石化"
+        },
+        {
+          "key": "C",
+          "text": "爱我石化、振兴石化"
+        },
+        {
+          "key": "D",
+          "text": "我为祖国献石油"
+        }
+      ],
+      "correct_keys": [
+        "B"
+      ],
+      "explanation": "中国石化的企业精神是\"爱我中华、振兴石化\"，体现了企业的家国情怀和行业担当， B 选项正确。",
+      "category_l1": "中国石化企业知识",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "中国石化企业知识",
+        "单选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化企业文化考前45道母题",
+      "source_year": 2026,
+      "source_question_number": "1",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqyw_0617880b68fb",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "中国石化积极布局( )等清洁能源发展，推广使用生物航煤、生物柴油等生物质能源，加快构建便利高效、 适度超前的充换电网络，进一步加大清洁能源和可再生能源的供应比例，实现\"油气氢电服\"协同发展新格 局，努力为人民提供更多优质生态产品",
+      "options": [
+        {
+          "key": "A",
+          "text": "地热、氢能、光伏、风电"
+        },
+        {
+          "key": "B",
+          "text": "页岩气、煤层气、氢能、光伏、风电"
+        },
+        {
+          "key": "C",
+          "text": "页岩气、煤层气、地热、氢能、光伏、风电"
+        },
+        {
+          "key": "D",
+          "text": "页岩气、煤层气、氢能、风电"
+        }
+      ],
+      "correct_keys": [
+        "C"
+      ],
+      "explanation": "中国石化在清洁能源布局上涵盖页岩气、煤层气、地热、氢能、光伏、风电等领域， A 选项缺少页岩气、煤层气，B 选项缺少地热，D 选项缺少地热、光伏，均不全面，因此选C。",
+      "category_l1": "中国石化企业知识",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "中国石化企业知识",
+        "单选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化企业文化考前45道母题",
+      "source_year": 2026,
+      "source_question_number": "2",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqyw_334c715b16a4",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "中国石化企业使命:",
+      "options": [
+        {
+          "key": "A",
+          "text": "为美好生活炼油"
+        },
+        {
+          "key": "B",
+          "text": "创新、协调、绿色、开放、共享"
+        },
+        {
+          "key": "C",
+          "text": "为美好生活加油"
+        },
+        {
+          "key": "D",
+          "text": "我为祖国献石油"
+        }
+      ],
+      "correct_keys": [
+        "C"
+      ],
+      "explanation": "\"为美好生活加油\"是中国石化明确的企业使命，\"为美好生活炼油\"表述不准确，\" 创新、协调、绿色、开放、共享\"是新发展理念，\"我为祖国献石油\"并非中国石化的企业使命， 因此选 C。",
+      "category_l1": "中国石化企业知识",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "中国石化企业知识",
+        "单选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化企业文化考前45道母题",
+      "source_year": 2026,
+      "source_question_number": "3",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqyw_e8610cc5bf4b",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "中国石化贯彻( )方针。提升产业链供应链现代化水平，坚持自主可控、安全高效，分行 业做好供应链战略设计和精准施策，推动全产业链优化升级",
+      "options": [
+        {
+          "key": "A",
+          "text": "尊重知识、尊重人才、尊重创造"
+        },
+        {
+          "key": "B",
+          "text": "尊重知识、尊重人才、尊重创造"
+        },
+        {
+          "key": "C",
+          "text": "尊重劳动、尊重知识、尊重人才"
+        },
+        {
+          "key": "D",
+          "text": "尊重劳动、尊重知识、尊重人才、尊重创造"
+        }
+      ],
+      "correct_keys": [
+        "D"
+      ],
+      "explanation": "中国石化贯彻\"尊重劳动、尊重知识、尊重人才、尊重创造\"的方针，A、B、C 选项 均缺少\"尊重创造\"或部分内容，表述不完整，无法全面体现该方针内涵，因此选 D。",
+      "category_l1": "中国石化企业知识",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "中国石化企业知识",
+        "单选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化企业文化考前45道母题",
+      "source_year": 2026,
+      "source_question_number": "4",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqyw_9a80eb6a80ea",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "( )，按照党中央关于实施石油石化行业战略性重组的部署，在原中国石油化工总公司基 础上重组成立中国石油化工集团公司",
+      "options": [
+        {
+          "key": "A",
+          "text": "1998 年 7 月"
+        },
+        {
+          "key": "B",
+          "text": "1988 年 7 月"
+        },
+        {
+          "key": "C",
+          "text": "1989 年 7 月"
+        },
+        {
+          "key": "D",
+          "text": "1997 年 7 月"
+        }
+      ],
+      "correct_keys": [
+        "A"
+      ],
+      "explanation": "1998 年 7 月，中国石油化工集团公司在原中国石油化工总公司基础上重组成立，因 此选 A。",
+      "category_l1": "中国石化企业知识",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "中国石化企业知识",
+        "单选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化企业文化考前45道母题",
+      "source_year": 2026,
+      "source_question_number": "5",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqyw_9b8f9de23ffc",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "中国石化企业愿景：",
+      "options": [
+        {
+          "key": "A",
+          "text": "为美好生活炼油"
+        },
+        {
+          "key": "B",
+          "text": "创新、协调、绿色、开放、共享"
+        },
+        {
+          "key": "C",
+          "text": "打造世界领先洁净能源化工公司"
+        },
+        {
+          "key": "D",
+          "text": "我为祖国献石油"
+        }
+      ],
+      "correct_keys": [
+        "C"
+      ],
+      "explanation": "中国石化的企业愿景是打造世界领先洁净能源化工公司，A 选项表述不准确，B是发 展理念，D 是石油行业的经典表述，故 C 正确。",
+      "category_l1": "中国石化企业知识",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "中国石化企业知识",
+        "单选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化企业文化考前45道母题",
+      "source_year": 2026,
+      "source_question_number": "6",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqyw_4f347876210c",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "中国石化坚持以( )为中心，创新产品与服务，提高产品质量与服务价值，构建自有产品 和服务品牌体系，不断满足客户的需求和期盼，与客户共创美好生活",
+      "options": [
+        {
+          "key": "A",
+          "text": "国家"
+        },
+        {
+          "key": "B",
+          "text": "员工"
+        },
+        {
+          "key": "C",
+          "text": "客户"
+        },
+        {
+          "key": "D",
+          "text": "产品"
+        }
+      ],
+      "correct_keys": [
+        "C"
+      ],
+      "explanation": "中国石化坚持以客户为中心，通过创新产品与服务等举措满足客户需求，以国家、 员工、产品为中心均不符合其经营理念中对核心服务对象的定位，因此选 C。",
+      "category_l1": "中国石化企业知识",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "中国石化企业知识",
+        "单选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化企业文化考前45道母题",
+      "source_year": 2026,
+      "source_question_number": "7",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqyw_561d93db28ec",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "中国石化的A 股代码是",
+      "options": [
+        {
+          "key": "A",
+          "text": "600025"
+        },
+        {
+          "key": "B",
+          "text": "600026"
+        },
+        {
+          "key": "C",
+          "text": "600028"
+        },
+        {
+          "key": "D",
+          "text": "600027"
+        }
+      ],
+      "correct_keys": [
+        "C"
+      ],
+      "explanation": "中国石化的 A 股代码为 600028，600025 是华能水电 A 股代码，600026 是中远海能 A 股代码，600027 是华电国际 A 股代码，因此选 C。",
+      "category_l1": "中国石化企业知识",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "中国石化企业知识",
+        "单选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化企业文化考前45道母题",
+      "source_year": 2026,
+      "source_question_number": "8",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqyw_90e70eb9814f",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "中国石化报国为民，造福人类。继承弘扬\"爱我中华、振兴石化\"的企业精神，切实履行好 国有企业的经济、政治和社会责任。同步贡献业务所在国(地区)，履行好相关的经济、法律 和社会责任。全体员工坚守 \"( )\"，为企业发展拼搏奉献",
+      "options": [
+        {
+          "key": "A",
+          "text": "有岗必有责，上岗必担责"
+        },
+        {
+          "key": "B",
+          "text": "严"
+        },
+        {
+          "key": "C",
+          "text": "严、细、实"
+        },
+        {
+          "key": "D",
+          "text": "实"
+        }
+      ],
+      "correct_keys": [
+        "A"
+      ],
+      "explanation": "中国石化要求全体员工坚守\"有岗必有责，上岗必担责\"，以高度的责任意识为企业 发展拼搏奉献，\"严\"\"实\"\"严、细、实\"均不符合该语境下对员工坚守准则的表述，因此选A。",
+      "category_l1": "中国石化企业知识",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "中国石化企业知识",
+        "单选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化企业文化考前45道母题",
+      "source_year": 2026,
+      "source_question_number": "9",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqyw_841ab8d1ba00",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "中国石化核心价值观：",
+      "options": [
+        {
+          "key": "A",
+          "text": "责任、诚信、精细、创新、共赢"
+        },
+        {
+          "key": "B",
+          "text": "精细、创新、共赢"
+        },
+        {
+          "key": "C",
+          "text": "人本、责任、诚信、精细、创新、共赢"
+        },
+        {
+          "key": "D",
+          "text": "人本、责任、诚信"
+        }
+      ],
+      "correct_keys": [
+        "C"
+      ],
+      "explanation": "中国石化核心价值观为\"人本、责任、诚信、精细、创新、共赢\"，涵盖了多方面的 价值追求，C 选项完整包含，故正确。",
+      "category_l1": "中国石化企业知识",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "中国石化企业知识",
+        "单选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化企业文化考前45道母题",
+      "source_year": 2026,
+      "source_question_number": "10",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqyw_64d9a9fa0f24",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "( )，中国石化经公司制改制为中国石油化工集团有限公司",
+      "options": [
+        {
+          "key": "A",
+          "text": "2018 年 8 月"
+        },
+        {
+          "key": "B",
+          "text": "2008 年 8 月"
+        },
+        {
+          "key": "C",
+          "text": "2018 年 7 月"
+        },
+        {
+          "key": "D",
+          "text": "2008 年 7 月"
+        }
+      ],
+      "correct_keys": [
+        "A"
+      ],
+      "explanation": "2018 年 8 月，中国石化完成公司制改制，成为中国石油化工集团有限公司，因此选 A。",
+      "category_l1": "中国石化企业知识",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "中国石化企业知识",
+        "单选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化企业文化考前45道母题",
+      "source_year": 2026,
+      "source_question_number": "11",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqyw_b8ead7b6e4f3",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "中国石化是国务院国资委直属的( )",
+      "options": [
+        {
+          "key": "A",
+          "text": "正厅级中央企业"
+        },
+        {
+          "key": "B",
+          "text": "副厅级中央企业"
+        },
+        {
+          "key": "C",
+          "text": "副部级中央企业"
+        },
+        {
+          "key": "D",
+          "text": "正部级中央企业"
+        }
+      ],
+      "correct_keys": [
+        "D"
+      ],
+      "explanation": "中国石化是正部级中央企业，属于国务院国资委直接管理的大型央企，因此选 D。",
+      "category_l1": "中国石化企业知识",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "中国石化企业知识",
+        "单选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化企业文化考前45道母题",
+      "source_year": 2026,
+      "source_question_number": "12",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqyw_8415b7f6bbc1",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "中国石化重信守诺，合规经营。把信用立企作为企业的发展之基，依法经营，规范运作， 做到\"( )\"，为企业树立良好品牌形象",
+      "options": [
+        {
+          "key": "A",
+          "text": "每一滴油都是好的"
+        },
+        {
+          "key": "B",
+          "text": "严"
+        },
+        {
+          "key": "C",
+          "text": "严、细、实"
+        },
+        {
+          "key": "D",
+          "text": "每一滴油都是承诺"
+        }
+      ],
+      "correct_keys": [
+        "D"
+      ],
+      "explanation": "中国石化以\"每一滴油都是承诺\"体现重信守诺的经营理念，\"每一滴油都是好的\"侧 重产品质量表述，\"严\"\"严、细、实\"是企业作风，不符合该语境，因此选 D。",
+      "category_l1": "中国石化企业知识",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "中国石化企业知识",
+        "单选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化企业文化考前45道母题",
+      "source_year": 2026,
+      "source_question_number": "13",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqyw_3640b4b90c11",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "中国石化公司控股的中国石油化工股份有限公司先后在境外、境内发行 H股和 A 股，并 分别在( )上市",
+      "options": [
+        {
+          "key": "A",
+          "text": "纽约、伦敦和上海"
+        },
+        {
+          "key": "B",
+          "text": "伦敦和上海"
+        },
+        {
+          "key": "C",
+          "text": "香港、纽约、伦敦和上海"
+        },
+        {
+          "key": "D",
+          "text": "香港、纽约、伦敦"
+        }
+      ],
+      "correct_keys": [
+        "C"
+      ],
+      "explanation": "中国石油化工股份有限公司的 H 股在香港、纽约、伦敦上市，A 股在上海上市，因 此选 C。",
+      "category_l1": "中国石化企业知识",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "中国石化企业知识",
+        "单选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化企业文化考前45道母题",
+      "source_year": 2026,
+      "source_question_number": "14",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqyw_5ad5124f4da0",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "中国石化为扎实培育和践行社会主义核心价值观，有效落实中央\"( )\"的发展理念",
+      "options": [
+        {
+          "key": "A",
+          "text": "创新、绿色、开放、共享"
+        },
+        {
+          "key": "B",
+          "text": "创新、协调、绿色、开放、共享"
+        },
+        {
+          "key": "C",
+          "text": "协调、绿色、开放、共享"
+        },
+        {
+          "key": "D",
+          "text": "创新、协调、绿色、开放"
+        }
+      ],
+      "correct_keys": [
+        "B"
+      ],
+      "explanation": "中央提出的新发展理念是\"创新、协调、绿色、开放、共享\"，B 选项完整包含，故 正确。",
+      "category_l1": "中国石化企业知识",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "中国石化企业知识",
+        "单选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化企业文化考前45道母题",
+      "source_year": 2026,
+      "source_question_number": "15",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqyw_1b918f48a8ee",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "目前，中国石化是中国最大的成品油和石化产品供应商、第二大油气生产商，是( )，加 油站总数位居世界第二",
+      "options": [
+        {
+          "key": "A",
+          "text": "世界第二大炼油公司、第二大化工公司"
+        },
+        {
+          "key": "B",
+          "text": "世界第一大炼油公司、第二大化工公司"
+        },
+        {
+          "key": "C",
+          "text": "世界第一大炼油公司、第一大化工公司"
+        },
+        {
+          "key": "D",
+          "text": "世界第二大炼油公司、第二大化工公司"
+        }
+      ],
+      "correct_keys": [
+        "B"
+      ],
+      "explanation": "当前中国石化是世界第一大炼油公司、第二大化工公司，A、D 选项中\"世界第二大 炼油公司\"表述错误，C 选项中\"世界第一大化工公司\"不符合实际情况，因此选 B。",
+      "category_l1": "中国石化企业知识",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "中国石化企业知识",
+        "单选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化企业文化考前45道母题",
+      "source_year": 2026,
+      "source_question_number": "16",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqyw_cc91bbe55faf",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "中国石化企业作风:",
+      "options": [
+        {
+          "key": "A",
+          "text": "细"
+        },
+        {
+          "key": "B",
+          "text": "严"
+        },
+        {
+          "key": "C",
+          "text": "严、细、实"
+        },
+        {
+          "key": "D",
+          "text": "实"
+        }
+      ],
+      "correct_keys": [
+        "C"
+      ],
+      "explanation": "\"严、细、实\"是中国石化的企业作风，单独的\"严\"\"细\"\"实\"均不能完整概括其企业 作风，因此选C。",
+      "category_l1": "中国石化企业知识",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "中国石化企业知识",
+        "单选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化企业文化考前45道母题",
+      "source_year": 2026,
+      "source_question_number": "17",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqyw_d805e94b423b",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "中国石油化工集团有限公司（以下简称公司）的前身是成立于( )的中国石油化工总公司",
+      "options": [
+        {
+          "key": "A",
+          "text": "1983 年 7 月"
+        },
+        {
+          "key": "B",
+          "text": "1984 年 7 月"
+        },
+        {
+          "key": "C",
+          "text": "1985 年 7 月"
+        },
+        {
+          "key": "D",
+          "text": "1986 年 7 月"
+        }
+      ],
+      "correct_keys": [
+        "A"
+      ],
+      "explanation": "中国石油化工总公司成立于 1983 年 7 月，是中国石化的前身，因此选 A。",
+      "category_l1": "中国石化企业知识",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "中国石化企业知识",
+        "单选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化企业文化考前45道母题",
+      "source_year": 2026,
+      "source_question_number": "18",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqyw_ecf861179912",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "中国石化以经济社会发展全面绿色转型为引领，以( )为关键，加快形成节约资源和保护 环境的产业结构、生产方式、生活方式、空间格局，坚定不移走生态优先、绿色低碳的高质 量发展道路，确保如期实现碳达峰、碳中和",
+      "options": [
+        {
+          "key": "A",
+          "text": "石油天然气绿色低碳发展"
+        },
+        {
+          "key": "B",
+          "text": "新能源绿色低碳发展"
+        },
+        {
+          "key": "C",
+          "text": "能源绿色低碳发展"
+        },
+        {
+          "key": "D",
+          "text": "石油绿色低碳发展"
+        }
+      ],
+      "correct_keys": [
+        "C"
+      ],
+      "explanation": "能源绿色低碳发展是中国石化绿色转型的关键，涵盖了石油天然气、新能源等多方 面能源领域的绿色发展，C 选项更全面，故正确。",
+      "category_l1": "中国石化企业知识",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "中国石化企业知识",
+        "单选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化企业文化考前45道母题",
+      "source_year": 2026,
+      "source_question_number": "19",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqyw_76b8ea034e26",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "中国石化的新国际化经营战略是",
+      "options": [
+        {
+          "key": "A",
+          "text": "资源驱动、市场导向、协同发展、能力匹配"
+        },
+        {
+          "key": "B",
+          "text": "战略引领、价值创造、资源驱动、市场导向"
+        },
+        {
+          "key": "C",
+          "text": "战略引领、价值创造、资源驱动、市场导向、协同发展、能力匹配"
+        },
+        {
+          "key": "D",
+          "text": "价值创造、资源驱动、市场导向、协同发展、能力匹配"
+        }
+      ],
+      "correct_keys": [
+        "C"
+      ],
+      "explanation": "中国石化新国际化经营战略是\"战略引领、价值创造、资源驱动、市场导向、协同发 展、能力匹配\"，C 选项完整涵盖，故正确。",
+      "category_l1": "中国石化企业知识",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "中国石化企业知识",
+        "单选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化企业文化考前45道母题",
+      "source_year": 2026,
+      "source_question_number": "20",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqyw_2f31fafeffcb",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "中国石化合作互利，共同发展。坚持( )。遵循和尊重业务所在国(地区)法律法规、文化 习俗，汲取、融汇合作方的优秀文化和先进经验。帮助客户提升价值，企业发展惠及周边社 区民众，与利益相关方共同发展、互利共赢",
+      "options": [
+        {
+          "key": "A",
+          "text": "开放包容、精诚合作、互惠和谐"
+        },
+        {
+          "key": "B",
+          "text": "精诚合作"
+        },
+        {
+          "key": "C",
+          "text": "严、细、实"
+        },
+        {
+          "key": "D",
+          "text": "互惠和谐"
+        }
+      ],
+      "correct_keys": [
+        "A"
+      ],
+      "explanation": "中国石化在合作发展中坚持\"开放包容、精诚合作、互惠和谐\"，\"精诚合作\"\"互惠和 谐\"仅为其中部分内容，\"严、细、实\"是企业作风，并非合作发展的坚持理念，因此选 A。",
+      "category_l1": "中国石化企业知识",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "中国石化企业知识",
+        "单选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化企业文化考前45道母题",
+      "source_year": 2026,
+      "source_question_number": "21",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqyw_15840c724b4d",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "中国石化认真落实集团公司\"一基两翼三新\"发展新格局，充分利用境内境外两个市场两 种资源，坚定落实高质量发展要求，不断提升国际合作层次和水平，逐步形成( )发展新格局， 推动中国石化集团公司向世界领先的洁净能源和合成材料公司迈进",
+      "options": [
+        {
+          "key": "A",
+          "text": "国内国际互促的双循环"
+        },
+        {
+          "key": "B",
+          "text": "投资贸易工程良性互动"
+        },
+        {
+          "key": "C",
+          "text": "上中下游业务协调发展，投资贸易工程良性互动、国内国际互促的双循环"
+        },
+        {
+          "key": "D",
+          "text": "上中下游业务协调发展"
+        }
+      ],
+      "correct_keys": [
+        "C"
+      ],
+      "explanation": "中国石化逐步形成的是\"上中下游业务协调发展，投资贸易工程良性互动、国内国际 互促的双循环\"发展新格局，A 选项仅提及国内国际互促的双循环，B 选项仅涉及投资贸易工 程良性互动，D 选项仅包含上中下游业务协调发展，均不完整，因此选 C。",
+      "category_l1": "中国石化企业知识",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "中国石化企业知识",
+        "单选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化企业文化考前45道母题",
+      "source_year": 2026,
+      "source_question_number": "22",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqyw_8bca7f32af9e",
+      "version": "1.0",
+      "question_type": "multiple_choice",
+      "stem": "中国石化致力于成为利益相关方满意企业。更加突出技术进步和以人为本，努力提供优 质的产品、技术和服务，展现良好的社会责任形象，让( )满意，努力成为高度负责任、高度 受尊敬的卓越企业",
+      "options": [
+        {
+          "key": "A",
+          "text": "员工"
+        },
+        {
+          "key": "B",
+          "text": "客户"
+        },
+        {
+          "key": "C",
+          "text": "股东"
+        },
+        {
+          "key": "D",
+          "text": "社会公众"
+        },
+        {
+          "key": "E",
+          "text": "业务所在国(地区)的民众"
+        }
+      ],
+      "correct_keys": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E"
+      ],
+      "explanation": "利益相关方包括员工、客户、股东、社会公众、业务所在国(地区)的民众，让这些 群体满意是企业社会责任的体现，因此全选。",
+      "category_l1": "中国石化企业知识",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "中国石化企业知识",
+        "多选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化企业文化考前45道母题",
+      "source_year": 2026,
+      "source_question_number": "23",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqyw_27cfd2f59bd6",
+      "version": "1.0",
+      "question_type": "multiple_choice",
+      "stem": "\"三基\"工作 就是( )",
+      "options": [
+        {
+          "key": "A",
+          "text": "加强以党支部建设为核心的基层建设"
+        },
+        {
+          "key": "B",
+          "text": "加强以岗位责任制为中心的基础工作"
+        },
+        {
+          "key": "C",
+          "text": "加强以岗位练兵为主要内容的基本功训练"
+        },
+        {
+          "key": "D",
+          "text": "加强以三老四严为中心的基础工作"
+        }
+      ],
+      "correct_keys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "\"三基\"工作指加强以党支部建设为核心的基层建设、加强以岗位责任制为中心的基 础工作、加强以岗位练兵为主要内容的基本功训练，\"加强以三老四严为中心的基础工作\"并 非\"三基\"工作的内容，因此选 ABC。",
+      "category_l1": "中国石化企业知识",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "中国石化企业知识",
+        "多选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化企业文化考前45道母题",
+      "source_year": 2026,
+      "source_question_number": "24",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqyw_daca755fad58",
+      "version": "1.0",
+      "question_type": "multiple_choice",
+      "stem": "中国石化坚持弘扬\"苦干实干\"、\"三老四严\"等石油石化优良传统，将\"严细实\"贯穿到企 业经营管理的全过程。细:就是\"细字当先\"。工作中要始终拿着\"放大镜\"，对( )，一丝不苟， 一点一点去做好过程控制和节点控制",
+      "options": [
+        {
+          "key": "A",
+          "text": "每个节点"
+        },
+        {
+          "key": "B",
+          "text": "每个工序"
+        },
+        {
+          "key": "C",
+          "text": "每个需要检查或注意的地方"
+        },
+        {
+          "key": "D",
+          "text": "每个人"
+        }
+      ],
+      "correct_keys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "\"细字当先\"要求对每个节点、每个工序、每个需要检查或注意的地方细致把控，\" 每个人\"并非\"细\"在过程和节点控制中所针对的对象，因此选 ABC。",
+      "category_l1": "中国石化企业知识",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "中国石化企业知识",
+        "多选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化企业文化考前45道母题",
+      "source_year": 2026,
+      "source_question_number": "25",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqyw_9dd01b6239fb",
+      "version": "1.0",
+      "question_type": "multiple_choice",
+      "stem": "中国石化品牌建设能力位居中央企业第一名，以下属于中国石化品牌的是( )",
+      "options": [
+        {
+          "key": "A",
+          "text": "易捷"
+        },
+        {
+          "key": "B",
+          "text": "长城润滑油"
+        },
+        {
+          "key": "C",
+          "text": "易派客"
+        },
+        {
+          "key": "D",
+          "text": "中国石化机械"
+        }
+      ],
+      "correct_keys": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "explanation": "易捷是中国石化的零售品牌，长城润滑油是其润滑油品牌，易派客是其电商平台品 牌，中国石化机械是其机械制造品牌，均属于中国石化品牌，故全选。",
+      "category_l1": "中国石化企业知识",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "中国石化企业知识",
+        "多选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化企业文化考前45道母题",
+      "source_year": 2026,
+      "source_question_number": "26",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqyw_9d30602245b7",
+      "version": "1.0",
+      "question_type": "multiple_choice",
+      "stem": "\"五条要求\"就是( )",
+      "options": [
+        {
+          "key": "A",
+          "text": "人人出手过得硬"
+        },
+        {
+          "key": "B",
+          "text": "事事做到规格化"
+        },
+        {
+          "key": "C",
+          "text": "项项工程质量全优"
+        },
+        {
+          "key": "D",
+          "text": "台台在用设备完好"
+        },
+        {
+          "key": "E",
+          "text": "处处注意勤俭节约"
+        }
+      ],
+      "correct_keys": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E"
+      ],
+      "explanation": "\"五条要求\"具体为人人出手过得硬、事事做到规格化、项项工程质量全优、台台在 用设备完好、处处注意勤俭节约，涵盖了工作、工程、设备、节约等多方面要求，因此全选。",
+      "category_l1": "中国石化企业知识",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "中国石化企业知识",
+        "多选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化企业文化考前45道母题",
+      "source_year": 2026,
+      "source_question_number": "27",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqyw_9559d5f8d514",
+      "version": "1.0",
+      "question_type": "multiple_choice",
+      "stem": "中国石化坚持( )",
+      "options": [
+        {
+          "key": "A",
+          "text": "把人类对美好生活的向往当作企业发展的方向，致力于提供更先进的技术、更优质的产品"
+        },
+        {
+          "key": "B",
+          "text": "走绿色低碳的可持续发展道路，加快构建有利于节约资源和保护环境的产业结构和生产方"
+        },
+        {
+          "key": "C",
+          "text": "合作共赢的发展理念，使公司在不断发展壮大的同时，为各利益相关方带来福祉。"
+        },
+        {
+          "key": "D",
+          "text": "做大做强的发展理念，使公司在不断发展壮大的同时，为各利益相关方带来福祉。"
+        }
+      ],
+      "correct_keys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "中国石化坚持把人类对美好生活的向往当作企业发展方向、走绿色低碳可持续发展 道路、秉持合作共赢发展理念，\"做大做强的发展理念\"并非其明确坚持的理念，且与合作共 赢理念不符，因此选 ABC。",
+      "category_l1": "中国石化企业知识",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "中国石化企业知识",
+        "多选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化企业文化考前45道母题",
+      "source_year": 2026,
+      "source_question_number": "28",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqyw_9c1eedad06a8",
+      "version": "1.0",
+      "question_type": "multiple_choice",
+      "stem": "艰苦奋斗的五个传家宝就是( )",
+      "options": [
+        {
+          "key": "A",
+          "text": "人拉肩扛精神"
+        },
+        {
+          "key": "B",
+          "text": "干打垒精神"
+        },
+        {
+          "key": "C",
+          "text": "缝补厂精神"
+        },
+        {
+          "key": "D",
+          "text": "五把铁锹闹革命精神"
+        },
+        {
+          "key": "E",
+          "text": "回收队精神"
+        }
+      ],
+      "correct_keys": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E"
+      ],
+      "explanation": "中国石化艰苦奋斗的五个传家宝包括人拉肩扛精神、干打垒精神、缝补厂精神、五 把铁锹闹革命精神、回收队精神，这五种精神是其艰苦奋斗传统的重要体现，因此 ABCDE 均 正确。",
+      "category_l1": "中国石化企业知识",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "中国石化企业知识",
+        "多选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化企业文化考前45道母题",
+      "source_year": 2026,
+      "source_question_number": "29",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqyw_f42738976875",
+      "version": "1.0",
+      "question_type": "multiple_choice",
+      "stem": "\"三个面向五到现场\" 五到现场就是领导干部和机关要( )",
+      "options": [
+        {
+          "key": "A",
+          "text": "做到生产指挥到现场"
+        },
+        {
+          "key": "B",
+          "text": "政治思想工作到现场"
+        },
+        {
+          "key": "C",
+          "text": "材料供应到现场"
+        },
+        {
+          "key": "D",
+          "text": "科研设计到现场"
+        },
+        {
+          "key": "E",
+          "text": "生活服务到现场"
+        }
+      ],
+      "correct_keys": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E"
+      ],
+      "explanation": "\"五到现场\"具体指领导干部和机关要做到生产指挥到现场、政治思想工作到现场、 材料供应到现场、科研设计到现场、生活服务到现场，这五个方面全面涵盖了在现场工作中 的关键职责，因此 ABCDE 均正确。",
+      "category_l1": "中国石化企业知识",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "中国石化企业知识",
+        "多选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化企业文化考前45道母题",
+      "source_year": 2026,
+      "source_question_number": "30",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqyw_ee94eeedbffc",
+      "version": "1.0",
+      "question_type": "multiple_choice",
+      "stem": "中国石化坚持弘扬\"苦干实干\"、\"三老四严\"等石油石化优良传统，将\"严细实\"贯穿到企 业经营管理的全过程。严：就是\"严字当头\"。对待工作，有( )",
+      "options": [
+        {
+          "key": "A",
+          "text": "严格的要求"
+        },
+        {
+          "key": "B",
+          "text": "严密的组织"
+        },
+        {
+          "key": "C",
+          "text": "严肃的态度"
+        },
+        {
+          "key": "D",
+          "text": "严明的纪律"
+        }
+      ],
+      "correct_keys": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "explanation": "\"严\"体现在对待工作有严格的要求、严密的组织、严肃的态度、严明的纪律，这四 个方面共同构成了\"严\"的内涵，因此 ABCD 全选。",
+      "category_l1": "中国石化企业知识",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "中国石化企业知识",
+        "多选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化企业文化考前45道母题",
+      "source_year": 2026,
+      "source_question_number": "31",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqyw_6544ffa8ef21",
+      "version": "1.0",
+      "question_type": "multiple_choice",
+      "stem": "中国石化精细严谨，止于至善。以严格的要求和一丝不苟的态度，养成精细严谨的工作 作风，追求( )，努力提升生产经营管理水平",
+      "options": [
+        {
+          "key": "A",
+          "text": "生产上精耕细作"
+        },
+        {
+          "key": "B",
+          "text": "经营上精打细算"
+        },
+        {
+          "key": "C",
+          "text": "管理上精雕细刻"
+        },
+        {
+          "key": "D",
+          "text": "技术上精益求精"
+        }
+      ],
+      "correct_keys": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "explanation": "中国石化在工作作风上追求生产上精耕细作、经营上精打细算、管理上精雕细刻、 技术上精益求精，这四个方面全面体现了精细严谨、止于至善的要求，因此 ABCD 均正确。",
+      "category_l1": "中国石化企业知识",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "中国石化企业知识",
+        "多选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化企业文化考前45道母题",
+      "source_year": 2026,
+      "source_question_number": "32",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqyw_76f98f9b7292",
+      "version": "1.0",
+      "question_type": "multiple_choice",
+      "stem": "岗位责任制 就是把全部生产任务和管理工作，具体落实到每个岗位和每个人身上，做到 事事有人管、人人有专责，办事有标准、工作有检查，包括( )",
+      "options": [
+        {
+          "key": "A",
+          "text": "岗位专责制、巡回检查制"
+        },
+        {
+          "key": "B",
+          "text": "交接班制、设备维修保养制"
+        },
+        {
+          "key": "C",
+          "text": "质量负责制、班组经济核算制"
+        },
+        {
+          "key": "D",
+          "text": "岗位练兵制、安全生产制"
+        }
+      ],
+      "correct_keys": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "explanation": "岗位责任制涵盖岗位专责制、巡回检查制、交接班制、设备维修保养制、质量负责 制、班组经济核算制、岗位练兵制、安全生产制，这些制度全面保障了生产任务和管理工作 的落实，因此ABCD 均正确。",
+      "category_l1": "中国石化企业知识",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "中国石化企业知识",
+        "多选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化企业文化考前45道母题",
+      "source_year": 2026,
+      "source_question_number": "33",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqyw_95d1a7b1b227",
+      "version": "1.0",
+      "question_type": "multiple_choice",
+      "stem": "\"三老四严\"三老就是对待事业要( )",
+      "options": [
+        {
+          "key": "A",
+          "text": "当老实人"
+        },
+        {
+          "key": "B",
+          "text": "说老实话"
+        },
+        {
+          "key": "C",
+          "text": "办老实事"
+        },
+        {
+          "key": "D",
+          "text": "听领导话"
+        }
+      ],
+      "correct_keys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "\"三老四严\"里的\"三老\"指对待事业要当老实人、说老实话、办老实事，\"听领导话\" 不属于\"三老\"的内涵，因此选 ABC。",
+      "category_l1": "中国石化企业知识",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "中国石化企业知识",
+        "多选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化企业文化考前45道母题",
+      "source_year": 2026,
+      "source_question_number": "34",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqyw_963f37f12d7e",
+      "version": "1.0",
+      "question_type": "multiple_choice",
+      "stem": "中国石化致力于成为可持续发展企业。全面实施\"( )\"发展战略，迅速适应环境变化，加 快转方式调结构、提质增效升级，使公司在已领先的竞争领域和未来的经营环境中努力保持 持续的盈利增长和能力提升，保证公司长盛不衰",
+      "options": [
+        {
+          "key": "A",
+          "text": "价值引领"
+        },
+        {
+          "key": "B",
+          "text": "创新驱动"
+        },
+        {
+          "key": "C",
+          "text": "资源统筹"
+        },
+        {
+          "key": "D",
+          "text": "开放合作"
+        },
+        {
+          "key": "E",
+          "text": "绿色低碳"
+        }
+      ],
+      "correct_keys": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E"
+      ],
+      "explanation": "中国石化可持续发展战略包括价值引领、创新驱动、资源统筹、开放合作、绿色低 碳，这些战略共同推动公司的长期发展，因此全选。",
+      "category_l1": "中国石化企业知识",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "中国石化企业知识",
+        "多选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化企业文化考前45道母题",
+      "source_year": 2026,
+      "source_question_number": "35",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqyw_e6309c7b7897",
+      "version": "1.0",
+      "question_type": "multiple_choice",
+      "stem": "( )等优良传统为重要内涵的企业文化在中国石化的改革发展中起到了有力的引领与支撑 作用，是激励中国石化攻坚克难、不断前进的制胜法宝",
+      "options": [
+        {
+          "key": "A",
+          "text": "三老四严"
+        },
+        {
+          "key": "B",
+          "text": "苦干实干"
+        },
+        {
+          "key": "C",
+          "text": "精细严谨"
+        },
+        {
+          "key": "D",
+          "text": "五把铁锹闹革命精神"
+        },
+        {
+          "key": "E",
+          "text": "回收队精神"
+        }
+      ],
+      "correct_keys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "以三老四严、苦干实干、精细严谨等优良传统为重要内涵的企业文化对中国石化发 展意义重大，五把铁锹闹革命精神、回收队精神属于艰苦奋斗的五个传家宝，并非此处所指 的核心优良传统内涵，因此选 ABC。",
+      "category_l1": "中国石化企业知识",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "中国石化企业知识",
+        "多选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化企业文化考前45道母题",
+      "source_year": 2026,
+      "source_question_number": "36",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqyw_ce51cbfab185",
+      "version": "1.0",
+      "question_type": "multiple_choice",
+      "stem": "中国石化坚持弘扬\"苦干实干\"、\"三老四严\"等石油石化优良传统，将\"严细实\"贯穿到企 业经营管理的全过程。实：就是\"实字当家\"。坚持( )，踏踏实实工作，清清白白做人，静下 心来谋发展，沉下身子做事情",
+      "options": [
+        {
+          "key": "A",
+          "text": "当老实人"
+        },
+        {
+          "key": "B",
+          "text": "说老实话"
+        },
+        {
+          "key": "C",
+          "text": "办老实事"
+        },
+        {
+          "key": "D",
+          "text": "关系每个人"
+        }
+      ],
+      "correct_keys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "\"实\"体现在当老实人、说老实话、办老实事，这三个方面是\"实字当家\"的具体表现， 因此选 ABC。",
+      "category_l1": "中国石化企业知识",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "中国石化企业知识",
+        "多选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化企业文化考前45道母题",
+      "source_year": 2026,
+      "source_question_number": "37",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqyw_26dee7e5ebfe",
+      "version": "1.0",
+      "question_type": "multiple_choice",
+      "stem": "\"两论\"起家两论指的是:",
+      "options": [
+        {
+          "key": "A",
+          "text": "《实践论》"
+        },
+        {
+          "key": "B",
+          "text": "《矛盾论》"
+        },
+        {
+          "key": "C",
+          "text": "《资本论》"
+        },
+        {
+          "key": "D",
+          "text": "《辩证法》"
+        }
+      ],
+      "correct_keys": [
+        "A",
+        "B"
+      ],
+      "explanation": "\"两论\"起家的\"两论\"是指《实践论》和《矛盾论》，《资本论》是马克思的著作，《辩 证法》并非\"两论\"所指内容，因此选 AB。",
+      "category_l1": "中国石化企业知识",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "中国石化企业知识",
+        "多选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化企业文化考前45道母题",
+      "source_year": 2026,
+      "source_question_number": "38",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqyw_44a4dc76c418",
+      "version": "1.0",
+      "question_type": "multiple_choice",
+      "stem": "中国石化致力于成为世界一流企业。世界一流企业不仅需要一流的规模，更需要( )。中 国石化要对照世界一流企业的标准，通过艰苦不懈的努力，成为治理规范、管理高效、文化 先进、市场化程度高、国际化经营能力强、拥有世界一流技术、人才和品牌的先进企业",
+      "options": [
+        {
+          "key": "A",
+          "text": "一流的质量和效益"
+        },
+        {
+          "key": "B",
+          "text": "一流的企业文化管理和品牌形象"
+        },
+        {
+          "key": "C",
+          "text": "一流的市场化、国际化竞争能力"
+        },
+        {
+          "key": "D",
+          "text": "一流的市场规模"
+        }
+      ],
+      "correct_keys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "世界一流企业需要一流的质量和效益、一流的企业文化管理和品牌形象、一流的市 场化、国际化竞争能力，这些是衡量企业是否一流的关键要素，因此选 ABC。",
+      "category_l1": "中国石化企业知识",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "中国石化企业知识",
+        "多选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化企业文化考前45道母题",
+      "source_year": 2026,
+      "source_question_number": "39",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqyw_0211a69d1aa0",
+      "version": "1.0",
+      "question_type": "multiple_choice",
+      "stem": "\"三个面向五到现场\" 三个面向就是领导干部和机关要( )",
+      "options": [
+        {
+          "key": "A",
+          "text": "面向生产"
+        },
+        {
+          "key": "B",
+          "text": "面向基层"
+        },
+        {
+          "key": "C",
+          "text": "面向群众"
+        },
+        {
+          "key": "D",
+          "text": "面向客户"
+        }
+      ],
+      "correct_keys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "\"三个面向\"即领导干部和机关要面向生产、面向基层、面向群众，\"面向客户\"并非\" 三个面向\"的内容，因此选 ABC。",
+      "category_l1": "中国石化企业知识",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "中国石化企业知识",
+        "多选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化企业文化考前45道母题",
+      "source_year": 2026,
+      "source_question_number": "40",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqyw_7f251d779d7f",
+      "version": "1.0",
+      "question_type": "multiple_choice",
+      "stem": "思想政治工作\"两抓\"就是( )",
+      "options": [
+        {
+          "key": "A",
+          "text": "抓生产从思想入手"
+        },
+        {
+          "key": "B",
+          "text": "抓思想从生产出发"
+        },
+        {
+          "key": "C",
+          "text": "抓思想从生产入手"
+        },
+        {
+          "key": "D",
+          "text": "抓生产从思想出发"
+        }
+      ],
+      "correct_keys": [
+        "A",
+        "B"
+      ],
+      "explanation": "思想政治工作\"两抓\"是抓生产从思想入手，抓思想从生产出发，体现了生产与思想 工作的辩证关系，因此选 AB。",
+      "category_l1": "中国石化企业知识",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "中国石化企业知识",
+        "多选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化企业文化考前45道母题",
+      "source_year": 2026,
+      "source_question_number": "41",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqyw_2ec8ed398a70",
+      "version": "1.0",
+      "question_type": "multiple_choice",
+      "stem": "\"两分法\"前进就是通过学习《实践论》和《矛盾论》：",
+      "options": [
+        {
+          "key": "A",
+          "text": "用辩证唯物主义的立场、观点、方法"
+        },
+        {
+          "key": "B",
+          "text": "去分析、研究、解决油田开发建设中的一系列问题"
+        },
+        {
+          "key": "C",
+          "text": "在任何时候、任何情况下都要坚持两分法，形势好的时候要看到不足，保持清醒的头脑，"
+        },
+        {
+          "key": "D",
+          "text": "形势严峻的时候更要一分为二，看到希望，增强发展的信心"
+        }
+      ],
+      "correct_keys": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "explanation": "\"两分法\"前进要求用辩证唯物主义的立场、观点、方法分析解决油田开发建设问题， 同时在不同形势下（好或严峻时）都坚持一分为二看问题，因此 ABCD 全选。",
+      "category_l1": "中国石化企业知识",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "中国石化企业知识",
+        "多选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化企业文化考前45道母题",
+      "source_year": 2026,
+      "source_question_number": "42",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqyw_7c5868a16529",
+      "version": "1.0",
+      "question_type": "multiple_choice",
+      "stem": "\"四个一样\"就是对待工作要有严格的要求、严密的组织、严肃的态度、严明的纪律。干 工作要做到( )",
+      "options": [
+        {
+          "key": "A",
+          "text": "黑夜和白天一个样"
+        },
+        {
+          "key": "B",
+          "text": "坏天气和好天气一个样"
+        },
+        {
+          "key": "C",
+          "text": "领导不在现场和领导在现场一个样"
+        },
+        {
+          "key": "D",
+          "text": "没有人检查和有人检查一个样"
+        }
+      ],
+      "correct_keys": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "explanation": "\"四个一样\"具体为黑夜和白天一个样、坏天气和好天气一个样、领导不在现场和领 导在现场一个样、没有人检查和有人检查一个样，体现了工作的一致性和严谨性，因此全选。",
+      "category_l1": "中国石化企业知识",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "中国石化企业知识",
+        "多选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化企业文化考前45道母题",
+      "source_year": 2026,
+      "source_question_number": "43",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqyw_1e065b50bb49",
+      "version": "1.0",
+      "question_type": "multiple_choice",
+      "stem": "中国石化立足引领，追求卓越。坚持创新驱动，把发展动力转到依靠创新驱动上来，大 力推进( )，引领市场发展，打造行业标杆，成就卓越品质",
+      "options": [
+        {
+          "key": "A",
+          "text": "科技创新"
+        },
+        {
+          "key": "B",
+          "text": "管理创新"
+        },
+        {
+          "key": "C",
+          "text": "商业模式创新"
+        },
+        {
+          "key": "D",
+          "text": "技术创新"
+        }
+      ],
+      "correct_keys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "中国石化大力推进科技创新、管理创新、商业模式创新，\"技术创新\"可涵盖在科技 创新范畴内，并非单独作为推进的核心创新领域，因此选 ABC。",
+      "category_l1": "中国石化企业知识",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "中国石化企业知识",
+        "多选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化企业文化考前45道母题",
+      "source_year": 2026,
+      "source_question_number": "44",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqyw_7d7e51ce77fd",
+      "version": "1.0",
+      "question_type": "multiple_choice",
+      "stem": "中国石化致力于成为绿色高效能源化工企业。以能源、化工作为主营方向，做好战略布 局和业务结构优化，在发展好传统业务的同时，不断开发和高效利用( )等新兴产业。开发绿 色低碳生产技术，研发生产环保新材料，促进煤炭资源清洁化利用，努力成为绿色高效的能 源化工企业",
+      "options": [
+        {
+          "key": "A",
+          "text": "页岩气"
+        },
+        {
+          "key": "B",
+          "text": "地热"
+        },
+        {
+          "key": "C",
+          "text": "生物质能"
+        },
+        {
+          "key": "D",
+          "text": "天然气"
+        }
+      ],
+      "correct_keys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "页岩气、地热、生物质能属于新兴能源产业，天然气属于传统能源，因此选 ABC。",
+      "category_l1": "中国石化企业知识",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "中国石化企业知识",
+        "多选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化企业文化考前45道母题",
+      "source_year": 2026,
+      "source_question_number": "45",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqsz_969b64e6e979",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "2025 年 1 月 6 日，习近平总书记在中国共产党第二十届中央纪律检查委员会第四次全体 会议上强调，要始终保持反腐败永远在路上的坚韧执着，一体推进（ ）。",
+      "options": [
+        {
+          "key": "A",
+          "text": "不敢腐、不想腐、不能腐"
+        },
+        {
+          "key": "B",
+          "text": "不能腐、不敢腐、不想腐"
+        },
+        {
+          "key": "C",
+          "text": "不敢腐、不能腐、不想腐"
+        },
+        {
+          "key": "D",
+          "text": "不想腐、不敢腐、不能腐"
+        }
+      ],
+      "correct_keys": [
+        "C"
+      ],
+      "explanation": "习近平总书记在二十届中央纪委四次全会上明确提出\"一体推进不敢腐、不能腐、不想腐 \"的战略方针。这一表述有着严密的逻辑顺序： - 不敢腐：通过严厉惩治形成震慑，是治标之策 - 不能腐：通过制度建设扎牢笼子，是治本之策 - 不想腐：通过思想教育筑牢防线，是固本之策 三者依次递进、相辅相成，体现了标本兼治、系统施治的反腐败战略思路。",
+      "category_l1": "时事政治",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "时事政治",
+        "单选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化时政考前46道母题",
+      "source_year": 2026,
+      "source_question_number": "1",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqsz_db76d2ac9ac9",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "2025 年 1 月 11 日，习近平对审计工作作出重要指示，指出审计是党和国家监督体系的重 要组成部分，审计机关要立足（ ）定位。",
+      "options": [
+        {
+          "key": "A",
+          "text": "经济监督"
+        },
+        {
+          "key": "B",
+          "text": "财政监督"
+        },
+        {
+          "key": "C",
+          "text": "权力监督"
+        },
+        {
+          "key": "D",
+          "text": "全面监督"
+        }
+      ],
+      "correct_keys": [
+        "A"
+      ],
+      "explanation": "习近平总书记明确提出，审计机关要\"立足经济监督定位\"。\"经济监督\"是审计工作的核 心定位，强调审计工作要聚焦经济领域，通过对财政财务收支的真实性、合法性和效益性进 行监督，在促进经济健康发展、维护国家经济安全、揭示风险隐患、推动反腐治乱等方面发 挥积极作用。",
+      "category_l1": "时事政治",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "时事政治",
+        "单选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化时政考前46道母题",
+      "source_year": 2026,
+      "source_question_number": "2",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqsz_49c1abf75c93",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "2025 年春节前夕，习近平同党外人士共迎新春时，向各民主党派、工商联和无党派人士 提出三点希望，其中不包括（ ）。",
+      "options": [
+        {
+          "key": "A",
+          "text": "提高政治站位，进一步画好同心圆"
+        },
+        {
+          "key": "B",
+          "text": "紧扣中心工作，积极献策出力"
+        },
+        {
+          "key": "C",
+          "text": "加强自身建设，提高履职能力"
+        },
+        {
+          "key": "D",
+          "text": "深化政治协商，完善监督机制"
+        }
+      ],
+      "correct_keys": [
+        "D"
+      ],
+      "explanation": "2025 年春节前夕，习近平总书记提出的三点希望是： 1. 提高政治站位，进一步画好同心圆 2. 紧扣中心工作，积极献策出力 3. 加强自身建设，提高履职能力 选项 D\"深化政治协商，完善监督机制\"并非此次讲话中提出的三点希望之一。",
+      "category_l1": "时事政治",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "时事政治",
+        "单选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化时政考前46道母题",
+      "source_year": 2026,
+      "source_question_number": "3",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqsz_35411481f023",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "2025 年 2 月 7 日，习近平在哈尔滨举行宴会欢迎出席第九届亚洲冬季运动会的国际贵宾。 本届亚冬会的主题是（ ）。",
+      "options": [
+        {
+          "key": "A",
+          "text": "\"冰雪筑梦、共创未来\""
+        },
+        {
+          "key": "B",
+          "text": "\"冰雪同梦、亚洲同心\""
+        },
+        {
+          "key": "C",
+          "text": "\"冰雪情缘、亚洲一家\""
+        },
+        {
+          "key": "D",
+          "text": "\"冰雪盛会、和谐亚洲\""
+        }
+      ],
+      "correct_keys": [
+        "B"
+      ],
+      "explanation": "第九届亚洲冬季运动会主题为\"冰雪同梦、亚洲同心\"。这一主题深刻体现了： - 冰雪同梦：亚洲各国人民对冰雪运动的共同热爱，对和平发展的共同追求 - 亚洲同心：亚洲命运共同体意识，强调团结合作、共同发展",
+      "category_l1": "时事政治",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "时事政治",
+        "单选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化时政考前46道母题",
+      "source_year": 2026,
+      "source_question_number": "4",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqsz_d3277b6d867f",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "2025 年 2 月，习近平在听取吉林省委和省政府工作汇报时强调，吉林要牢牢把握东北在 维护国家（ ）中的重要使命。",
+      "options": [
+        {
+          "key": "A",
+          "text": "\"四大安全\""
+        },
+        {
+          "key": "B",
+          "text": "\"五大安全\""
+        },
+        {
+          "key": "C",
+          "text": "\"六大安全\""
+        },
+        {
+          "key": "D",
+          "text": "\"三大安全\""
+        }
+      ],
+      "correct_keys": [
+        "B"
+      ],
+      "explanation": "\"五大安全\"是指： 1. 国防安全——东北是重要边疆地区 2. 粮食安全——东北是国家粮食主产区 3. 生态安全——东北拥有重要生态屏障 4. 能源安全——东北是重要能源基地 5. 产业安全——东北是重要工业基地 这是党中央对东北地区战略定位的重要论述。",
+      "category_l1": "时事政治",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "时事政治",
+        "单选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化时政考前46道母题",
+      "source_year": 2026,
+      "source_question_number": "5",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqsz_32cd18d84926",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "2025 年 2 月 17 日，习近平在民营企业座谈会上强调，党和国家对民营经济发展的基本方 针政策已经纳入（ ），将一以贯之坚持和落实。",
+      "options": [
+        {
+          "key": "A",
+          "text": "中国特色社会主义理论体系"
+        },
+        {
+          "key": "B",
+          "text": "中国特色社会主义制度体系"
+        },
+        {
+          "key": "C",
+          "text": "国家治理体系和治理能力现代化"
+        },
+        {
+          "key": "D",
+          "text": "新时代中国特色社会主义思想"
+        }
+      ],
+      "correct_keys": [
+        "B"
+      ],
+      "explanation": "习近平总书记明确指出：\"党和国家对民营经济发展的基本方针政策，已经纳入中国特色 社会主义制度体系，将一以贯之坚持和落实，不能变，也不会变。\"这一重要论述体现了： - 制度化保障：民营经济政策上升为制度安排 - 长期性承诺：强调政策的稳定性和连续性 - 根本性保证：写入宪法、党章，具有最高法律效力",
+      "category_l1": "时事政治",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "时事政治",
+        "单选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化时政考前46道母题",
+      "source_year": 2026,
+      "source_question_number": "6",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqsz_0b5ced7766d7",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "2025 年 2 月 28 日，中共中央政治局就建设更高水平平安中国进行第十九次集体学习。习 近平强调，建设更高水平平安中国要坚定不移贯彻（ ）。",
+      "options": [
+        {
+          "key": "A",
+          "text": "新发展理念"
+        },
+        {
+          "key": "B",
+          "text": "总体国家安全观"
+        },
+        {
+          "key": "C",
+          "text": "以人民为中心的发展思想"
+        },
+        {
+          "key": "D",
+          "text": "新时代党的建设总要求"
+        }
+      ],
+      "correct_keys": [
+        "B"
+      ],
+      "explanation": "建设更高水平平安中国，要坚定不移贯彻总体国家安全观。总体国家安全观是习近平新 时代中国特色社会主义思想的重要组成部分，涵盖政治安全、国土安全、军事安全、经济安 全、文化安全、社会安全、科技安全、网络安全、生态安全、资源安全、核安全、海外利益 安全等领域。",
+      "category_l1": "时事政治",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "时事政治",
+        "单选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化时政考前46道母题",
+      "source_year": 2026,
+      "source_question_number": "7",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqsz_bd9544957b96",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "2025 年 3 月 5 日，习近平在参加十四届全国人大三次会议江苏代表团审议时强调，江苏 要在推动科技创新和产业创新融合上（ ）。",
+      "options": [
+        {
+          "key": "A",
+          "text": "走在前列"
+        },
+        {
+          "key": "B",
+          "text": "打头阵"
+        },
+        {
+          "key": "C",
+          "text": "勇争先"
+        },
+        {
+          "key": "D",
+          "text": "作示范"
+        }
+      ],
+      "correct_keys": [
+        "B"
+      ],
+      "explanation": "习近平总书记对江苏提出了\"挑大梁\"的要求，明确了四个着力点： 1. 在推动科技创新和产业创新融合上打头阵 2. 在推进深层次改革和高水平开放上勇争先 3. 在落实国家重大发展战略上走在前 4. 在促进全体人民共同富裕上作示范",
+      "category_l1": "时事政治",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "时事政治",
+        "单选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化时政考前46道母题",
+      "source_year": 2026,
+      "source_question_number": "8",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqsz_4cb2dae8acc3",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "2025 年 3 月 6 日，习近平在看望参加全国政协十四届三次会议的民盟、民进、教育界委 员时强调，新时代新征程必须深刻把握中国式现代化对（ ）的需求。",
+      "options": [
+        {
+          "key": "A",
+          "text": "教育、科技、创新"
+        },
+        {
+          "key": "B",
+          "text": "科技、人才、创新"
+        },
+        {
+          "key": "C",
+          "text": "教育、科技、人才"
+        },
+        {
+          "key": "D",
+          "text": "教育、人才、创新"
+        }
+      ],
+      "correct_keys": [
+        "C"
+      ],
+      "explanation": "新时代新征程必须深刻把握中国式现代化对教育、科技、人才的需求。这体现了\"三位一 体\"的战略思维： - 教育是基础：培养社会主义建设者和接班人 - 科技是关键：实现高水平科技自立自强 - 人才是根本：形成人才辈出、人尽其才的生动局面",
+      "category_l1": "时事政治",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "时事政治",
+        "单选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化时政考前46道母题",
+      "source_year": 2026,
+      "source_question_number": "9",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqsz_6a9000163d92",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "2025 年 3 月 8 日，习近平在出席十四届全国人大三次会议解放军和武警部队代表团全体 会议时强调，要巩固提高一体化国家战略体系和能力，更好统筹（ ）。",
+      "options": [
+        {
+          "key": "A",
+          "text": "改革和发展、稳定和安全"
+        },
+        {
+          "key": "B",
+          "text": "发展和安全、经济建设和国防建设"
+        },
+        {
+          "key": "C",
+          "text": "国内和国际、发展和安全"
+        },
+        {
+          "key": "D",
+          "text": "经济建设和国防建设、改革和稳定"
+        }
+      ],
+      "correct_keys": [
+        "B"
+      ],
+      "explanation": "巩固提高一体化国家战略体系和能力，要更好统筹发展和安全、经济建设和国防建设。 这包含两对关系： 1. 统筹发展和安全：发展是安全的基础，安全是发展的保障 2. 统筹经济建设和国防建设：推动协调发展、平衡发展、兼容发展，实现富国和强军相 统一",
+      "category_l1": "时事政治",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "时事政治",
+        "单选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化时政考前46道母题",
+      "source_year": 2026,
+      "source_question_number": "10",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqsz_a4d3bf34c72d",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "2025 年 3 月，习近平在贵州考察时强调，贵州要认真落实党中央关于（ ）的战略部 署。",
+      "options": [
+        {
+          "key": "A",
+          "text": "西部大开发和黄河流域生态保护"
+        },
+        {
+          "key": "B",
+          "text": "西部大开发和长江经济带发展"
+        },
+        {
+          "key": "C",
+          "text": "中部崛起和长江经济带发展"
+        },
+        {
+          "key": "D",
+          "text": "西部大开发和粤港澳大湾区建设"
+        }
+      ],
+      "correct_keys": [
+        "B"
+      ],
+      "explanation": "贵州要认真落实党中央关于西部大开发和长江经济带发展的战略部署。这体现了贵州的 双重战略地位： - 贵州是西部地区的重要省份，要在新时代西部大开发中展现新作为 - 贵州地处长江上游，承担着生态保护和绿色发展的重要使命",
+      "category_l1": "时事政治",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "时事政治",
+        "单选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化时政考前46道母题",
+      "source_year": 2026,
+      "source_question_number": "11",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqsz_cf6dbf70a7f5",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "2025 年 4 月 3 日，习近平在参加首都义务植树活动时强调，要坚持（ ）并举，在提 质、兴业、利民上下功夫。",
+      "options": [
+        {
+          "key": "A",
+          "text": "\"增绿、护绿、用绿\""
+        },
+        {
+          "key": "B",
+          "text": "\"植绿、护绿、兴绿\""
+        },
+        {
+          "key": "C",
+          "text": "\"扩绿、兴绿、护绿\""
+        },
+        {
+          "key": "D",
+          "text": "\"造绿、管绿、用绿\""
+        }
+      ],
+      "correct_keys": [
+        "C"
+      ],
+      "explanation": "\"扩绿、兴绿、护绿\"三绿并举的内涵： 1. 扩绿：扩大绿色空间，增加森林面积，提高森林覆盖率 2. 兴绿：发展绿色产业，推动生态产品价值实现，让绿水青山变成金山银山 3. 护绿：保护森林资源，加强森林管护，巩固绿化成果 总书记还提出要在提质、兴业、利民上下功夫。",
+      "category_l1": "时事政治",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "时事政治",
+        "单选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化时政考前46道母题",
+      "source_year": 2026,
+      "source_question_number": "12",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqsz_1f95967a315f",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "2025 年 1 月 1 日出版的《求是》杂志发表习近平的重要文章《以中国式现代化全面推进 强国建设、民族复兴伟业》。文章指出，对中国式现代化定性的话，管总、管根本的是（ ）。",
+      "options": [
+        {
+          "key": "A",
+          "text": "中国式现代化是中国共产党领导的社会主义现代化"
+        },
+        {
+          "key": "B",
+          "text": "中国式现代化是以人民为中心的现代化"
+        },
+        {
+          "key": "C",
+          "text": "中国式现代化是物质文明和精神文明相协调的现代化"
+        },
+        {
+          "key": "D",
+          "text": "中国式现代化是人与自然和谐共生的现代化"
+        }
+      ],
+      "correct_keys": [
+        "A"
+      ],
+      "explanation": "\"中国式现代化，是中国共产党领导的社会主义现代化\"——这是对中国式现代化定性的 话，是管总、管根本的。这一重要论断强调： - 党的领导决定中国式现代化的根本性质 - 只有毫不动摇坚持党的领导，中国式现代化才能前景光明、繁荣兴盛 - 党的领导在决定根本性质、确保锚定目标、激发强劲动力、凝聚磅礴力量、提供根本 保证五个方面发挥作用",
+      "category_l1": "时事政治",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "时事政治",
+        "单选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化时政考前46道母题",
+      "source_year": 2026,
+      "source_question_number": "13",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqsz_b8903dd4e52d",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "2025 年 2 月 16 日出版的《求是》杂志发表习近平的重要文章《健全全面从严治党体系》。 文章强调，健全全面从严治党体系要实现（ ）。",
+      "options": [
+        {
+          "key": "A",
+          "text": "内容全覆盖、对象全涵盖、责任全链条、制度全贯通"
+        },
+        {
+          "key": "B",
+          "text": "内容全涵盖、对象全覆盖、责任全链条、制度全贯通"
+        },
+        {
+          "key": "C",
+          "text": "内容全涵盖、对象全覆盖、责任全过程、制度全贯通"
+        },
+        {
+          "key": "D",
+          "text": "内容全覆盖、对象全涵盖、责任全链条、制度全衔接"
+        }
+      ],
+      "correct_keys": [
+        "B"
+      ],
+      "explanation": "健全全面从严治党体系要实现内容全涵盖、对象全覆盖、责任全链条、制度全贯通： 1. 内容全涵盖：涵盖党的政治建设、思想建设、组织建设、作风建设、纪律建设，把制 度建设贯穿其中 2. 对象全覆盖：覆盖党的各级组织和全体党员，不留死角 3. 责任全链条：压实各级党组织主体责任，强化\"一岗双责\" 4. 制度全贯通：构建系统完备、科学规范、运行有效的制度体系",
+      "category_l1": "时事政治",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "时事政治",
+        "单选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化时政考前46道母题",
+      "source_year": 2026,
+      "source_question_number": "14",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqsz_e7ef8df1681b",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "2025 年 3 月 1 日出版的《求是》杂志发表习近平的重要文章《经济工作必须统筹好几对 重要关系》。文章指出，全党上下形成的最大共识是（ ）。",
+      "options": [
+        {
+          "key": "A",
+          "text": "高质量发展是新时代的硬道理"
+        },
+        {
+          "key": "B",
+          "text": "党中央集中统一领导是做好经济工作的根本保证"
+        },
+        {
+          "key": "C",
+          "text": "以人民为中心是经济工作的根本立场"
+        },
+        {
+          "key": "D",
+          "text": "新发展理念是经济工作的指挥棒"
+        }
+      ],
+      "correct_keys": [
+        "B"
+      ],
+      "explanation": "全党上下形成的最大共识是：党中央集中统一领导是做好经济工作的根本保证。这一重 要论断强调： - 历史经验的深刻总结：新时代以来，党中央统揽全局、科学决策，引领经济发展取得 历史性成就 - 实践证明的根本保证：党的领导是中国特色社会主义最本质的特征和最大优势 - 未来发展的基本遵循：必须坚持党中央对经济工作的集中统一领导",
+      "category_l1": "时事政治",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "时事政治",
+        "单选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化时政考前46道母题",
+      "source_year": 2026,
+      "source_question_number": "15",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqsz_52c83b24756e",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "2025 年 3 月 16 日出版的《求是》杂志发表习近平的重要文章《坚持和落实\"两个毫不动 摇\"》。文章强调，我国基本经济制度写入了（ ），这是不会变的，也是不能变的。",
+      "options": [
+        {
+          "key": "A",
+          "text": "宪法、民法典"
+        },
+        {
+          "key": "B",
+          "text": "宪法、党章"
+        },
+        {
+          "key": "C",
+          "text": "党章、民法典"
+        },
+        {
+          "key": "D",
+          "text": "宪法、公司法"
+        }
+      ],
+      "correct_keys": [
+        "B"
+      ],
+      "explanation": "我国基本经济制度写入了宪法、党章，这是不会变的，也是不能变的。 - 宪法规定：明确社会主义公有制是经济制度的基础，保护非公有制经济的合法权利和 利益 - 党章规定：明确\"两个毫不动摇\"——毫不动摇巩固和发展公有制经济，毫不动摇鼓励、 支持、引导非公有制经济发展 宪法和党章是国家根本大法和党的根本大法，具有最高权威性。 第二部分：能源石油领域时政单选题（8 题） 基于三桶油重大突破与能源发展成就",
+      "category_l1": "时事政治",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "时事政治",
+        "单选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化时政考前46道母题",
+      "source_year": 2026,
+      "source_question_number": "16",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqsz_5d51eaf1ff8d",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "2025 年 1 月 3 日，中国石油大庆油田公布 2024 年生产数据，天然气产量突破 60 亿立方 米，同比增产 1.55 亿立方米，实现连续（ ）年稳定增长。",
+      "options": [
+        {
+          "key": "A",
+          "text": "10"
+        },
+        {
+          "key": "B",
+          "text": "12"
+        },
+        {
+          "key": "C",
+          "text": "14"
+        },
+        {
+          "key": "D",
+          "text": "16"
+        }
+      ],
+      "correct_keys": [
+        "C"
+      ],
+      "explanation": "大庆油田 2024 年天然气产量突破 60 亿立方米，同比增产 1.55 亿立方米，实现连续 14 年稳定增长。大庆油田作为我国最大的油田，天然气产量持续增长，为东北地区和京津冀地 区提供清洁能源保障，有力支撑了国家\"气化东北\"战略，对保障国家能源安全具有重要意义。",
+      "category_l1": "时事政治",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "时事政治",
+        "单选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化时政考前46道母题",
+      "source_year": 2026,
+      "source_question_number": "17",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqsz_bdc88c6c31f7",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "2025 年 2 月 7 日，我国（ ）油田一期开发项目正式投产，标志着这一全球最大变质 岩油田正式进入生产阶段。",
+      "options": [
+        {
+          "key": "A",
+          "text": "渤中 19-6"
+        },
+        {
+          "key": "B",
+          "text": "渤中 26-6"
+        },
+        {
+          "key": "C",
+          "text": "渤中 35-6"
+        },
+        {
+          "key": "D",
+          "text": "渤中 42-6"
+        }
+      ],
+      "correct_keys": [
+        "B"
+      ],
+      "explanation": "2025 年 2 月 7 日，中国海油天津分公司宣布，亿吨级油田渤中 26-6 油田一期开发项目 正式投产。该油田是全球最大变质岩油田，探明地质储量超过 1 亿吨。变质岩油田开发难度 极大，我国攻克了变质岩储层识别、钻完井等技术难题，形成了变质岩油田高效开发技术体 系，对保障国家能源安全具有重要意义。",
+      "category_l1": "时事政治",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "时事政治",
+        "单选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化时政考前46道母题",
+      "source_year": 2026,
+      "source_question_number": "18",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqsz_f7134916c1c8",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "2025 年 2 月 20 日，我国首口超万米科探井——深地塔科 1 井在地下（ ）米胜利完钻， 成为亚洲第一、世界第二垂直深度井。",
+      "options": [
+        {
+          "key": "A",
+          "text": "9810"
+        },
+        {
+          "key": "B",
+          "text": "10210"
+        },
+        {
+          "key": "C",
+          "text": "10910"
+        },
+        {
+          "key": "D",
+          "text": "11210"
+        }
+      ],
+      "correct_keys": [
+        "C"
+      ],
+      "explanation": "2025 年 2 月 20 日，中国石油集团宣布，我国首口超万米科探井——深地塔科 1 井在地 下 10910 米胜利完钻，成为亚洲第一、世界第二垂直深度井（仅次于俄罗斯科拉超深井 12262 米）。这标志着我国深地探测能力达到世界先进水平，为深部地质研究提供了宝贵资料，对探 索超深层油气资源潜力、保障国家能源安全具有重要意义。",
+      "category_l1": "时事政治",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "时事政治",
+        "单选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化时政考前46道母题",
+      "source_year": 2026,
+      "source_question_number": "19",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqsz_108907e442ef",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "2025 年 3 月 13 日，中国石油塔里木油田宣布，已累计从（ ）米以下地层采出油气 1.5 亿吨油气当量，相当于 2024 年全国油气产量的 37%。",
+      "options": [
+        {
+          "key": "A",
+          "text": "4000"
+        },
+        {
+          "key": "B",
+          "text": "5000"
+        },
+        {
+          "key": "C",
+          "text": "6000"
+        },
+        {
+          "key": "D",
+          "text": "7000"
+        }
+      ],
+      "correct_keys": [
+        "C"
+      ],
+      "explanation": "2025 年 3月 13 日，中国石油塔里木油田宣布，已累计从 6000 米以下地层采出油气 1.5 亿吨油气当量，相当于 2024 年全国油气产量的 37%。塔里木油田是我国最大超深油气生产基 地，6000 米以下超深层油气开发技术难度极大，我国攻克了超深层勘探开发系列技术难题， 形成了超深层油气藏高效开发技术体系，为保障国家能源安全作出了突出贡献。",
+      "category_l1": "时事政治",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "时事政治",
+        "单选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化时政考前46道母题",
+      "source_year": 2026,
+      "source_question_number": "20",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqsz_e82819363907",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "2025 年 3 月 22 日，中国石化胜利油田（ ）页岩油田亿吨级探明储量正式通过国家自 然资源部评审备案，标志着我国首个亿吨级页岩油田问世。",
+      "options": [
+        {
+          "key": "A",
+          "text": "东营"
+        },
+        {
+          "key": "B",
+          "text": "济阳"
+        },
+        {
+          "key": "C",
+          "text": "胜利"
+        },
+        {
+          "key": "D",
+          "text": "黄河"
+        }
+      ],
+      "correct_keys": [
+        "B"
+      ],
+      "explanation": "2025 年 3 月 22 日，中国石化胜利油田济阳页岩油田亿吨级探明储量正式通过国家自然 资源部评审备案，标志着我国首个亿吨级页岩油田问世。这是首个按照《页岩层系石油储量 估算规范》实施后认定的亿吨级页岩油田，是我国页岩油勘探开发的重大突破，填补了我国 大型页岩油田的空白，对保障国家能源安全具有重要战略意义。",
+      "category_l1": "时事政治",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "时事政治",
+        "单选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化时政考前46道母题",
+      "source_year": 2026,
+      "source_question_number": "21",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqsz_c804822951ea",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "2025 年 3 月 31 日，中国海油宣布在南海东部海域勘探发现（ ）亿吨级油田，这是我 国首次探获海上深层—超深层碎屑岩大型整装油田。",
+      "options": [
+        {
+          "key": "A",
+          "text": "惠州 15-6"
+        },
+        {
+          "key": "B",
+          "text": "惠州 17-6"
+        },
+        {
+          "key": "C",
+          "text": "惠州 19-6"
+        },
+        {
+          "key": "D",
+          "text": "惠州 21-6"
+        }
+      ],
+      "correct_keys": [
+        "C"
+      ],
+      "explanation": "2025 年 3月 31 日，中国海油宣布在南海东部海域勘探发现惠州 19-6 亿吨级油田，这是 我国首次探获海上深层—超深层碎屑岩大型整装油田。该油田探明地质储量超过 1 亿吨，攻 克了海上深层—超深层勘探技术难题，创新了深层碎屑岩储层识别和评价方法，对保障粤港 澳大湾区能源供应、推动南海油气资源开发具有重要意义。",
+      "category_l1": "时事政治",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "时事政治",
+        "单选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化时政考前46道母题",
+      "source_year": 2026,
+      "source_question_number": "22",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqsz_dff9ec46672f",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "2025 年 4 月 12 日，中国石油塔里木油田宣布，我国最大超深油田——（ ）油田累计 生产油气产量当量突破 2000 万吨。",
+      "options": [
+        {
+          "key": "A",
+          "text": "克拉 2气田"
+        },
+        {
+          "key": "B",
+          "text": "轮南油田"
+        },
+        {
+          "key": "C",
+          "text": "富满油田"
+        },
+        {
+          "key": "D",
+          "text": "哈得油田"
+        }
+      ],
+      "correct_keys": [
+        "C"
+      ],
+      "explanation": "2025 年 4 月 12 日，中国石油塔里木油田宣布，我国最大超深油田——富满油田累计生 产油气产量当量突破 2000 万吨。富满油田平均井深超过 7500 米，最深井达 8882 米，是我国 陆上埋藏最深的大型油田。自 2017 年投产以来，年产量稳定在 300 万吨以上，是\"西气东输\" 的重要气源地，为保障国家能源安全作出了重要贡献。",
+      "category_l1": "时事政治",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "时事政治",
+        "单选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化时政考前46道母题",
+      "source_year": 2026,
+      "source_question_number": "23",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqsz_f826ab7a0ab3",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "2025 年 6 月 5 日发布的报告显示，2024 年我国氢能全年生产消费规模超过（ ）万吨， 位列世界第一位。",
+      "options": [
+        {
+          "key": "A",
+          "text": "2850"
+        },
+        {
+          "key": "B",
+          "text": "3250"
+        },
+        {
+          "key": "C",
+          "text": "3650"
+        },
+        {
+          "key": "D",
+          "text": "4050"
+        }
+      ],
+      "correct_keys": [
+        "C"
+      ],
+      "explanation": "2025 年 6 月 5 日发布的报告显示，2024 年我国氢能全年生产消费规模超过 3650 万吨， 位列世界第一位，占全球氢能产量的约三分之一。氢能是清洁、高效、可持续的二次能源， 是实现碳达峰碳中和目标的重要路径。我国氢能产业链日益完善，在制氢、储运、应用等领 域取得重要进展，为能源转型和高质量发展提供了有力支撑。 第三部分：科技创新成就时政单选题（8 题） 基于航天、极地等科技创新领域",
+      "category_l1": "时事政治",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "时事政治",
+        "单选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化时政考前46道母题",
+      "source_year": 2026,
+      "source_question_number": "24",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqsz_952983c5c536",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "2025 年 1 月 7 日 04 时 00 分，我国在西昌卫星发射中心使用长征三号乙运载火箭，成功 将（ ）卫星发射升空，实现中国航天 2025 年开门红。",
+      "options": [
+        {
+          "key": "A",
+          "text": "实践二十三号"
+        },
+        {
+          "key": "B",
+          "text": "实践二十四号"
+        },
+        {
+          "key": "C",
+          "text": "实践二十五号"
+        },
+        {
+          "key": "D",
+          "text": "实践二十六号"
+        }
+      ],
+      "correct_keys": [
+        "C"
+      ],
+      "explanation": "2025 年 1月 7 日 04 时 00 分，我国在西昌卫星发射中心使用长征三号乙运载火箭，成功 将实践二十五号卫星发射升空，卫星顺利进入预定轨道，发射任务获得圆满成功。这是2025 年中国航天的首次发射任务，实现了中国航天 2025 年开门红，为全年高密度发射任务奠定了 良好基础。",
+      "category_l1": "时事政治",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "时事政治",
+        "单选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化时政考前46道母题",
+      "source_year": 2026,
+      "source_question_number": "25",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqsz_5be767d1b985",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "2025 年 1 月 19 日，航天科技集团六院 165 所抱龙峪试验区成功实现液氧煤油火箭发动机 \"一日三试\"，这是我国（ ）首次实现\"一日三试\"。",
+      "options": [
+        {
+          "key": "A",
+          "text": "液体火箭发动机"
+        },
+        {
+          "key": "B",
+          "text": "固体火箭发动机"
+        },
+        {
+          "key": "C",
+          "text": "新一代运载火箭主动力发动机"
+        },
+        {
+          "key": "D",
+          "text": "上面级发动机"
+        }
+      ],
+      "correct_keys": [
+        "C"
+      ],
+      "explanation": "2025 年 1 月 19 日，航天科技集团六院 165 所抱龙峪试验区成功实现液氧煤油火箭发动 机\"一日三试\"，这是我国新一代运载火箭主动力发动机首次实现\"一日三试\"。这一突破标志 着我国火箭发动机试验能力大幅提升，试验效率显著提高，将有力支撑未来长征系列火箭高 密度发射任务，对提升我国航天发射能力具有重要意义。",
+      "category_l1": "时事政治",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "时事政治",
+        "单选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化时政考前46道母题",
+      "source_year": 2026,
+      "source_question_number": "26",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqsz_a5d7941b3236",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "2025 年 2 月 20 日，我国天问二号任务探测器运抵西昌卫星发射中心。天问二号任务计划 对小行星（ ）进行伴飞、取样、返回，并对主带彗星 311P 进行伴飞探测。",
+      "options": [
+        {
+          "key": "A",
+          "text": "2014HO3"
+        },
+        {
+          "key": "B",
+          "text": "2015HO3"
+        },
+        {
+          "key": "C",
+          "text": "2016HO3"
+        },
+        {
+          "key": "D",
+          "text": "2017HO3"
+        }
+      ],
+      "correct_keys": [
+        "C"
+      ],
+      "explanation": "2025 年 2 月 20 日，我国天问二号任务探测器运抵西昌卫星发射中心，开展发射场区总 装和测试工作。天问二号任务计划对小行星 2016HO3 进行伴飞、取样、返回，并对主带彗星 311P 进行伴飞探测。这是我国首次小行星取样返回任务，也是国际上首次对近地小行星进行 取样返回并对主带彗星进行就位探测，对深化人类对太阳系起源和演化的认识具有重要科学 意义。",
+      "category_l1": "时事政治",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "时事政治",
+        "单选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化时政考前46道母题",
+      "source_year": 2026,
+      "source_question_number": "27",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqsz_8bec07d893b7",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "2025 年 3 月 3 日，中国载人航天工程办公室宣布，我国载人月球探测工程登月阶段任务 已全面启动实施，计划在（ ）年前实现中国人首次登陆月球。",
+      "options": [
+        {
+          "key": "A",
+          "text": "2028"
+        },
+        {
+          "key": "B",
+          "text": "2029"
+        },
+        {
+          "key": "C",
+          "text": "2030"
+        },
+        {
+          "key": "D",
+          "text": "2035"
+        }
+      ],
+      "correct_keys": [
+        "C"
+      ],
+      "explanation": "2025 年 3月 3 日，中国载人航天工程办公室宣布，我国载人月球探测工程登月阶段任务 已全面启动实施，计划在 2030 年前实现中国人首次登陆月球。这是我国载人航天工程\"三步 走\"战略完成后的重大战略目标，标志着我国载人航天事业进入新的发展阶段。目前，长征十 号运载火箭、梦舟飞船、揽月着陆器等关键飞行产品正在按计划研制，为实现这一历史性目 标奠定坚实基础。",
+      "category_l1": "时事政治",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "时事政治",
+        "单选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化时政考前46道母题",
+      "source_year": 2026,
+      "source_question_number": "28",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqsz_4be653eec31c",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "2025 年 3 月 12 日 00 时 38 分，长征八号遥六运载火箭在海南商业航天发射场（ ）发 射工位点火升空，成功将千帆星座第五批组网卫星送入预定轨道。",
+      "options": [
+        {
+          "key": "A",
+          "text": "零号"
+        },
+        {
+          "key": "B",
+          "text": "一号"
+        },
+        {
+          "key": "C",
+          "text": "二号"
+        },
+        {
+          "key": "D",
+          "text": "三号"
+        }
+      ],
+      "correct_keys": [
+        "B"
+      ],
+      "explanation": "2025 年 3 月 12 日 00 时 38 分，长征八号遥六运载火箭在海南商业航天发射场一号发射 工位点火升空，成功将千帆星座第五批组网卫星送入预定轨道，实现\"一箭十八星\"发射任务 圆满成功。这是海南商业航天发射场一号发射工位的首次发射，标志着该发射场双工位发射 能力得到完整验证，是国内首个商业航天发射场实现双工位发射能力，对推动我国商业航天 高质量发展具有重要意义。",
+      "category_l1": "时事政治",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "时事政治",
+        "单选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化时政考前46道母题",
+      "source_year": 2026,
+      "source_question_number": "29",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqsz_68eb3ad27104",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "2025 年 3 月，神舟十九号航天员完成第三次出舱活动。截至目前，我国空间站舱外航天 服已保障（ ）次出舱活动，超出\"3 年 15 次\"寿命设计指标。",
+      "options": [
+        {
+          "key": "A",
+          "text": "15"
+        },
+        {
+          "key": "B",
+          "text": "17"
+        },
+        {
+          "key": "C",
+          "text": "19"
+        },
+        {
+          "key": "D",
+          "text": "21"
+        }
+      ],
+      "correct_keys": [
+        "C"
+      ],
+      "explanation": "2025 年 3月，神舟十九号航天员完成第三次出舱活动。截至目前，我国空间站舱外航天 服已保障 19 次出舱活动，超出\"3 年 15 次\"寿命设计指标，成为我国首个在轨开展寿命评估 的飞行产品。这标志着我国舱外航天服技术成熟可靠，性能稳定优异，为空间站长期在轨运 营和航天员出舱活动提供了坚实保障，体现了我国载人航天技术的高水平。",
+      "category_l1": "时事政治",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "时事政治",
+        "单选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化时政考前46道母题",
+      "source_year": 2026,
+      "source_question_number": "30",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqsz_a8864ff6e2db",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "2025 年 3 月 31 日，在 2025 中关村论坛年会上，全国首个商业航天保险共保体组织—— （ ）商业航天保险共保体正式发布。",
+      "options": [
+        {
+          "key": "A",
+          "text": "上海"
+        },
+        {
+          "key": "B",
+          "text": "北京"
+        },
+        {
+          "key": "C",
+          "text": "深圳"
+        },
+        {
+          "key": "D",
+          "text": "海南"
+        }
+      ],
+      "correct_keys": [
+        "B"
+      ],
+      "explanation": "2025 年 3月 31 日，在 2025 中关村论坛年会上，全国首个商业航天保险共保体组织—— 北京商业航天保险共保体正式发布。该共保体由多家保险公司共同组建，旨在为商业航天企 业提供专业化、定制化的保险服务，分散商业航天发射风险，降低企业融资成本。这是我国 商业航天产业配套体系建设的重要突破，对促进商业航天产业健康发展、完善商业航天生态 系统具有重要意义。",
+      "category_l1": "时事政治",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "时事政治",
+        "单选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化时政考前46道母题",
+      "source_year": 2026,
+      "source_question_number": "31",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqsz_3336e6dee579",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "2025 年 4 月 8 日，我国南极秦岭站建成并投入使用风、光、氢、储多能互补的清洁能源 体系，这是我国南极考察站（ ）应用该技术。",
+      "options": [
+        {
+          "key": "A",
+          "text": "首次"
+        },
+        {
+          "key": "B",
+          "text": "第二次"
+        },
+        {
+          "key": "C",
+          "text": "第三次"
+        },
+        {
+          "key": "D",
+          "text": "第四次"
+        }
+      ],
+      "correct_keys": [
+        "A"
+      ],
+      "explanation": "2025 年 4月 8 日，我国南极秦岭站建成并投入使用风、光、氢、储多能互补的清洁能源 体系，这是我国南极考察站首次应用该技术。该系统集成了风力发电、光伏发电、氢能储能 和电池储能等多种清洁能源技术，实现了能源的高效利用和稳定供应，大幅降低了对化石燃 料的依赖，减少了碳排放。这一创新实践不仅为南极科考提供了绿色能源保障，也为极地清 洁能源应用提供了中国方案，体现了我国在清洁能源技术和极地科考领域的综合实力。",
+      "category_l1": "时事政治",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "时事政治",
+        "单选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化时政考前46道母题",
+      "source_year": 2026,
+      "source_question_number": "32",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqsz_473131349516",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "2025 年 3 月 5 日，十四届全国人大三次会议在北京人民大会堂开幕。国务院总理（ ） 代表国务院向大会作政府工作报告。",
+      "options": [
+        {
+          "key": "A",
+          "text": "李克强"
+        },
+        {
+          "key": "B",
+          "text": "李强"
+        },
+        {
+          "key": "C",
+          "text": "韩正"
+        },
+        {
+          "key": "D",
+          "text": "丁薛祥"
+        }
+      ],
+      "correct_keys": [
+        "B"
+      ],
+      "explanation": "2025 年 3月 5 日，十四届全国人大三次会议在北京人民大会堂开幕。国务院总理李强代 表国务院向大会作政府工作报告。李强同志于 2023 年 3 月当选为国务院总理，这是他第三次 作政府工作报告。报告全面回顾了 2024 年工作，对 2025 年工作进行了部署，为全年经济社 会发展指明了方向。",
+      "category_l1": "时事政治",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "时事政治",
+        "单选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化时政考前46道母题",
+      "source_year": 2026,
+      "source_question_number": "33",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqsz_4d5347e9c6bc",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "2025 年政府工作报告指出，2024 年我国在因时因势加强和创新宏观调控方面取得显著成 效。以下不属于 2024 年工作回顾七大方面的是（ ）。",
+      "options": [
+        {
+          "key": "A",
+          "text": "因时因势加强和创新宏观调控，推动经济回升向好"
+        },
+        {
+          "key": "B",
+          "text": "坚定不移全面深化改革扩大开放，增强发展内生动力"
+        },
+        {
+          "key": "C",
+          "text": "大力推动创新驱动发展，促进产业结构优化升级"
+        },
+        {
+          "key": "D",
+          "text": "全面推进乡村振兴，加快农业农村现代化"
+        }
+      ],
+      "correct_keys": [
+        "D"
+      ],
+      "explanation": "2025 年政府工作报告回顾 2024 年工作的七大方面是： 因时因势加强和创新宏观调控，推动经济回升向好 坚定不移全面深化改革扩大开放，增强发展内生动力 大力推动创新驱动发展，促进产业结构优化升级 统筹城乡区域协调发展，优化经济布局 积极发展社会事业，增进民生福祉 持续加强生态环境保护，提升绿色低碳发展水平 加强政府建设和治理创新，保持社会和谐稳定 选项 D\"全面推进乡村振兴，加快农业农村现代化\"虽然是重要工作内容，但不是七大方 面的标题表述，实际包含在\"统筹城乡区域协调发展\"中。",
+      "category_l1": "时事政治",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "时事政治",
+        "单选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化时政考前46道母题",
+      "source_year": 2026,
+      "source_question_number": "34",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqsz_f4455333fc19",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "2025 年 1 月，中共中央、国务院印发《乡村全面振兴规划（2024—2027 年）》。规划提出， 到（ ）年，乡村全面振兴取得实质性进展。",
+      "options": [
+        {
+          "key": "A",
+          "text": "2025"
+        },
+        {
+          "key": "B",
+          "text": "2027"
+        },
+        {
+          "key": "C",
+          "text": "2030"
+        },
+        {
+          "key": "D",
+          "text": "2035"
+        }
+      ],
+      "correct_keys": [
+        "B"
+      ],
+      "explanation": "《乡村全面振兴规划（2024—2027 年）》提出了两个阶段目标： 到 2027 年：乡村全面振兴取得实质性进展 到 2035 年：乡村全面振兴取得决定性进展 这一规划是指导当前和今后一个时期乡村全面振兴工作的纲领性文件，明确了乡村振兴 的时间表和路线图，对推进农业农村现代化、建设农业强国具有重要意义。",
+      "category_l1": "时事政治",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "时事政治",
+        "单选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化时政考前46道母题",
+      "source_year": 2026,
+      "source_question_number": "35",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqsz_3b604c4d31a8",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "2025 年 2 月 23 日，2025 年中央一号文件发布，这是党的十八大以来第（ ）个指导\" 三农\"工作的中央一号文件。",
+      "options": [
+        {
+          "key": "A",
+          "text": "11"
+        },
+        {
+          "key": "B",
+          "text": "12"
+        },
+        {
+          "key": "C",
+          "text": "13"
+        },
+        {
+          "key": "D",
+          "text": "14"
+        }
+      ],
+      "correct_keys": [
+        "C"
+      ],
+      "explanation": "2025 年 2月 23 日，《中共中央 国务院关于进一步深化农村改革 扎实推进乡村全面振兴 的意见》发布，这是 2025 年中央一号文件，也是党的十八大以来第 13 个指导\"三农\"工作的 中央一号文件。文件强调以改革开放和科技创新为动力，巩固和完善农村基本经营制度，确 保粮食安全、确保不发生规模性返贫，扎实推进乡村全面振兴。",
+      "category_l1": "时事政治",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "时事政治",
+        "单选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化时政考前46道母题",
+      "source_year": 2026,
+      "source_question_number": "36",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqsz_97f071db209a",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "2025 年 3 月，《习近平经济文选》第一卷由中央文献出版社出版，在全国发行。该文选集 中反映了（ ）的主要内容。",
+      "options": [
+        {
+          "key": "A",
+          "text": "习近平新时代中国特色社会主义思想"
+        },
+        {
+          "key": "B",
+          "text": "习近平法治思想"
+        },
+        {
+          "key": "C",
+          "text": "习近平经济思想"
+        },
+        {
+          "key": "D",
+          "text": "习近平生态文明思想"
+        }
+      ],
+      "correct_keys": [
+        "C"
+      ],
+      "explanation": "2025 年 3 月，《习近平经济文选》第一卷由中央文献出版社出版，在全国发行。该文选 集中反映了习近平经济思想的主要内容，是习近平经济思想的系统理论概括。习近平经济思 想是习近平新时代中国特色社会主义思想的重要组成部分，开拓了中国特色社会主义政治经 济学新境界，为马克思主义政治经济学作出了原创性贡献，是指导新时代经济工作的科学指 南。",
+      "category_l1": "时事政治",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "时事政治",
+        "单选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化时政考前46道母题",
+      "source_year": 2026,
+      "source_question_number": "37",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqsz_57e2ff0e026d",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "2025 年 3 月 31 日，中共中央政治局召开会议，审议《生态环境保护督察工作条例》。会 议指出，中央生态环境保护督察是推进（ ）的重大举措。",
+      "options": [
+        {
+          "key": "A",
+          "text": "美丽中国建设"
+        },
+        {
+          "key": "B",
+          "text": "生态文明建设"
+        },
+        {
+          "key": "C",
+          "text": "绿色低碳发展"
+        },
+        {
+          "key": "D",
+          "text": "环境污染治理"
+        }
+      ],
+      "correct_keys": [
+        "B"
+      ],
+      "explanation": "2025 年 3 月 31 日，中共中央政治局召开会议，审议《生态环境保护督察工作条例》和 《关于二十届中央第四轮巡视情况的综合报告》。会议指出，中央生态环境保护督察是推进生 态文明建设的重大举措。制定《生态环境保护督察工作条例》，对于推动中央生态环境保护督 察工作制度化、法治化、规范化，强化生态环境保护责任落实，具有重要意义。",
+      "category_l1": "时事政治",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "时事政治",
+        "单选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化时政考前46道母题",
+      "source_year": 2026,
+      "source_question_number": "38",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqsz_c5f926a3a28e",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "2025 年 2 月 7 日至 14 日，第九届亚洲冬季运动会在哈尔滨举行。中国体育代表团共获得 （ ）枚金牌，名列金牌榜和奖牌榜首位。",
+      "options": [
+        {
+          "key": "A",
+          "text": "28"
+        },
+        {
+          "key": "B",
+          "text": "30"
+        },
+        {
+          "key": "C",
+          "text": "32"
+        },
+        {
+          "key": "D",
+          "text": "34"
+        }
+      ],
+      "correct_keys": [
+        "C"
+      ],
+      "explanation": "第九届亚洲冬季运动会于 2025 年 2 月 7 日至 14 日在哈尔滨举行，主题为\"冰雪同梦、亚 洲同心\"。中国体育代表团表现出色，共获得 32 枚金牌、85 枚奖牌，名列金牌榜和奖牌榜首 位，追平了哈萨克斯坦在 2011 年阿斯塔纳亚冬会上创下的单届金牌数纪录。这是中国首次举 办亚冬会，也是继 2022 年北京冬奥会后，中国举办的又一项重大国际冰雪赛事。",
+      "category_l1": "时事政治",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "时事政治",
+        "单选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化时政考前46道母题",
+      "source_year": 2026,
+      "source_question_number": "39",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqsz_00741c9bca49",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "2025 年 2 月 10 日，国务院总理李强主持召开国务院常务会议，研究提振消费工作。会议 强调，提振消费是扩大内需的（ ）。",
+      "options": [
+        {
+          "key": "A",
+          "text": "重要抓手"
+        },
+        {
+          "key": "B",
+          "text": "关键环节"
+        },
+        {
+          "key": "C",
+          "text": "重中之重"
+        },
+        {
+          "key": "D",
+          "text": "核心任务"
+        }
+      ],
+      "correct_keys": [
+        "C"
+      ],
+      "explanation": "2025 年 2 月 10 日，国务院总理李强主持召开国务院常务会议，研究提振消费工作。会 议强调，提振消费是扩大内需的重中之重。会议要求，要多措并举支持居民增收，重点是增 加工资性收入、财产性收入；要聚焦牵动性强、增长空间大的消费领域，推动消费持续扩大。 这一表述突出了消费在扩大内需中的核心地位，体现了党中央、国务院对促进消费工作的高 度重视。",
+      "category_l1": "时事政治",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "时事政治",
+        "单选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化时政考前46道母题",
+      "source_year": 2026,
+      "source_question_number": "40",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqsz_fb3888dbbdb3",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "2025 年 3 月 27-31 日，2025 中关村论坛年会在北京举行。本届论坛的主题是（ ）。",
+      "options": [
+        {
+          "key": "A",
+          "text": "\"开放合作·共享未来\""
+        },
+        {
+          "key": "B",
+          "text": "\"新质生产力与全球科技合作\""
+        },
+        {
+          "key": "C",
+          "text": "\"创新引领·科技赋能\""
+        },
+        {
+          "key": "D",
+          "text": "\"智能时代·数字未来\""
+        }
+      ],
+      "correct_keys": [
+        "B"
+      ],
+      "explanation": "2025 年 3 月 27-31 日，2025 中关村论坛年会在北京举行。本届论坛的主题是**\"新质生 产力与全球科技合作\"**。论坛聚焦新质生产力发展，围绕人工智能、生命科学、新能源、新 材料等前沿领域，探讨全球科技创新合作，推动科技成果转化应用。这是中关村论坛首次以\" 新质生产力\"为主题，体现了我国对发展新质生产力、推动高质量发展的高度重视。",
+      "category_l1": "时事政治",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "时事政治",
+        "单选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化时政考前46道母题",
+      "source_year": 2026,
+      "source_question_number": "41",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqsz_de5a4d735d4a",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "2025 年 3 月 18-20 日，国务院总理李强在福建调研时强调，要以开拓创新精神做好稳外 贸工作，加快构建（ ）新优势。",
+      "options": [
+        {
+          "key": "A",
+          "text": "全面开放"
+        },
+        {
+          "key": "B",
+          "text": "高水平对外开放"
+        },
+        {
+          "key": "C",
+          "text": "更高水平开放"
+        },
+        {
+          "key": "D",
+          "text": "深层次开放"
+        }
+      ],
+      "correct_keys": [
+        "B"
+      ],
+      "explanation": "2025 年 3月 18-20 日，国务院总理李强在福建调研时强调，要深入贯彻落实全国两会精 神，以开拓创新精神做好稳外贸工作，加快构建高水平对外开放新优势。李强总理指出，要 坚持稳中求进、以进促稳、先立后破，推动外贸稳规模、优结构，培育外贸新动能，提升贸 易便利化水平，为经济持续回升向好提供有力支撑。",
+      "category_l1": "时事政治",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "时事政治",
+        "单选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化时政考前46道母题",
+      "source_year": 2026,
+      "source_question_number": "42",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqsz_e5536e3e4665",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "2025 年 3 月 24 日起，中央广播电视总台、国家发展改革委联合制作的十四集大型专题节 目《习近平经济思想系列讲读》在央视综合频道播出。这是首部系统阐释习近平经济思 想的（ ）。",
+      "options": [
+        {
+          "key": "A",
+          "text": "理论著作"
+        },
+        {
+          "key": "B",
+          "text": "电视专题片"
+        },
+        {
+          "key": "C",
+          "text": "网络课程"
+        },
+        {
+          "key": "D",
+          "text": "学习读本"
+        }
+      ],
+      "correct_keys": [
+        "B"
+      ],
+      "explanation": "2025 年 3 月 24 日起，中央广播电视总台、国家发展改革委联合制作的十四集大型专题 节目《习近平经济思想系列讲读》在央视综合频道播出。这是首部系统阐释习近平经济思想 的电视专题片，通过权威解读、案例分析、实地采访等形式，全面展现习近平经济思想的理 论体系、实践成果和世界意义，对于推动全党全社会深入学习贯彻习近平经济思想具有重要 意义。",
+      "category_l1": "时事政治",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "时事政治",
+        "单选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化时政考前46道母题",
+      "source_year": 2026,
+      "source_question_number": "43",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqsz_523db1cf9e86",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "2025 年 3 月 28 日，国务院总理李强主持召开国务院常务会议。会议指出，跨境电商是外 贸发展的（ ），要持续优化发展环境。",
+      "options": [
+        {
+          "key": "A",
+          "text": "新业态"
+        },
+        {
+          "key": "B",
+          "text": "新模式"
+        },
+        {
+          "key": "C",
+          "text": "重要力量"
+        },
+        {
+          "key": "D",
+          "text": "重要抓手"
+        }
+      ],
+      "correct_keys": [
+        "C"
+      ],
+      "explanation": "2025 年 3 月 28 日，国务院总理李强主持召开国务院常务会议。会议指出，跨境电商是 外贸发展的重要力量，要持续优化发展环境，完善配套政策，推动跨境电商高质量发展。会 议还研究了清理拖欠企业账款、推进农机装备产业高质量发展、优化口岸开放布局等工作。 这一表述充分肯定了跨境电商在外贸发展中的重要地位，体现了国家对新业态新模式的支持。",
+      "category_l1": "时事政治",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "时事政治",
+        "单选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化时政考前46道母题",
+      "source_year": 2026,
+      "source_question_number": "44",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqsz_953aadc80830",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "2025 年 4 月，中共中央、国务院印发《加快建设农业强国规划（2024—2035 年）》。规划 强调，（ ）是加快建设农业强国的根本动力。",
+      "options": [
+        {
+          "key": "A",
+          "text": "深化改革"
+        },
+        {
+          "key": "B",
+          "text": "科技创新"
+        },
+        {
+          "key": "C",
+          "text": "农业科技装备创新"
+        },
+        {
+          "key": "D",
+          "text": "绿色发展"
+        }
+      ],
+      "correct_keys": [
+        "C"
+      ],
+      "explanation": "2025 年 4月，中共中央、国务院印发《加快建设农业强国规划（2024—2035 年）》。规划 强调，农业科技装备创新是加快建设农业强国的根本动力。规划提出，要强化农业科技创新， 加快农机装备研发应用，推进种业振兴，提升农业科技自立自强水平，为农业强国建设提供 有力科技支撑。这一表述突出了科技和装备在农业现代化中的关键作用。",
+      "category_l1": "时事政治",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "时事政治",
+        "单选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化时政考前46道母题",
+      "source_year": 2026,
+      "source_question_number": "45",
+      "status": "active"
+    },
+    {
+      "question_id": "muqti-muqsz_460cb2a65e97",
+      "version": "1.0",
+      "question_type": "single_choice",
+      "stem": "2025 年 4 月 14 日，国家主席习近平对越南进行国事访问。2025 年是中越建交（ ） 周年。",
+      "options": [
+        {
+          "key": "A",
+          "text": "70"
+        },
+        {
+          "key": "B",
+          "text": "72"
+        },
+        {
+          "key": "C",
+          "text": "75"
+        },
+        {
+          "key": "D",
+          "text": "80"
+        }
+      ],
+      "correct_keys": [
+        "C"
+      ],
+      "explanation": "2025 年 4月 14 日，国家主席习近平对越南进行国事访问。2025 年是中越建交 75 周年。 访问期间，习近平主席与越南领导人就深化中越全面战略合作、推动构建中越命运共同体等 重大问题深入交换意见，达成广泛共识。中越两国是山水相连的友好邻邦，建交 75 年来，双 边关系不断发展，各领域合作成果丰硕，为两国人民带来了实实在在的利益。",
+      "category_l1": "时事政治",
+      "category_l2": "思想素质",
+      "tags": [
+        "思想素质",
+        "时事政治",
+        "单选",
+        "母题",
+        "中国石化"
+      ],
+      "difficulty": "medium",
+      "importance": "high",
+      "source": "2026中石化时政考前46道母题",
+      "source_year": 2026,
+      "source_question_number": "46",
+      "status": "active"
+    }
+  ]
+}
