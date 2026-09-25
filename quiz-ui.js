@@ -14,7 +14,11 @@
     var minutes = Math.floor(seconds / 60);
     return minutes ? minutes + '分' + (seconds % 60 ? ' ' + (seconds % 60) + '秒' : '') : seconds + '秒';
   }
-  function currentData() { return QuizData.ensure(options.loadData()); }
+  function currentData() {
+    var data = QuizData.ensure(options.loadData());
+    if (QuizData.repairLegacyContent && QuizData.repairLegacyContent(data)) options.saveData(data);
+    return data;
+  }
   function remoteSources(data) { return QuizRemote.getSources(data.settings || {}); }
   function selectedRemoteSource(data) {
     var sources = remoteSources(data);
@@ -93,9 +97,7 @@
     var selected = answer ? answer.selected_keys : [];
     $('quizExamLiveTitle').textContent = session.title;
     $('quizExamLiveMeta').textContent = (state.examIndex + 1) + ' / ' + session.total_count + ' 题 · ' + (session.source || '个人题库');
-    var examTypeLabel = current.question.question_type === 'multiple_choice' ? '多选题' : '单选题';
-    $('quizExamQuestionMeta').textContent = examTypeLabel + ' · ' + (current.question.category_l1 || '未分类');
-    $('quizExamQuestionType').textContent = examTypeLabel;
+    $('quizExamQuestionMeta').textContent = (current.question.question_type === 'multiple_choice' ? '多选题' : '单选题') + ' · ' + (current.question.category_l1 || '未分类');
     $('quizExamStem').textContent = current.version.stem;
     $('quizExamOptions').innerHTML = current.version.options.map(function (option) {
       var checked = selected.indexOf(option.key) !== -1;
@@ -305,9 +307,7 @@
     var stateRecord = QuizData.findState(data, question.question_id);
     $('quizPractice').style.display = state.screen === 'exam' || state.screen === 'exam-result' ? 'none' : '';
     $('quizPracticeTitle').textContent = '第 ' + (state.index + 1) + ' / ' + session.question_ids.length + ' 题';
-    var practiceTypeLabel = question.question_type === 'multiple_choice' ? '多选题' : '单选题';
-    $('quizPracticeMeta').textContent = practiceTypeLabel + ' · ' + esc(question.category_l1 || '未分类');
-    $('quizQuestionType').textContent = practiceTypeLabel;
+    $('quizPracticeMeta').textContent = (question.question_type === 'multiple_choice' ? '多选题' : '单选题') + ' · ' + esc(question.category_l1 || '未分类');
     $('quizQuestionStem').textContent = version.stem;
     $('quizFavoriteBtn').textContent = stateRecord && stateRecord.favorite ? '★ 已收藏' : '☆ 收藏';
     $('quizFavoriteBtn').className = 'quiz-favorite-btn' + (stateRecord && stateRecord.favorite ? ' active' : '');
