@@ -760,7 +760,6 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
 .quiz-favorite-btn.active { background:rgba(255,149,0,.14); color:#C93400; }
 .quiz-progress { height:6px; border-radius:4px; background:var(--fill-2); overflow:hidden; margin-bottom:18px; }
 .quiz-progress > div { height:100%; width:0; border-radius:4px; background:linear-gradient(90deg,#5AC8FA,#3478F6,#AF52DE); transition:width .3s ease; }
-.question-type-badge { display:inline-flex; align-items:center; border:1px solid currentColor; border-radius:6px; padding:3px 7px; color:var(--blue); font-size:.72rem; line-height:1.2; font-weight:800; white-space:nowrap; margin-bottom:8px; }
 .quiz-stem { font-size:1.08rem; line-height:1.6; font-weight:750; white-space:pre-wrap; margin-bottom:16px; }
 .quiz-options { display:flex; flex-direction:column; gap:9px; }
 .quiz-option { display:flex; align-items:flex-start; gap:10px; background:var(--fill-2); border:2px solid transparent; border-radius:15px; padding:13px 14px; cursor:pointer; }
@@ -1198,7 +1197,6 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
         </div>
         <div class="quiz-progress"><div id="quizExamProgress"></div></div>
         <div class="quiz-practice-meta" id="quizExamQuestionMeta"></div>
-        <div class="question-type-badge" id="quizExamQuestionType"></div>
         <div class="quiz-exam-stem" id="quizExamStem"></div>
         <div class="quiz-exam-options" id="quizExamOptions"></div>
         <div class="quiz-exam-nav">
@@ -1237,7 +1235,6 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
         <button class="quiz-favorite-btn" id="quizFavoriteBtn" data-quiz-action="favorite">☆ 收藏</button>
       </div>
       <div class="quiz-progress"><div id="quizProgress"></div></div>
-      <div class="question-type-badge" id="quizQuestionType"></div>
       <div class="quiz-stem" id="quizQuestionStem"></div>
       <div class="quiz-options" id="quizOptions"></div>
       <div class="quiz-result" id="quizResult" style="display:none"></div>
@@ -1327,7 +1324,6 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
           <div id="xPProgress" style="height:100%;width:0;background:linear-gradient(90deg,#5AC8FA,#3478F6);transition:width .25s"></div>
         </div>
         <div class="x-main">
-          <div class="question-type-badge" id="xPType"></div>
           <div class="x-stem" id="xPStem"></div>
           <div class="x-options" id="xPOptions"></div>
           <div class="x-result" id="xPResult" style="display:none"></div>
@@ -1352,7 +1348,6 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
         </div>
         <div class="x-layout">
           <div class="x-main">
-            <div class="question-type-badge" id="xExamType"></div>
             <div class="x-stem" id="xExamStem"></div>
             <div class="x-options" id="xExamOptions"></div>
             <div class="x-actions">
@@ -4012,6 +4007,41 @@ body:not(.on-home) .bottom-bar, body:not(.on-home) .fab { display: none !importa
         if (window.QuizUI && QuizUI.render) QuizUI.render();
       }
       try { softDeleteBank(); } catch (e) { /* ignore */ }
+    })();
+
+    // 2026 母题（企业文化45+时政46）：缺失时自动并入思想素质刷题，供手机直接使用
+    (function seedMuqtiBankIfMissing() {
+      var TARGET = 'sinopec-muqti-20260919';
+      function hasTarget(data) {
+        return (data.quiz_banks || []).some(function (bank) {
+          return !bank.is_deleted && bank.bank_id === TARGET;
+        });
+      }
+      if (hasTarget(QuizData.ensure(loadData()))) return;
+      var candidates = [
+        encodeURI('./published-quiz-banks/2026中石化母题_企业文化45_时政46.json'),
+        './published-quiz-banks/' + encodeURIComponent('2026中石化母题_企业文化45_时政46.json'),
+        'https://raw.githubusercontent.com/delancy827/personal-workbench/main/published-quiz-banks/' + encodeURIComponent('2026中石化母题_企业文化45_时政46.json')
+      ];
+      function tryFetch(i) {
+        if (i >= candidates.length) return Promise.resolve(null);
+        return fetch(candidates[i], { cache: 'no-store' }).then(function (res) {
+          return res.ok ? res.json() : null;
+        }).catch(function () { return null; }).then(function (doc) {
+          return doc && doc.questions && doc.bank ? doc : tryFetch(i + 1);
+        });
+      }
+      tryFetch(0).then(function (doc) {
+        if (!doc || !window.QuizData || !window.QuizImport) return;
+        if (doc.bank && doc.bank.bank_id && doc.bank.bank_id !== TARGET) return;
+        var current = QuizData.ensure(loadData());
+        if (hasTarget(current)) return;
+        var analysis = QuizImport.analyze(doc, current);
+        if (!analysis.valid || !(analysis.summary.add + analysis.summary.update)) return;
+        var applied = QuizImport.apply(doc, current, { analysis: analysis, fileName: '2026中石化母题_企业文化45_时政46.json' });
+        saveData(applied.data);
+        if (window.QuizUI && QuizUI.render) QuizUI.render();
+      }).catch(function () {});
     })();
 
   }
